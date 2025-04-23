@@ -2,24 +2,25 @@ package io.chaerin.cafemanagement.domain.order.dto;
 
 import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Getter
 public class OrderResponseDTO {
-    private String email;
-    private String orderNumber;
-    private String address;
-    private String postCode;
-    private LocalDateTime createdAt;
-    private List<OrderItemResponseDTO> orderItemList;
+    private final String email;
+    private final Long orderNumber;
+    private final String address;
+    private final String postCode;
+    private final LocalDateTime createdAt;
+    private final List<OrderItemResponseDTO> orderItemList;
 
 
     public OrderResponseDTO(Order order) {
         this.email = order.getEmail();
-        this.orderNumber = order.getOrderId().toString();
+        this.orderNumber = order.getOrderId();
         this.address = order.getAddress();
         this.postCode = order.getPostCode();
         this.createdAt = order.getCreatedAt();
