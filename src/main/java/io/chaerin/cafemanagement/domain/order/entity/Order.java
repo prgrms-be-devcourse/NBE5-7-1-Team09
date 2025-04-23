@@ -32,4 +32,15 @@ public class Order {
 
     @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItemList = new ArrayList<>();
+
+    public static Order create(String email, String address, String postCode) {
+        Order order = new Order();
+        order.email = email;
+        order.address = address;
+        order.postCode = postCode;
+        order.createdAt = LocalDateTime.now(); // 명시적으로 초기화
+        order.orderItemList = new ArrayList<>(); // 명시적으로 초기화
+        return order;
+    }
+
 }
