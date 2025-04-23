@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
+import javax.naming.InsufficientResourcesException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +32,18 @@ public class OrderService {
 
         for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             // product id 검증 (product Repository 를 임시 구현했다)
-            Product product = productRepository.findById(dto.getProductId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+            Product product = productRepository.findById(dto.getProductId())
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+
+            // Product에 stock이 필요하지 않을까?
+            // 생성 시에 가능한 quantity인지 stock과 비교 검증.
+//            if (product.getStock() < dto.getQuantity()) {
+//                throw new IllegalArgumentException(product.getName());
+//            }
+
             OrderItem orderItem = OrderItem.create(product, order, dto.getQuantity());
             order.getOrderItemList().add(orderItem);
         }
-
         Order savedOrder = orderRepository.save(order);
 
         return new OrderResponseDto(savedOrder);
@@ -50,6 +58,22 @@ public class OrderService {
         }
 
         return dtoList;
+    }
+
+    public OrderResponseDto updateOrder(Long orderId, OrderUpdateRequestDto request) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("주문 없음"));
+        order.fixAddress(request.getAddress(), request.getPostCode());
+        order.clearItems();
+
+        for(OrderItemUpdateRequestDto dto : request.getOrderItem()){
+            Product product = productRepository.findById(dto.getProductId())
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+            OrderItem oi = OrderItem.create(product, order, dto.getQuantity());
+            order.addItem(oi);
+        }
+
+        // 더티체킹
+        return new OrderResponseDto(order);
     }
 
 
