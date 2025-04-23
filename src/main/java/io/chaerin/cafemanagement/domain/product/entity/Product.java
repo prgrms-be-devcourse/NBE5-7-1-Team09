@@ -1,4 +1,4 @@
-package io.chaerin.cafemanagement.product.domain;
+package io.chaerin.cafemanagement.domain.product.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
