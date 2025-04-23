@@ -30,7 +30,7 @@ public class Order {
     @Column(name = "create_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItemList = new ArrayList<>();
 
     public static Order create(String email, String address, String postCode) {
@@ -41,6 +41,19 @@ public class Order {
         order.createdAt = LocalDateTime.now(); // 명시적으로 초기화
         order.orderItemList = new ArrayList<>(); // 명시적으로 초기화
         return order;
+    }
+
+    public void fixAddress(String address, String postCode) {
+        this.address = address;
+        this.postCode = postCode;
+    }
+
+    public void clearItems() {
+        this.orderItemList.clear();
+    }
+
+    public void addItem(OrderItem orderItem) {
+        this.orderItemList.add(orderItem);
     }
 
 }
