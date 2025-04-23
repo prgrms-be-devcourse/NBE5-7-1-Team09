@@ -3,11 +3,11 @@ package io.chaerin.cafemanagement.domain.order.dto;
 import lombok.Getter;
 
 @Getter
-public class OrderItemResponseDTO {
+public class OrderItemResponseDto {
     private final String productName;
     private final Integer quantity;
 
-    public OrderItemResponseDTO(String productName, Integer quantity) {
+    public OrderItemResponseDto(String productName, Integer quantity) {
         this.productName = productName;
         this.quantity = quantity;
     }
