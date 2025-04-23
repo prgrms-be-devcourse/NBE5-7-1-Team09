@@ -11,6 +11,7 @@ import java.util.List;
 
 @Getter
 @Entity
+@Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
@@ -29,6 +30,6 @@ public class Order {
     @Column(name = "create_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItemList = new ArrayList<>();
 }
