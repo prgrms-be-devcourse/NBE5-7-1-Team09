@@ -1,6 +1,6 @@
 package io.chaerin.cafemanagement.domain.order.service;
 
-import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDTO;
+import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,11 +35,11 @@ class OrderServiceTest {
     })
     @Test
     void 이메일로_주문목록_조회(){
-        List<OrderResponseDTO> results = orderService.getOrdersByEmail("test@example.com");
+        List<OrderResponseDto> results = orderService.getOrdersByEmail("test@example.com");
 
         assertThat(results).hasSize(1);
 
-        OrderResponseDTO dto = results.get(0);
+        OrderResponseDto dto = results.get(0);
 
         assertThat(dto.getEmail()).isEqualTo("test@example.com");
         assertThat(dto.getOrderNumber()).isEqualTo(100);
@@ -58,7 +58,7 @@ class OrderServiceTest {
     })
     @Test
     void 이메일로_주문목록에_여러_아이템_조회() {
-        OrderResponseDTO dto = orderService.getOrdersByEmail("test2@example.com").get(0);
+        OrderResponseDto dto = orderService.getOrdersByEmail("test2@example.com").get(0);
         assertThat(dto.getOrderItemList()).hasSize(2);
         assertThat(dto.getOrderItemList())
                 .extracting("productName", "quantity")

@@ -9,27 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class OrderResponseDTO {
+public class OrderResponseDto {
     private final String email;
     private final Long orderNumber;
     private final String address;
     private final String postCode;
     private final LocalDateTime createdAt;
-    private final List<OrderItemResponseDTO> orderItemList;
+    private final List<OrderItemResponseDto> orderItemList;
 
 
-    public OrderResponseDTO(Order order) {
+    public OrderResponseDto(Order order) {
         this.email = order.getEmail();
         this.orderNumber = order.getOrderId();
         this.address = order.getAddress();
         this.postCode = order.getPostCode();
         this.createdAt = order.getCreatedAt();
 
-        List<OrderItemResponseDTO> items = new ArrayList<>();
+        List<OrderItemResponseDto> items = new ArrayList<>();
 
         for (OrderItem item : order.getOrderItemList()) {
             String productName = item.getProduct().getName();
-            items.add(new OrderItemResponseDTO(productName, item.getQuantity()));
+            items.add(new OrderItemResponseDto(productName, item.getQuantity()));
         }
 
         this.orderItemList = items;

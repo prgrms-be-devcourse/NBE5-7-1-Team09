@@ -16,7 +16,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByEmail(email));
     }
 
-    @DeleteMapping("/{orderId}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);
         return ResponseEntity.ok().build();
