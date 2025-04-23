@@ -23,4 +23,7 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+
+    private Integer quantity;
 }
