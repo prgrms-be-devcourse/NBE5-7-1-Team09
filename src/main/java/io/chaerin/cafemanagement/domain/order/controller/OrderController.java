@@ -1,35 +1,53 @@
 package io.chaerin.cafemanagement.domain.order.controller;
 
+import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@Controller
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Object> saveOrder(@RequestBody OrderUpdateRequestDto request) {
-        return ResponseEntity.ok(orderService.saveOrder(request));
+    public String saveOrder(@RequestBody OrderUpdateRequestDto request, Model model) {
+        OrderResponseDto order = orderService.saveOrder(request);
+        model.addAttribute("order", order);
+        // 임의지정
+        return "order/result";
     }
 
     @GetMapping
-    public ResponseEntity<Object> getOrdersByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(orderService.getOrdersByEmail(email));
+    public String getOrdersByEmail(@RequestParam String email, Model model) {
+        List<OrderResponseDto> orders = orderService.getOrdersByEmail(email);
+        if (orders.isEmpty()) {
+            return "redirect:/";
+        }
+        model.addAttribute("orders", orders);
+        // 임의지정
+        return "order/list";
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request) {
-        return ResponseEntity.ok(orderService.updateOrder(id, request));
+    public String updateOrder(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request, Model model) {
+        OrderResponseDto updatedOrder = orderService.updateOrder(id, request);
+        model.addAttribute("order", updatedOrder);
+        // 임의지정
+        return "order/result";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
+    @PostMapping("/{id}")
+    public String deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
-        return ResponseEntity.ok().build();
+        // 임의지정
+        return "redirect:/orders";
     }
 }
