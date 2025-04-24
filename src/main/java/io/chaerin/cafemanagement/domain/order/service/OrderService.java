@@ -8,13 +8,12 @@ import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
 import io.chaerin.cafemanagement.domain.order.repository.OrderItemRepository;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.product.entity.Product;
-import io.chaerin.cafemanagement.domain.product.entity.ProductRepository;
+import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-import javax.naming.InsufficientResourcesException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class OrderService {
         for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             // product id 검증 (product Repository 를 임시 구현했다)
             Product product = productRepository.findById(dto.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("[create]: 존재하지 않는 상품입니다."));
 
             // Product에 stock이 필요하지 않을까?
             // 생성 시에 가능한 quantity인지 stock과 비교 검증.
@@ -65,9 +64,9 @@ public class OrderService {
         order.fixAddress(request.getAddress(), request.getPostCode());
         order.clearItems();
 
-        for(OrderItemUpdateRequestDto dto : request.getOrderItem()){
+        for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             Product product = productRepository.findById(dto.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("[update] 존재하지 않는 상품입니다."));
             OrderItem oi = OrderItem.create(product, order, dto.getQuantity());
             order.addItem(oi);
         }

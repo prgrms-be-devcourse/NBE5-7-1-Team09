@@ -33,6 +33,13 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public static Product create(String name, int price) {
+        Product product = new Product();
+        product.name = name;
+        product.price = price;
+        return product;
+    }
+
     public void update(String name, Integer price, String imageUrl) {
         if (name != null) {
             this.name = name;

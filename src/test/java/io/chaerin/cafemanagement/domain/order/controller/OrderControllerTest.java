@@ -35,6 +35,7 @@ class OrderControllerTest {
         testProductId = product.getProductId();
     }
 
+    // @ModelAttribute 바인딩은 setter로 값 주입한다. DTO에 Setter 추가.
     @Test
     @DisplayName("주문을 생성한다")
     @Rollback(value = false)
