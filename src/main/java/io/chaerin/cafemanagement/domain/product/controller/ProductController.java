@@ -20,20 +20,20 @@ public class ProductController {
 
     @GetMapping
     public String listProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("productResponseDtos", productService.getAllProducts());
         return "product/list";
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("productCreateRequest", new ProductCreateRequest());
+        model.addAttribute("productCreateRequestDto", new ProductCreateRequest());
         return "product/form";
     }
 
     @PostMapping
     public String createProduct(@Valid @ModelAttribute ProductCreateRequest request, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("productCreateRequest", request);
+            model.addAttribute("productCreateRequestDto", request);
             return "product/form";
         }
         productService.saveProduct(request);
@@ -47,7 +47,7 @@ public class ProductController {
         updateRequest.setName(product.getName());
         updateRequest.setPrice(product.getPrice());
         updateRequest.setImageUrl(product.getImageUrl());
-        model.addAttribute("productUpdateRequest", updateRequest);
+        model.addAttribute("productUpdateRequestDto", updateRequest);
         model.addAttribute("productId", id);
         return "product/form";
     }
@@ -55,7 +55,7 @@ public class ProductController {
     @PostMapping("/{id}")
     public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductUpdateRequest request, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("productUpdateRequest", request);
+            model.addAttribute("productUpdateRequestDto", request);
             model.addAttribute("productId", id);
             return "product/form";
         }
