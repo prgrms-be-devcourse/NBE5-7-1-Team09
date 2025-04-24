@@ -15,7 +15,6 @@ class ReviewControllerTests {
     @DisplayName("리뷰 작성 테스트")
     void create_review_test() throws Exception {
         Long productId = 1L;
-        Long userId = 1L;
 
 
     }
