@@ -54,7 +54,7 @@ public class QuestionService {
 
     // 문의사항 내역이 있는지?
     public boolean existsQuestion(Long orderId) {
-        return questionRepository.existsById(orderId);
+        return questionRepository.existsByOrderId(orderId);
     }
 
     // 문의사항 조회
