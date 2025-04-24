@@ -1,5 +1,6 @@
 package io.chaerin.cafemanagement.domain.order.controller;
 
+import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.product.entity.Product;
 import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +12,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-ㅇimport static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -65,6 +70,31 @@ class OrderControllerTest {
 
     }
 
+    @Test
+    @DisplayName("동일 이메일에 다수의 주문이 있을 때 조회하는 경우")
+    void Get_동일이메일_다수_주문조회() throws Exception {
+        for (int i = 0; i < 3; i++) {
+            mockMvc.perform(post("/orders")
+                            .param("email", "user1@example.com")
+                            .param("address", "test address" + i)
+                            .param("postCode", "1000" + i)
+                            .param("orderItem[0].productId", String.valueOf(testProductId))
+                            .param("orderItem[0].quantity", String.valueOf(i + 1)))
+                    .andExpect(status().isOk());
+        }
 
+        MvcResult result = mockMvc.perform(get("/orders")
+                        .param("email", "user1@example.com"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("order/list"))
+                .andExpect(model().attributeExists("orders"))
+                .andReturn();
+
+        // result.getModelAndView().getModel().get("orders"); 의 반환 타입은 object라 타입 캐스팅을 해줬다.
+        // get 하면 서비스에서 List<OrderResponseDto> 반환하므로, 가능.
+        @SuppressWarnings("unchecked")
+        List<OrderResponseDto> orders = (List<OrderResponseDto>)result.getModelAndView().getModel().get("orders");
+        assertThat(orders).hasSize(3);
+    }
 
 }
