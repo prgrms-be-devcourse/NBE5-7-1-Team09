@@ -43,15 +43,9 @@ public class ProductService {
     public ProductResponse updateProduct(Long id, ProductUpdateRequest request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-        if (request.getName() != null) {
-            product.setName(request.getName());
-        }
-        if (request.getPrice() != null) {
-            product.setPrice(request.getPrice());
-        }
-        if (request.getImageUrl() != null) {
-            product.setImageUrl(request.getImageUrl());
-        }
+
+        product.update(request.getName(), request.getPrice(), request.getImageUrl());
+
         return ProductResponse.fromEntity(productRepository.save(product));
     }
 

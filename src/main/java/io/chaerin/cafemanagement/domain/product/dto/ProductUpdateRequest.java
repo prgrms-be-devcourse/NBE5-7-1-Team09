@@ -1,7 +1,6 @@
 package io.chaerin.cafemanagement.domain.product.dto;
 
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,11 +17,4 @@ public class ProductUpdateRequest {
 
     @Size(max = 255, message = "URL은 255자를 초과할 수 없습니다.")
     private String imageUrl;
-
-    @Builder
-    public ProductUpdateRequest(String name, Integer price, String imageUrl) {
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
 }

@@ -23,10 +23,10 @@ public class ProductCreateRequest {
     private String imageUrl;
 
     public Product toEntity() {
-        Product product = new Product();
-        product.setName(this.name);
-        product.setPrice(this.price);
-        product.setImageUrl(this.imageUrl);
-        return product;
+        return Product.builder()
+                .name(this.name)
+                .price(this.price)
+                .imageUrl(this.imageUrl)
+                .build();
     }
 }
