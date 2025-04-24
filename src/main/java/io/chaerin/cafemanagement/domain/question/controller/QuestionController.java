@@ -1,5 +1,6 @@
 package io.chaerin.cafemanagement.domain.question.controller;
 
+import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.service.OrderService;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionRequestDto;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionResponseDto;
@@ -25,7 +26,7 @@ public class QuestionController {
 
         Long id = questionService.saveQuestion(orderId, requestDto);
 
-        return "redirect:/question/" + id + "/question";
+        return "redirect:/order/" + id + "/question";
 
     }
 
@@ -48,6 +49,7 @@ public class QuestionController {
 
         // 추가 요청 해야함
 //        model.addAttribute("order", orderService.~~)
+
 
         // 문의 내역이 있나?
         if (questionService.existsQuestion(orderId)) {

@@ -8,13 +8,12 @@ import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
 import io.chaerin.cafemanagement.domain.order.repository.OrderItemRepository;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.product.entity.Product;
-import io.chaerin.cafemanagement.domain.product.entity.ProductRepository;
+import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-import javax.naming.InsufficientResourcesException;
 import java.util.ArrayList;
 import java.util.List;
 
