@@ -3,16 +3,14 @@ package io.chaerin.cafemanagement.domain.question.service;
 import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionRequestDto;
+import io.chaerin.cafemanagement.domain.question.dto.QuestionResponseDto;
 import io.chaerin.cafemanagement.domain.question.entity.Question;
 import io.chaerin.cafemanagement.domain.question.repository.QuestionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-
 @RequiredArgsConstructor
 public class QuestionService {
 
@@ -53,6 +51,26 @@ public class QuestionService {
 
         return order.getEmail();
     }
+
+    // 문의사항 내역이 있는지?
+    public boolean existsQuestion(Long orderId) {
+        return questionRepository.existsById(orderId);
+    }
+
+    // 문의사항 조회
+    public QuestionResponseDto findQuestionByOrderId(Long orderId){
+        Question question = questionRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
+
+        return QuestionResponseDto.builder()
+                .questionId(question.getQuestionId())
+                .title(question.getTitle())
+                .content(question.getContent())
+                .build();
+
+    }
+
+
 
 
 }
