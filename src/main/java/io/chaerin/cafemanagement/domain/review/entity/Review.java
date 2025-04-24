@@ -5,6 +5,8 @@ import io.chaerin.cafemanagement.domain.review.dto.ReviewCreateRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @Builder
@@ -25,7 +27,14 @@ public class Review {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    private LocalDateTime createdAt;
+
     private String content;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     public static Review create(ReviewCreateRequestDto requestDto, Product product) {
         return Review.builder()

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,13 @@ public class ReviewService {
 
     }
 
+    // 후기 조회
+    public List<ReviewResponseDto> getReviewList(Long productId) {
+        List<Review> reviewList = reviewRepository.findByProduct_ProductIdOrderByCreatedAt(productId);
+
+        return reviewList.stream()
+                .map(ReviewResponseDto::toDto)
+                .collect(Collectors.toList());
+    }
 
 }
