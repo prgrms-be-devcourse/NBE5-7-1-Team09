@@ -18,4 +18,11 @@ public class ReviewResponseDto {
                 .productId(review.getProduct().getProductId())
                 .build();
     }
+
+    // mock 테스트를 위한 생성자
+    public ReviewResponseDto(Long reviewId, String content, Long productId) {
+        this.reviewId = reviewId;
+        this.content = content;
+        this.productId = productId;
+    }
 }
