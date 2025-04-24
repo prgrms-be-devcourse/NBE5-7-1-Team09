@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 
 @RequiredArgsConstructor
@@ -34,6 +36,22 @@ public class QuestionService {
         );
 
         return saved.getOrderId();
+    }
+
+    // todo : 로그인으로 바뀌면 바꿔야함
+    // 문의사항 삭제
+    @Transactional
+    public String deleteQuestion(Long questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
+
+        // 삭제 후 조회페이지 반환을 위해.
+        Order order = orderRepository.findById(question.getOrderId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
+
+        questionRepository.delete(question);
+
+        return order.getEmail();
     }
 
 
