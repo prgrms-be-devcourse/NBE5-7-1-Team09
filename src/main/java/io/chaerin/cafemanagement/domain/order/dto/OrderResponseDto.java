@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class OrderResponseDto {
     private final String email;
-    private final Long orderNumber;
+    private final Long orderId;
     private final String address;
     private final String postCode;
     private final LocalDateTime createdAt;
@@ -20,7 +20,7 @@ public class OrderResponseDto {
 
     public OrderResponseDto(Order order) {
         this.email = order.getEmail();
-        this.orderNumber = order.getOrderId();
+        this.orderId = order.getOrderId();
         this.address = order.getAddress();
         this.postCode = order.getPostCode();
         this.createdAt = order.getCreatedAt();
@@ -28,8 +28,9 @@ public class OrderResponseDto {
         List<OrderItemResponseDto> items = new ArrayList<>();
 
         for (OrderItem item : order.getOrderItemList()) {
+            Long productId = item.getProduct().getProductId();
             String productName = item.getProduct().getName();
-            items.add(new OrderItemResponseDto(productName, item.getQuantity()));
+            items.add(new OrderItemResponseDto(productId, productName, item.getQuantity()));
         }
 
         this.orderItemList = items;
