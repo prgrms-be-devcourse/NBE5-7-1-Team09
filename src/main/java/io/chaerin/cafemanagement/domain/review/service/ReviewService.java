@@ -33,8 +33,9 @@ public class ReviewService {
 
         Review saved = reviewRepository.save( Review.create(requestDto, product));
 
-        return new ReviewResponseDto(saved);
+        return ReviewResponseDto.toDto(saved);
 
     }
+
 
 }
