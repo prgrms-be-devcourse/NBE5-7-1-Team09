@@ -25,7 +25,8 @@ public class Question {
     private String content;
 
     @Builder
-    public Question(String title, String content) {
+    public Question(Long orderId, String title, String content) {
+        this.orderId = orderId;
         this.title = title;
         this.content = content;
     }
