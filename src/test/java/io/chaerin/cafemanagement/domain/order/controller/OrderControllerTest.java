@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+ㅇimport static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -40,27 +41,30 @@ class OrderControllerTest {
     @DisplayName("주문을 생성한다")
     @Rollback(value = false)
     void Post_주문을_생성한다() throws Exception {
-        mockMvc.perform(post("/orders")
-                        .param("email", "user@example.com")
-                        .param("address", "test address")
-                        .param("postCode", "12345")
-                        .param("orderItem[0].productId", String.valueOf(testProductId))
-                        .param("orderItem[0].quantity", "2")
-                )
-                .andExpect(status().isOk())
-                .andExpect(view().name("order/result"))
-                .andExpect(model().attributeExists("order"));
+        for (int i = 0; i < 3; i++) {
+            mockMvc.perform(post("/orders")
+                            .param("email", "user" + i + "@example.com")
+                            .param("address", "test address" + i)
+                            .param("postCode", "1000" + i)
+                            .param("orderItem[0].productId", String.valueOf(testProductId))
+                            .param("orderItem[0].quantity", String.valueOf(i + 1))
+                    )
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("order/result"))
+                    .andExpect(model().attributeExists("order"));
+        }
     }
 
     @Test
     @DisplayName("주문을 조회한다")
     void Get_주문을_조회한다() throws Exception {
-        mockMvc.perform(post("/orders").param("email", "user@example.com"))
+        mockMvc.perform(get("/orders").param("email", "user1@example.com"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("order/result"))
-                .andExpect(model().attributeExists("order"));
+                .andExpect(view().name("order/list"))
+                .andExpect(model().attributeExists("orders"));
 
     }
+
 
 
 }
