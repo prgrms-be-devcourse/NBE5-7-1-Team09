@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("question")
+@RequestMapping("order")
 @RequiredArgsConstructor
 public class QuestionController {
 
