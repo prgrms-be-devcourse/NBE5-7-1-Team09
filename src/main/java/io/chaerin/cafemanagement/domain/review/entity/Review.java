@@ -1,0 +1,37 @@
+package io.chaerin.cafemanagement.domain.review.entity;
+
+import io.chaerin.cafemanagement.domain.product.entity.Product;
+import io.chaerin.cafemanagement.domain.review.dto.ReviewCreateRequestDto;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Entity
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class Review {
+
+    @Id
+    @Column(name = "review_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reviewId;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    private String content;
+
+    public static Review create(ReviewCreateRequestDto requestDto, Product product) {
+        return Review.builder()
+                .product(product)
+                .content(requestDto.getContent())
+                .build();
+
+    }
+}
