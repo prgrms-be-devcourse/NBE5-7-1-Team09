@@ -48,4 +48,14 @@ public class ReviewController {
 
         return "/products/" + productId;
     }
+
+    @DeleteMapping("/delete/{reviewId}")
+    public String deleteReview(
+            @PathVariable Long reviewId,
+            @PathVariable Long productId
+    ) {
+        reviewService.deleteReview(reviewId);
+
+        return "redirect:/products/" + productId;
+    }
 }
