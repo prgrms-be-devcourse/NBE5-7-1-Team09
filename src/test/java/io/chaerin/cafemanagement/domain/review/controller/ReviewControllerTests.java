@@ -99,29 +99,6 @@ class ReviewControllerTests {
                 // 반환된 리뷰 리스트가 모델에 reviews로 들어감
                 .andExpect(model().attribute("reviews", reviewList));
     }
-    @Test
-    @DisplayName("리뷰 목록 조회 실패 테스트 - ")
-    void read_reviews_ng_test() throws Exception {
-        // given
-        Long productId = 1L;
-        List<ReviewResponseDto> reviewList = List.of(
-                new ReviewResponseDto(1L, "짱맛있다", productId),
-                new ReviewResponseDto(2L, "짱맛없다", productId)
-        );
-
-        // doReturn().when(): 이 값을 리턴하라 (Mockito)
-        // given().willReturn(): 이 값이 주어졌을 때 이런 결과 (BDDMockito)
-        //   -> 가독성 측면에서 BDDMockito 사용이 더 나음.......
-
-        given(reviewService.getReviewList(productId)).willReturn(reviewList);
-
-        // when & then
-        mockMvc.perform(MockMvcRequestBuilders.get("/products/{productId}/reviews", productId))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/products/" + productId))
-                // 반환된 리뷰 리스트가 모델에 reviews로 들어감
-                .andExpect(model().attribute("reviews", reviewList));
-    }
 
 
 }
