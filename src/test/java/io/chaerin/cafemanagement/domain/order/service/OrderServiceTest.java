@@ -42,7 +42,7 @@ class OrderServiceTest {
         OrderResponseDto dto = results.get(0);
 
         assertThat(dto.getEmail()).isEqualTo("test@example.com");
-        assertThat(dto.getOrderNumber()).isEqualTo(100);
+        assertThat(dto.getOrderId()).isEqualTo(100);
         assertThat(dto.getOrderItemList()).hasSize(1);
         assertThat(dto.getOrderItemList().get(0).getProductName()).isEqualTo("test");
         assertThat(dto.getOrderItemList().get(0).getQuantity()).isEqualTo(3);

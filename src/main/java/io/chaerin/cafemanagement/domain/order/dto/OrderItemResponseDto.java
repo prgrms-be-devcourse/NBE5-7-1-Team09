@@ -1,8 +1,10 @@
 package io.chaerin.cafemanagement.domain.order.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class OrderItemResponseDto {
     private final Long productId;
     private final String productName;
