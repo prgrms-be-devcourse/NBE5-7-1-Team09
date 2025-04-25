@@ -1,14 +1,14 @@
 package io.chaerin.cafemanagement.domain.user.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 
 @Entity
-@AllArgsConstructor
-@RequiredArgsConstructor
 @Getter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +19,10 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    public User(String userId, String password) {
+        this.userId = userId;
+        this.password = password;
+    }
+
 }
