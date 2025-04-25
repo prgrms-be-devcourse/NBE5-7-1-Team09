@@ -2,6 +2,7 @@ package io.chaerin.cafemanagement.domain.order.dto;
 
 import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class OrderResponseDto {
     private final String email;
     private final Long orderId;
