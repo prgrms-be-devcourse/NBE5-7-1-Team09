@@ -60,7 +60,11 @@ public class ReviewController {
     ) {
         List<ReviewResponseDto> reviewList = reviewService.getReviewList(productId);
 
+        //TODO: 추후 유저 정보 받아오도록 변경 예정
+        Long currentUserId = 1L;
+
         model.addAttribute("productId", productId);
+        model.addAttribute("currentUserId", currentUserId);
         model.addAttribute("reviews", reviewList);
 
         return "review/list";
@@ -77,6 +81,6 @@ public class ReviewController {
 
         reviewService.deleteReview(reviewId, userId);
 
-        return "redirect:/products/" + productId;
+        return "redirect:/products/" + productId + "/reviews";
     }
 }

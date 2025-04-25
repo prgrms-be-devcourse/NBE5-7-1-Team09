@@ -8,6 +8,9 @@
 
 
   <div class="buttons">
+    <form th:action="@{'/products'}" method="get">
+      <button type="submit">나가기</button>
+    </form>
     <form th:action="@{'/products/' + ${productId} + '/reviews/form'}" method="get">
       <button type="submit">리뷰 작성</button>
     </form>
@@ -17,9 +20,15 @@
   <div class="review-list">
     <ul>
       <li th:each="review: ${reviews}">
-        <div th:text="${review.content}">
+        <div th:text="${review.content}"></div>
 
-        </div>
+        <form th:if="${review.getUserId()} == ${currentUserId}"
+              th:action="@{'/products/' + ${productId} + '/reviews/delete/' + ${review.getReviewId()}}" method="post"
+              onsubmit="return confirm('정말 삭제하시겠습니까?');">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit">삭제</button>
+        </form>
+        
         <br>
 
       </li>
