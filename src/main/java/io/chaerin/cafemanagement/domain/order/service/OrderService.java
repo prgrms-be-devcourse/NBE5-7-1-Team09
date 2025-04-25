@@ -59,6 +59,13 @@ public class OrderService {
         return dtoList;
     }
 
+    // id 단건 조회
+    public OrderResponseDto getOrderById(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id 주문이 없습니다. id=" + orderId));
+        return new OrderResponseDto(order);
+    }
+
     public OrderResponseDto updateOrder(Long orderId, OrderUpdateRequestDto request) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("주문 없음"));
         order.fixAddress(request.getAddress(), request.getPostCode());
