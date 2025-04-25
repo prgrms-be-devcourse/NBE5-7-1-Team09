@@ -21,19 +21,22 @@ public class QuestionService {
     @Transactional
     public Long saveQuestion(Long orderId, QuestionRequestDto requestDto) {
 
-        // existsById 도 고려해봤는데, 큰 차이 없을 것 같아서 이렇게 했습니다
-        orderRepository.findById(orderId)
-                        .orElseThrow(() -> new IllegalArgumentException("해당하는 주문이 없습니다."));
+        if(!orderRepository.existsById(orderId)) {
+            throw new IllegalArgumentException("해당하는 주문이 없습니다.");
+        }
 
-        Question saved = questionRepository.save(
-                Question.builder()
-                        .orderId(orderId)
-                        .title(requestDto.getTitle())
-                        .content(requestDto.getContent())
-                        .build()
-        );
 
-        return saved.getOrderId();
+        if(!questionRepository.existsByOrderId(orderId)) {
+            questionRepository.save(
+                    Question.builder()
+                            .orderId(orderId)
+                            .title(requestDto.getTitle())
+                            .content(requestDto.getContent())
+                            .build()
+            );
+        }
+
+        return orderId;
     }
 
     // todo : 로그인으로 바뀌면 바꿔야함

@@ -1,18 +1,19 @@
 package io.chaerin.cafemanagement.domain.question.controller;
 
-import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.service.OrderService;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionRequestDto;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionResponseDto;
 import io.chaerin.cafemanagement.domain.question.service.QuestionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("/order")
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -22,9 +23,10 @@ public class QuestionController {
 
     // 문의사항 작성
     @PostMapping("/{orderId}/question")
-    public String saveQuestion(@PathVariable Long orderId, @ModelAttribute QuestionRequestDto requestDto) {
+    public String saveQuestion(@PathVariable Long orderId, @Valid @ModelAttribute QuestionRequestDto requestDto) {
 
         Long id = questionService.saveQuestion(orderId, requestDto);
+
 
         return "redirect:/order/" + id + "/question";
 
