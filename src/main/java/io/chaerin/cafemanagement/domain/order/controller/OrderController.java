@@ -43,7 +43,7 @@ public class OrderController {
         return "order/result";
     }
 
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public String deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         // 임의지정
