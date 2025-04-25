@@ -9,11 +9,13 @@ import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
 import io.chaerin.cafemanagement.domain.order.repository.OrderItemRepository;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.product.entity.Product;
+
 import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class OrderService {
         for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             // product id 검증 (product Repository 를 임시 구현했다)
             Product product = productRepository.findById(dto.getProductId())
+
                     .orElseThrow(() -> new IllegalArgumentException("[create]: 존재하지 않는 상품입니다."));
 
             OrderItem orderItem = OrderItem.create(product, order, dto.getQuantity());
@@ -64,6 +67,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("주문 없음"));
         order.fixAddress(request.getAddress(), request.getPostCode());
         order.clearItems();
+
 
         for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             Product product = productRepository.findById(dto.getProductId())
