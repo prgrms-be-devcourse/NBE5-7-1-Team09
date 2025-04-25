@@ -4,7 +4,7 @@ import io.chaerin.cafemanagement.domain.user.dto.UserLoginRequestDto;
 import io.chaerin.cafemanagement.domain.user.dto.JoinRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpSession;
@@ -13,7 +13,7 @@ import io.chaerin.cafemanagement.domain.user.entity.User;
 import io.chaerin.cafemanagement.domain.user.service.UserService;
 
 @Slf4j
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class UserController {
 
@@ -27,7 +27,6 @@ public class UserController {
     }
 
     // 회원 가입 API
-    @Transactional
     @PostMapping("/join")
     public String join(@RequestBody JoinRequestDto joinRequest) {
         // 서비스에서 회원가입 로직 처리
@@ -39,8 +38,7 @@ public class UserController {
     // 로그인 API
     @PostMapping("/login")
     public String login(@ModelAttribute UserLoginRequestDto loginRequest,
-                        HttpSession session,
-                        Model model) {
+                        HttpSession session) {
         User user = userService.login(loginRequest.getUserId(), loginRequest.getPassword());
 
         session.setAttribute("loginUser", user); // 세션 저장
@@ -54,6 +52,6 @@ public class UserController {
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 제거
-        return "redirect:/";
+        return "redirect:/login";
     }
 }
