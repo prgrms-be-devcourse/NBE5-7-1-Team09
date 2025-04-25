@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class OrderControllerTest {
 
@@ -122,6 +124,26 @@ class OrderControllerTest {
                 .andExpect(view().name("order/result"))
                 .andExpect(model().attributeExists("order"));
 
+    }
+
+    @Test
+    @DisplayName("주문을 삭제한다")
+    @Rollback(value = false)
+    void 주문을_삭제한다() throws Exception {
+        MvcResult createResult = mockMvc.perform(post("/orders")
+                        .param("email", "update_test@example.com")
+                        .param("address", "삭제용 주소")
+                        .param("postCode", "11111")
+                        .param("orderItem[0].productId", String.valueOf(testProductId))
+                        .param("orderItem[0].quantity", "1"))
+                .andExpect(status().isOk())
+                .andReturn();
+        OrderResponseDto order = (OrderResponseDto) createResult.getModelAndView().getModel().get("order");
+        Long orderId = order.getOrderId();
+
+        mockMvc.perform(delete("/orders/" + orderId))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/orders"));
     }
 
 
