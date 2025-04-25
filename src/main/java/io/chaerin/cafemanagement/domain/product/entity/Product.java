@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
@@ -30,6 +31,13 @@ public class Product {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    public static Product create(String name, int price) {
+        Product product = new Product();
+        product.name = name;
+        product.price = price;
+        return product;
     }
 
     public void update(String name, Integer price, String imageUrl) {
