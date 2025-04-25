@@ -1,7 +1,7 @@
 package io.chaerin.cafemanagement.domain.review.service;
 
 import io.chaerin.cafemanagement.domain.product.entity.Product;
-import io.chaerin.cafemanagement.domain.product.entity.ProductRepository;
+import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewCreateRequestDto;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewResponseDto;
 import io.chaerin.cafemanagement.domain.review.entity.Review;

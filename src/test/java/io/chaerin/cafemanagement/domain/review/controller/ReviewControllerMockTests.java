@@ -1,8 +1,8 @@
 package io.chaerin.cafemanagement.domain.review.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewCreateRequestDto;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewResponseDto;
+import io.chaerin.cafemanagement.domain.review.entity.Review;
 import io.chaerin.cafemanagement.domain.review.repository.ReviewRepository;
 import io.chaerin.cafemanagement.domain.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,13 +27,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @AutoConfigureMockMvc
 @WebMvcTest(ReviewController.class)
-class ReviewControllerTests {
+class ReviewControllerMockTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockitoBean
     private ReviewService reviewService;
+
 
     @Test
     @DisplayName("리뷰 작성 성공 테스트")
@@ -98,6 +99,12 @@ class ReviewControllerTests {
                 .andExpect(view().name("/products/" + productId))
                 // 반환된 리뷰 리스트가 모델에 reviews로 들어감
                 .andExpect(model().attribute("reviews", reviewList));
+    }
+
+    @Test
+    @DisplayName("리뷰 삭제 테스트")
+    void delete_reviews_test() throws Exception {
+
     }
 
 
