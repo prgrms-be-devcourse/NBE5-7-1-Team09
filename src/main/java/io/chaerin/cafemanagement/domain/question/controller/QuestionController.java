@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("order")
+@RequestMapping("/order")
 @RequiredArgsConstructor
 public class QuestionController {
 
