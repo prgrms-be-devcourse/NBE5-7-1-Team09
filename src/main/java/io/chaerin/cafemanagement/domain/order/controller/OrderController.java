@@ -4,7 +4,6 @@ import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/orders")
+
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public String saveOrder(@RequestBody OrderUpdateRequestDto request, Model model) {
+
+    public String saveOrder(@ModelAttribute OrderUpdateRequestDto request, Model model) {
         OrderResponseDto order = orderService.saveOrder(request);
         model.addAttribute("order", order);
         // 임의지정
@@ -37,7 +38,8 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public String updateOrder(@PathVariable Long id, @RequestBody OrderUpdateRequestDto request, Model model) {
+
+    public String updateOrder(@PathVariable Long id, @ModelAttribute OrderUpdateRequestDto request, Model model) {
         OrderResponseDto updatedOrder = orderService.updateOrder(id, request);
         model.addAttribute("order", updatedOrder);
         // 임의지정

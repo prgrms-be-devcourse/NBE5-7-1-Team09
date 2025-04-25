@@ -4,11 +4,15 @@ import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
 import lombok.Getter;
 
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+
+@Setter
 public class OrderResponseDto {
     private final String email;
     private final Long orderId;
