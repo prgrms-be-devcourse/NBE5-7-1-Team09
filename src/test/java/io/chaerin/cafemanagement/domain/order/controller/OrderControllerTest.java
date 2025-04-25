@@ -41,7 +41,7 @@ class OrderControllerTest {
     protected MockHttpSession session;// 세션 해당 테스트에서 전역 사용
 
     @BeforeEach
-    void init() throws Exception {
+    void init() {
         Product product = Product.create("test", 1000);
         productRepository.save(product);
         testProductId = product.getProductId();
