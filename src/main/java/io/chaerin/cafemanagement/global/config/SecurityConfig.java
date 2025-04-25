@@ -18,6 +18,11 @@ public class SecurityConfig{
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()  // 모든 요청에 대해 인증 없이 접근 허용
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // 로그아웃 URL
+                        .logoutSuccessUrl("/login") // 로그아웃 성공 시 리다이렉트 URL 설정
+                        .permitAll()  // 로그아웃 URL에 대한 접근 허용
+                )
                 .build();
     }
 

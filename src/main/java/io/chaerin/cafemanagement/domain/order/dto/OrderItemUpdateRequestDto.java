@@ -2,6 +2,7 @@ package io.chaerin.cafemanagement.domain.order.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 import lombok.Setter;
 
 @Getter
