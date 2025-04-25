@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping
+
     public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model) {
         OrderResponseDto order = orderService.saveOrder(request);
         model.addAttribute("order", order);
@@ -37,6 +38,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
+
     public String updateOrder(@PathVariable Long id, @ModelAttribute OrderUpdateRequestDto request, Model model) {
         OrderResponseDto updatedOrder = orderService.updateOrder(id, request);
         model.addAttribute("order", updatedOrder);
