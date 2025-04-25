@@ -41,6 +41,17 @@ public class ReviewController {
         return "redirect:/products/" + productId;
     }
 
+    @GetMapping("/form")
+    public String showReviewForm(
+            @PathVariable Long productId,
+            Model model
+    ) {
+        model.addAttribute("productId", productId);
+        model.addAttribute("reviewCreateRequestDto", new ReviewCreateRequestDto());
+
+        return "review/form";
+    }
+
 
     @GetMapping
     public String getReviewList(
