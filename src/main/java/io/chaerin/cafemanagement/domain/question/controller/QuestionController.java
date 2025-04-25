@@ -49,8 +49,7 @@ public class QuestionController {
     @GetMapping("/{orderId}/question")
     public String showQuestion(@PathVariable Long orderId, Model model) {
 
-        // 추가 요청 해야함
-//        model.addAttribute("order", orderService.~~)
+        model.addAttribute("order", orderService.getOrderById(orderId));
 
 
         // 문의 내역이 있나?
