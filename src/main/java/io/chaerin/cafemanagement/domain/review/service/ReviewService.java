@@ -39,6 +39,7 @@ public class ReviewService {
     }
 
     // 후기 조회
+    @Transactional
     public List<ReviewResponseDto> getReviewList(Long productId) {
         List<Review> reviewList = reviewRepository.findByProduct_ProductIdOrderByCreatedAt(productId);
 
@@ -48,6 +49,7 @@ public class ReviewService {
     }
 
     // 후기 삭제
+    @Transactional
     public void deleteReview(Long reviewId) {
         reviewRepository.deleteById(reviewId);
     }
