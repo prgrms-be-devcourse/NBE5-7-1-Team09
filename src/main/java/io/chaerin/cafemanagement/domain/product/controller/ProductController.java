@@ -26,14 +26,13 @@ public class ProductController {
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("productCreateRequestDto", new ProductCreateRequest());
+        model.addAttribute("productForm", new ProductCreateRequest());
         return "product/form";
     }
 
     @PostMapping
-    public String createProduct(@Valid @ModelAttribute ProductCreateRequest request, BindingResult result, Model model) {
+    public String createProduct(@Valid @ModelAttribute("productForm") ProductCreateRequest request, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("productCreateRequestDto", request);
             return "product/form";
         }
         productService.saveProduct(request);
@@ -47,15 +46,14 @@ public class ProductController {
         updateRequest.setName(product.getName());
         updateRequest.setPrice(product.getPrice());
         updateRequest.setImageUrl(product.getImageUrl());
-        model.addAttribute("productUpdateRequestDto", updateRequest);
+        model.addAttribute("productForm", updateRequest);
         model.addAttribute("productId", id);
         return "product/form";
     }
 
     @PostMapping("/{id}")
-    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductUpdateRequest request, BindingResult result, Model model) {
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute("productForm") ProductUpdateRequest request, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("productUpdateRequestDto", request);
             model.addAttribute("productId", id);
             return "product/form";
         }
@@ -63,7 +61,7 @@ public class ProductController {
         return "redirect:/products";
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "redirect:/products";

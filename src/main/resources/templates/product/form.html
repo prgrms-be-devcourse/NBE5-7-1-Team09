@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+<div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-6 text-center" th:text="${productId} ? 'Edit Product' : 'Create Product'"></h1>
+    <form th:action="${productId} ? '/products/' + ${productId} : '/products'"
+          th:object="${productForm}" method="post" class="space-y-4">
+        <!-- Hidden field for update method (if editing) -->
+        <input th:if="${productId}" type="hidden" name="_method" value="POST"/>
+
+        <!-- Name Field -->
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
+            <input type="text" id="name" th:field="*{name}"
+                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                   required/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-sm mt-1"></p>
+        </div>
+
+        <!-- Price Field -->
+        <div>
+            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="number" id="price" th:field="*{price}"
+                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                   required/>
+            <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-red-500 text-sm mt-1"></p>
+        </div>
+
+        <!-- Image URL Field -->
+        <div>
+            <label for="imageUrl" class="block text-sm font-medium text-gray-700">Image URL</label>
+            <input type="text" id="imageUrl" th:field="*{imageUrl}"
+                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
+            <p th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-red-500 text-sm mt-1"></p>
+        </div>
+
+        <!-- Submit and Cancel Buttons -->
+        <div class="flex justify-between">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                <span th:text="${productId} ? 'Update' : 'Create'"></span>
+            </button>
+            <a href="/products" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
