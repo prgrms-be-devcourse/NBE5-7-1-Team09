@@ -32,10 +32,15 @@ public class ReviewController {
             // html 추가 시, 리뷰 작성 페이지로 변경 예정
             return "review/form";
         }
-        reviewService.save(requestDto, productId);
+
+        //TODO: 추후 유저 정보 받아오도록 변경 예정
+        Long userId = 1L;
+
+        reviewService.save(requestDto, productId, userId);
 
         return "redirect:/products/" + productId;
     }
+
 
     @GetMapping
     public String getReviewList(
@@ -53,8 +58,12 @@ public class ReviewController {
     public String deleteReview(
             @PathVariable Long reviewId,
             @PathVariable Long productId
-    ) {
-        reviewService.deleteReview(reviewId);
+    ) throws IllegalAccessException {
+
+        //TODO: 추후 유저 정보 받아오도록 변경 예정
+        Long userId = 1L;
+
+        reviewService.deleteReview(reviewId, userId);
 
         return "redirect:/products/" + productId;
     }

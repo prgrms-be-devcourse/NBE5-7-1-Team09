@@ -10,19 +10,21 @@ public class ReviewResponseDto {
     private Long reviewId;
     private String content;
     private Long productId;
+    private Long userId;
 
     public static ReviewResponseDto toDto(Review review) {
         return ReviewResponseDto.builder()
                 .reviewId(review.getReviewId())
                 .content(review.getContent())
                 .productId(review.getProduct().getProductId())
+                .userId(review.getUser().getId())
                 .build();
     }
 
-    // mock 테스트를 위한 생성자
-    public ReviewResponseDto(Long reviewId, String content, Long productId) {
+    public ReviewResponseDto(Long reviewId, String content, Long productId, Long userId) {
         this.reviewId = reviewId;
         this.content = content;
         this.productId = productId;
+        this.userId = userId;
     }
 }

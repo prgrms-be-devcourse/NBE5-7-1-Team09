@@ -2,6 +2,7 @@ package io.chaerin.cafemanagement.domain.review.entity;
 
 import io.chaerin.cafemanagement.domain.product.entity.Product;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewCreateRequestDto;
+import io.chaerin.cafemanagement.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,9 +20,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
@@ -36,9 +37,10 @@ public class Review {
         this.createdAt = LocalDateTime.now();
     }
 
-    public static Review create(ReviewCreateRequestDto requestDto, Product product) {
+    public static Review create(ReviewCreateRequestDto requestDto, Product product, User user) {
         return Review.builder()
                 .product(product)
+                .user(user)
                 .content(requestDto.getContent())
                 .build();
 
