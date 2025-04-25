@@ -22,11 +22,17 @@
           </div>
           <div class="product-bottom">
             <div class="product-bottom-left">
+
               <div th:text="${product.name}" class="product-name">
               </div>
 
               <div class="product-price">
                 [[ ${product.price} ]]원
+              </div>
+              <div class="buttons">
+                <a th:href="@{/products/{id}/reviews(id=${product.productId})}">
+                  <button class="review">후기 보기</button>
+                </a>
               </div>
 
             </div>

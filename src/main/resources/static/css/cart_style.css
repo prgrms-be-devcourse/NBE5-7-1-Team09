@@ -42,7 +42,7 @@ body {
 }
 
 .product-bottom {
-    height: 80px;
+    height: 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -141,4 +141,18 @@ body {
     font-size: 16px;
     color: #FFFFFF;
     margin-top: 10px;
+}
+
+.buttons button {
+    padding: 6px 12px;
+    font-size: 13px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 6px;
+}
+
+.buttons .review {
+    background-color: black;
 }

@@ -46,7 +46,7 @@ public class ReviewController {
 
         model.addAttribute("reviews", reviewList);
 
-        return "product/reviewList";
+        return "review/list";
     }
 
     @DeleteMapping("/delete/{reviewId}")
