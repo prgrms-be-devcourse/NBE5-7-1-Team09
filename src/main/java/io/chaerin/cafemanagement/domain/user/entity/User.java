@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column(nullable = false, unique = true)
-    private String userId;
+    private String userName;
 
     @Column(nullable = false)
     private String password;
 
-    public User(String userId, String password) {
-        this.userId = userId;
+    public User(String userName, String password) {
+        this.userName = userName;
         this.password = password;
     }
 

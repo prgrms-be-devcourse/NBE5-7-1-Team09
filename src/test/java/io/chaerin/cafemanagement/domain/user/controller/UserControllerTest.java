@@ -37,12 +37,12 @@ class UserControllerTest {
     void 회원가입_완료_확인() throws Exception {
         // 회원가입에 사용할 DTO 객체 생성
         JoinRequestDto joinRequestDto = new JoinRequestDto();
-        joinRequestDto.setUserId("testUser");
+        joinRequestDto.setUserName("testUser");
         joinRequestDto.setPassword("testPassword123");
 
         mockMvc.perform(post("/join")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)  // 폼 데이터 전송
-                        .param("userId", joinRequestDto.getUserId())
+                        .param("userName", joinRequestDto.getUserName())
                         .param("password", joinRequestDto.getPassword()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
@@ -54,7 +54,7 @@ class UserControllerTest {
     void 로그인_성공시_세션에_유저정보저장() throws Exception {
         // 실제 로그인 POST 요청 (폼 데이터)
         MvcResult mvcResult = mockMvc.perform(post("/login")
-                        .param("userId", "testUser")
+                        .param("userName", "testUser")
                         .param("password", "testPassword123"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"))
@@ -64,10 +64,10 @@ class UserControllerTest {
         MockHttpSession session = (MockHttpSession) mvcResult.getRequest().getSession(false);
         assertNotNull(session, "세션이 생성되어야 한다");
 
-        // 세션에 loginUser 속성이 있고, User 타입인지, 그리고 userId가 맞는지 검증
+        // 세션에 loginUser 속성이 있고, User 타입인지, 그리고 userName가 맞는지 검증
         Object attr = session.getAttribute("loginUser");
         assertNotNull(attr, "세션에 loginUser 속성이 있어야 한다");
-        assertEquals("testUser", ((User) attr).getUserId());
+        assertEquals("testUser", ((User) attr).getUserName());
     }
 
     @Test
@@ -75,7 +75,7 @@ class UserControllerTest {
     void 로그아웃시_세션이_무효화되는지_확인() throws Exception {
         // 로그인해서 세션을 얻어온다.
         MvcResult loginResult = mockMvc.perform(post("/login")
-                        .param("userId", "testUser")
+                        .param("userName", "testUser")
                         .param("password", "testPassword123"))
                 .andExpect(status().is3xxRedirection())
                 .andReturn();
