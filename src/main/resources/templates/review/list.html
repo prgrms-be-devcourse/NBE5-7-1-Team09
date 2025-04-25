@@ -6,6 +6,14 @@
 </head>
 <body>
 
+
+  <div class="buttons">
+    <form th:action="@{'/products/' + ${productId} + '/reviews/form'}" method="get">
+      <button type="submit">리뷰 작성</button>
+    </form>
+  </div>
+
+
   <div class="review-list">
     <ul>
       <li th:each="review: ${reviews}">
@@ -20,5 +28,3 @@
 
 </body>
 </html>
-
-feat: 후기 버튼에 review 목록 페이지 연동

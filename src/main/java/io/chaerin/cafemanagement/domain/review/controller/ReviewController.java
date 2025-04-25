@@ -38,7 +38,7 @@ public class ReviewController {
 
         reviewService.save(requestDto, productId, userId);
 
-        return "redirect:/products/" + productId;
+        return "redirect:/products/" + productId + "/reviews";
     }
 
     @GetMapping("/form")
@@ -60,6 +60,7 @@ public class ReviewController {
     ) {
         List<ReviewResponseDto> reviewList = reviewService.getReviewList(productId);
 
+        model.addAttribute("productId", productId);
         model.addAttribute("reviews", reviewList);
 
         return "review/list";
