@@ -1,0 +1,129 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.content {
+    padding-top: 20px;
+}
+hr {
+    opacity: 50%;
+}
+.light-hr {
+    opacity: 20%;
+}
+/* 헤더 */
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 12px 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 32px;
+}
+
+.order-button button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.order-button img {
+    width: 24px;
+    height: 24px;
+    filter: grayscale(100%);
+}
+
+/* 상단 간략 배송 정보 css */
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    padding: 12px;
+}
+.top-section-left {
+    display: flex;
+    align-items: center;
+}
+.top-section-left img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 12px;
+}
+.top-section-order .date {
+    font-weight: bold;
+}
+.status {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+/* 주문 상품 목록 css */
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.item-right {
+    display: flex;
+    gap: 12px;
+    text-align: right;
+}
+
+.quantity,
+.price {
+    min-width: 60px;
+}
+.buy-info-email,
+.buy-info-address {
+    margin-bottom: 6px;
+}
+
+/* 버튼, 결제 정보 css */
+.botton-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.buttons button {
+    padding: 6px 12px;
+    font-size: 13px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+.buttons .edit {
+    background-color: black;
+}
+
+.buttons .delete {
+    background-color: orangered;
+}
+
+.total-price,
+.buy-info-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
