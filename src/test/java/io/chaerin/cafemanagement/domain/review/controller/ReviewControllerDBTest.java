@@ -1,5 +1,7 @@
 package io.chaerin.cafemanagement.domain.review.controller;
 
+import io.chaerin.cafemanagement.domain.product.entity.Product;
+import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
 import io.chaerin.cafemanagement.domain.review.entity.Review;
 import io.chaerin.cafemanagement.domain.review.repository.ReviewRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,6 +30,9 @@ class ReviewControllerDBTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Test
     @DisplayName("리뷰 작성 실제 DB 테스트")
@@ -49,6 +53,38 @@ class ReviewControllerDBTest {
         assertThat(reviews)
                 .isNotEmpty()
                 .anyMatch(r -> r.getContent().equals(content));
+    }
+
+
+    @Test
+    @DisplayName("리뷰 목록 조회 실제 DB 테스트")
+    void get_review_list_real_db_test() throws Exception {
+        // given
+        Product product = productRepository.save(Product.builder()
+                .name("테스트커피")
+                .price(5000)
+                .imageUrl("image.jpg")
+                .build());
+
+
+        reviewRepository.save(Review.builder()
+                .product(product)
+                .content("짱맛있다")
+                .build());
+
+        reviewRepository.save(Review.builder()
+                .product(product)
+                .content("짱맛없다")
+                .build());
+
+        Long productId = product.getProductId();
+
+        // when & then
+        mockMvcc.perform(MockMvcRequestBuilders.get("/products/{productId}/reviews", productId))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("reviews"))
+                .andExpect(model().attribute("reviews", org.hamcrest.Matchers.hasSize(2)))
+                .andExpect(view().name("product/reviewList"));
     }
 
 

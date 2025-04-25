@@ -30,7 +30,7 @@ public class ReviewController {
 
             // 유효성 검증 실패 시 반환될 테스트용 페이지
             // html 추가 시, 리뷰 작성 페이지로 변경 예정
-            return "/review/form";
+            return "review/form";
         }
         reviewService.save(requestDto, productId);
 
@@ -46,7 +46,7 @@ public class ReviewController {
 
         model.addAttribute("reviews", reviewList);
 
-        return "/products/" + productId;
+        return "product/reviewList";
     }
 
     @DeleteMapping("/delete/{reviewId}")

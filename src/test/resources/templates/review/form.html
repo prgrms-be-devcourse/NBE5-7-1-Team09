@@ -8,7 +8,7 @@
 (테스트용)
 reviewController createReview 유효성 검사 실패 시 반환되는 페이지
 
-<form th:action="@{/products/{productId}/reviews(productId=${productId})}" method="post">
+<form th:action="@{/templates/product/{productId}/reviews(productId=${productId})}" method="post">
     <input type="hidden" name="userId" th:value="${userId}" />
     <textarea name="content" th:text="${reviewCreateRequestDto?.content}"></textarea>
     <button type="submit">제출</button>

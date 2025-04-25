@@ -96,7 +96,7 @@ class ReviewControllerMockTests {
         // when & then
         mockMvc.perform(MockMvcRequestBuilders.get("/products/{productId}/reviews", productId))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/products/" + productId))
+                .andExpect(view().name("product/reviewList"))
                 // 반환된 리뷰 리스트가 모델에 reviews로 들어감
                 .andExpect(model().attribute("reviews", reviewList));
     }
