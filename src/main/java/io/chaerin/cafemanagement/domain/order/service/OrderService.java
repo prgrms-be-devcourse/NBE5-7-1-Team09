@@ -51,7 +51,7 @@ public class OrderService {
     public List<OrderResponseDto> getOrdersByEmail(String email) {
         List<Order> orders = orderRepository.findByEmail(email);
         List<OrderResponseDto> dtoList = new ArrayList<>();
-
+        // dto 를 바로 가져와서... => 고민좀 해보고.
         for (Order order : orders) {
             dtoList.add(new OrderResponseDto(order));
         }
