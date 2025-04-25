@@ -1,5 +1,6 @@
 package io.chaerin.cafemanagement.domain.order.service;
 
+import io.chaerin.cafemanagement.domain.order.dto.OrderCreateRequestDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderItemUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.entity.Order;
@@ -24,10 +25,9 @@ import java.util.List;
 @Transactional
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
 
-    public OrderResponseDto saveOrder(OrderUpdateRequestDto request) {
+    public OrderResponseDto saveOrder(OrderCreateRequestDto request) {
 
         Order order = Order.create(request.getEmail(), request.getAddress(), request.getPostCode());
 
@@ -36,12 +36,6 @@ public class OrderService {
             Product product = productRepository.findById(dto.getProductId())
 
                     .orElseThrow(() -> new IllegalArgumentException("[create]: 존재하지 않는 상품입니다."));
-
-            // Product에 stock이 필요하지 않을까?
-            // 생성 시에 가능한 quantity인지 stock과 비교 검증.
-//            if (product.getStock() < dto.getQuantity()) {
-//                throw new IllegalArgumentException(product.getName());
-//            }
 
             OrderItem orderItem = OrderItem.create(product, order, dto.getQuantity());
             order.getOrderItemList().add(orderItem);
@@ -54,7 +48,7 @@ public class OrderService {
     public List<OrderResponseDto> getOrdersByEmail(String email) {
         List<Order> orders = orderRepository.findByEmail(email);
         List<OrderResponseDto> dtoList = new ArrayList<>();
-
+        // dto 를 바로 가져와서... => 고민좀 해보고.
         for (Order order : orders) {
             dtoList.add(new OrderResponseDto(order));
         }
