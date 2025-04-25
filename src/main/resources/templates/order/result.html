@@ -1,0 +1,21 @@
+<!-- 주문을 생성하는 페이지 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>주문 완료</title>
+</head>
+<body>
+<h1>주문이 성공적으로 완료되었습니다!</h1>
+
+<p>주문 번호: <span th:text="${order.orderId}"></span></p>
+<p>이메일: <span th:text="${order.email}"></span></p>
+<p>주소: <span th:text="${order.address}"></span></p>
+
+<h3>주문 항목:</h3>
+<ul>
+    <li th:each="item : ${order.orderItemList}">
+        <span th:text="${item.productName}"></span> - <span th:text="${item.quantity}"></span>개
+    </li>
+</ul>
+</body>
+</html>

@@ -32,7 +32,7 @@ public class OrderService {
         for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             // product id 검증 (product Repository 를 임시 구현했다)
             Product product = productRepository.findById(dto.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("[create]: 존재하지 않는 상품입니다."));
 
             // Product에 stock이 필요하지 않을까?
             // 생성 시에 가능한 quantity인지 stock과 비교 검증.
@@ -59,14 +59,21 @@ public class OrderService {
         return dtoList;
     }
 
+    // id 단건 조회
+    public OrderResponseDto getOrderById(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id 주문이 없습니다. id=" + orderId));
+        return new OrderResponseDto(order);
+    }
+
     public OrderResponseDto updateOrder(Long orderId, OrderUpdateRequestDto request) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("주문 없음"));
         order.fixAddress(request.getAddress(), request.getPostCode());
         order.clearItems();
 
-        for(OrderItemUpdateRequestDto dto : request.getOrderItem()){
+        for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             Product product = productRepository.findById(dto.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("[update] 존재하지 않는 상품입니다."));
             OrderItem oi = OrderItem.create(product, order, dto.getQuantity());
             order.addItem(oi);
         }

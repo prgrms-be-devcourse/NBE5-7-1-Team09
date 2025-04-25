@@ -1,0 +1,39 @@
+<!-- 주문을 조회하는 페이지 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>주문 목록</title>
+</head>
+<body>
+<h1>주문 목록</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>주문 ID</th>
+        <th>이메일</th>
+        <th>주소</th>
+        <th>우편번호</th>
+        <th>생성일</th>
+        <th>주문 항목</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.orderId}">1</td>
+        <td th:text="${order.email}">user@example.com</td>
+        <td th:text="${order.address}">서울시 강남구</td>
+        <td th:text="${order.postCode}">12345</td>
+        <td th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}">2025-04-24</td>
+        <td>
+            <ul>
+                <li th:each="item : ${order.orderItemList}">
+                    <span th:text="${item.productName}">아메리카노</span> - <span th:text="${item.quantity}">2</span>개
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
