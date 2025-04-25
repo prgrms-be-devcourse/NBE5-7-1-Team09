@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class OrderUpdateRequestDto {
+public class OrderCreateRequestDto {
     private String email;
     private String address;
     private String postCode;

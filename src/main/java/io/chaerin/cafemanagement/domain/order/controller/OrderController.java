@@ -1,5 +1,6 @@
 package io.chaerin.cafemanagement.domain.order.controller;
 
+import io.chaerin.cafemanagement.domain.order.dto.OrderCreateRequestDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.service.OrderService;
@@ -17,7 +18,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public String saveOrder(@ModelAttribute OrderUpdateRequestDto request, Model model) {
+    public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model) {
         OrderResponseDto order = orderService.saveOrder(request);
         model.addAttribute("order", order);
         // 임의지정
@@ -43,7 +44,7 @@ public class OrderController {
         return "order/result";
     }
 
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public String deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         // 임의지정
