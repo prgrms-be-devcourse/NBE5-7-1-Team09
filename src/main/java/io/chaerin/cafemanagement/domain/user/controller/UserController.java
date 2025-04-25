@@ -28,7 +28,7 @@ public class UserController {
 
     // 회원 가입 API
     @PostMapping("/join")
-    public String join(@RequestBody JoinRequestDto joinRequest) {
+    public String join(@ModelAttribute JoinRequestDto joinRequest) {
         // 서비스에서 회원가입 로직 처리
         userService.join(joinRequest.getUserId(), joinRequest.getPassword());
 
