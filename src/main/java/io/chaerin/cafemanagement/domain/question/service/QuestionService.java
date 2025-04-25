@@ -66,6 +66,7 @@ public class QuestionService {
                 .questionId(question.getQuestionId())
                 .title(question.getTitle())
                 .content(question.getContent())
+                .createdAt(question.getCreatedAt())
                 .build();
 
     }

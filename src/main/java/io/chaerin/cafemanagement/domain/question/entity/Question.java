@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Table(name = "question")
@@ -23,6 +25,8 @@ public class Question {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Builder
     public Question(Long orderId, String title, String content) {
