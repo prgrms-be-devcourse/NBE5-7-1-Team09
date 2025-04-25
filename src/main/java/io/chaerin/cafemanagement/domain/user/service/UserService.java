@@ -2,6 +2,7 @@ package io.chaerin.cafemanagement.domain.user.service;
 
 import io.chaerin.cafemanagement.domain.user.entity.User;
 import io.chaerin.cafemanagement.domain.user.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class UserService {
         User user = new User(userId, encodedPassword);
         userRepository.save(user);
     }
-    public User login(String userId, String password) {
+    public void login(String userId, String password, HttpSession session) {
         User user = userRepository.findByUserId(userId);
 
         if(user == null){
@@ -30,6 +31,7 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        return user;
+        session.setAttribute("loginUser", user); // 세션 저장
+
     }
 }
