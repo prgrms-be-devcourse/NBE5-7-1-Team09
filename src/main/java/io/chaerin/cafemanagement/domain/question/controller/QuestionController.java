@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -38,7 +38,7 @@ public class QuestionController {
         String email = questionService.deleteQuestion(questionId);
 
         // 주문 목록 조회로 이동
-        return "redirect:/order?email=" + email;
+        return "redirect:/orders?email=" + email;
     }
 
     // 문의사항 조회
