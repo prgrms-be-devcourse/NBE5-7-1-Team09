@@ -14,13 +14,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void join(String userId, String password) {
+    public void join(String userName, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(userId, encodedPassword);
+        User user = new User(userName, encodedPassword);
         userRepository.save(user);
     }
-    public User login(String userId, String password) {
-        User user = userRepository.findByUserId(userId);
+    public User login(String userName, String password) {
+        User user = userRepository.findByUserName(userName);
 
         if(user == null){
             throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");

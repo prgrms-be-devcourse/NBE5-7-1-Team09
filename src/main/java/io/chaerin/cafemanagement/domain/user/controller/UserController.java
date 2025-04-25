@@ -18,7 +18,6 @@ import io.chaerin.cafemanagement.domain.user.service.UserService;
 public class UserController {
 
     private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     // 로그인 폼 표시 API
     @GetMapping("/login")
@@ -30,7 +29,7 @@ public class UserController {
     @PostMapping("/join")
     public String join(@ModelAttribute JoinRequestDto joinRequest) {
         // 서비스에서 회원가입 로직 처리
-        userService.join(joinRequest.getUserId(), joinRequest.getPassword());
+        userService.join(joinRequest.getUserName(), joinRequest.getPassword());
 
         return "redirect:/login";
     }
@@ -39,11 +38,11 @@ public class UserController {
     @PostMapping("/login")
     public String login(@ModelAttribute UserLoginRequestDto loginRequest,
                         HttpSession session) {
-        User user = userService.login(loginRequest.getUserId(), loginRequest.getPassword());
+        User user = userService.login(loginRequest.getUserName(), loginRequest.getPassword());
 
         session.setAttribute("loginUser", user); // 세션 저장
 
-        log.info("user.getUserId() = {}", user.getUserId());
+        log.info("user.getUserId() = {}", user.getUserName());
 
         return "redirect:/";
     }
