@@ -2,6 +2,7 @@ package io.chaerin.cafemanagement.domain.question.service;
 
 import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
+import io.chaerin.cafemanagement.domain.question.dto.AnswerRequestDto;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionRequestDto;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionResponseDto;
 import io.chaerin.cafemanagement.domain.question.entity.Question;
@@ -40,15 +41,15 @@ public class QuestionService {
     // todo : 로그인으로 바뀌면 바꿔야함
     @Transactional
     public String deleteQuestion(Long questionId) {
-        Question question = questionRepository.findById(questionId)
+        Question findQuestion = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
 
-        Order order = orderRepository.findById(question.getOrderId())
+        Order findOrder = orderRepository.findById(findQuestion.getOrderId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
 
-        questionRepository.delete(question);
+        questionRepository.delete(findQuestion);
 
-        return order.getEmail();
+        return findOrder.getEmail();
     }
 
     public boolean existsQuestion(Long orderId) {
@@ -56,17 +57,20 @@ public class QuestionService {
     }
 
     public QuestionResponseDto findQuestionByOrderId(Long orderId){
-        Question question = questionRepository.findByOrderId(orderId)
+        Question findQuestion = questionRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
 
-        return QuestionResponseDto.builder()
-                .questionId(question.getQuestionId())
-                .title(question.getTitle())
-                .content(question.getContent())
-                .createdAt(question.getCreatedAt())
-                .build();
+        return QuestionResponseDto.fromEntity(findQuestion);
+    }
+
+    public void saveAnswer(Long questionId, AnswerRequestDto requestDto) {
+        Question findQuestion = questionRepository.findById(questionId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문의사항이 없습니다."));
+        findQuestion.writeAnswer(requestDto.getAnswer());
 
     }
+
+
 
 
 

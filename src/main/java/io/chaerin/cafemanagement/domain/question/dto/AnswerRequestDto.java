@@ -12,8 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AnswerRequestDto {
 
-    private String questionId;
-
     @NotBlank(message = "답변 내용을 입력해주세요.")
     private String answer;
 

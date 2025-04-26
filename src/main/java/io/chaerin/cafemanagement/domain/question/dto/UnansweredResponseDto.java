@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @Builder
 public class UnansweredResponseDto {
 
-    private Long questionId;
-    private String title;
-    private String content;
-    private String answer;
-    private LocalDateTime createdAt;
-    private LocalDateTime answeredAt;
+    private final Long questionId;
+    private final String title;
+    private final String content;
+    private final String answer;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime answeredAt;
 
     public static UnansweredResponseDto fromEntity(Question question) {
         return UnansweredResponseDto.builder()
