@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionAnswerRequestDto {
+public class AnswerRequestDto {
 
     private String questionId;
 
