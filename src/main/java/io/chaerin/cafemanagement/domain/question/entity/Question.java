@@ -26,7 +26,11 @@ public class Question {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Column(columnDefinition = "TEXT")
+    private String answer;
+
     private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime answerCreatedAt;
 
     @Builder
     public Question(Long orderId, String title, String content) {
@@ -34,4 +38,7 @@ public class Question {
         this.title = title;
         this.content = content;
     }
+
+
+
 }
