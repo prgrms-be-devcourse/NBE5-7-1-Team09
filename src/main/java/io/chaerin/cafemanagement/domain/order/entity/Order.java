@@ -1,5 +1,6 @@
 package io.chaerin.cafemanagement.domain.order.entity;
 
+import io.chaerin.cafemanagement.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,14 +28,19 @@ public class Order {
     @Column(name = "post_code")
     private String postCode;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(name = "create_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItemList = new ArrayList<>();
 
-    public static Order create(String email, String address, String postCode) {
+    public static Order create(User user, String email, String address, String postCode) {
         Order order = new Order();
+        order.user = user;
         order.email = email;
         order.address = address;
         order.postCode = postCode;

@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JoinRequestDto {
-    private String userId;
+    private String userName;
     private String password;
 }
 

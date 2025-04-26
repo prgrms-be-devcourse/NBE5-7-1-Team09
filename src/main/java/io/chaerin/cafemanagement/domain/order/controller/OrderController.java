@@ -4,6 +4,7 @@ import io.chaerin.cafemanagement.domain.order.dto.OrderCreateRequestDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.service.OrderService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +19,9 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
 
-
-    public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model) {
-        OrderResponseDto order = orderService.saveOrder(request);
+    @PostMapping
+    public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model, HttpSession session) {
+        OrderResponseDto order = orderService.saveOrder(request, session);
         model.addAttribute("order", order);
         // 임의지정
         return "order/result";
@@ -38,7 +39,6 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-
     public String updateOrder(@PathVariable Long id, @ModelAttribute OrderUpdateRequestDto request, Model model) {
         OrderResponseDto updatedOrder = orderService.updateOrder(id, request);
         model.addAttribute("order", updatedOrder);
