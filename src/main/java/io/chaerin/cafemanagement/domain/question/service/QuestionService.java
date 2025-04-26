@@ -2,14 +2,15 @@ package io.chaerin.cafemanagement.domain.question.service;
 
 import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
-import io.chaerin.cafemanagement.domain.question.dto.AnswerRequestDto;
-import io.chaerin.cafemanagement.domain.question.dto.QuestionRequestDto;
-import io.chaerin.cafemanagement.domain.question.dto.QuestionResponseDto;
+import io.chaerin.cafemanagement.domain.question.dto.*;
 import io.chaerin.cafemanagement.domain.question.entity.Question;
 import io.chaerin.cafemanagement.domain.question.repository.QuestionRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,10 +53,12 @@ public class QuestionService {
         return findOrder.getEmail();
     }
 
+    @Transactional(readOnly = true)
     public boolean existsQuestion(Long orderId) {
         return questionRepository.existsByOrderId(orderId);
     }
 
+    @Transactional(readOnly = true)
     public QuestionResponseDto findQuestionByOrderId(Long orderId){
         Question findQuestion = questionRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
@@ -63,6 +66,7 @@ public class QuestionService {
         return QuestionResponseDto.fromEntity(findQuestion);
     }
 
+    @Transactional
     public void saveAnswer(Long questionId, AnswerRequestDto requestDto) {
         Question findQuestion = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 문의사항이 없습니다."));
@@ -70,7 +74,19 @@ public class QuestionService {
 
     }
 
+    @Transactional(readOnly = true)
+    public List<AnsweredResponseDto> findAnsweredQuestion() {
+        return questionRepository.findAllAnsweredQuestions().stream()
+                .map(AnsweredResponseDto::fromEntity)
+                .collect(Collectors.toList());
+    }
 
+    @Transactional(readOnly = true)
+    public List<UnansweredResponseDto> findUnansweredQuestion() {
+        return questionRepository.findAllUnansweredQuestions().stream()
+                .map(UnansweredResponseDto::fromEntity)
+                .collect(Collectors.toList());
+    }
 
 
 
