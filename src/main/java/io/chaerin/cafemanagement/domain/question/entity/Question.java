@@ -39,6 +39,11 @@ public class Question {
         this.content = content;
     }
 
+    public Question writeAnswer(String answer) {
+        this.answer = answer;
+        this.answerCreatedAt = LocalDateTime.now();
+        return this;
+    }
 
 
 }
