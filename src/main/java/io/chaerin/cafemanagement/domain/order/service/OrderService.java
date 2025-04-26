@@ -11,6 +11,9 @@ import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.product.entity.Product;
 
 import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
+import io.chaerin.cafemanagement.domain.user.entity.User;
+import io.chaerin.cafemanagement.domain.user.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -26,10 +29,23 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
-    public OrderResponseDto saveOrder(OrderCreateRequestDto request) {
+    public OrderResponseDto saveOrder(OrderCreateRequestDto request, HttpSession session) {
+        //TODO @지민혁 로그인 검증 인터셉터로 분리
+        //로그인 세션 검증 로직
+        Object loginUser = session.getAttribute("loginUser");
+        if (loginUser == null) {
+            throw new IllegalStateException("로그인 후 이용해주세요.");
+        }
 
-        Order order = Order.create(request.getEmail(), request.getAddress(), request.getPostCode());
+        //userId에 해당되는 user객체 받기
+        Long userId = ((User) loginUser).getUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+
+        // 상품 생성 로직
+        Order order = Order.create(user, request.getEmail(), request.getAddress(), request.getPostCode());
 
         for (OrderItemUpdateRequestDto dto : request.getOrderItem()) {
             // product id 검증 (product Repository 를 임시 구현했다)

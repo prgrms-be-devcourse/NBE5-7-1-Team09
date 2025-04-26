@@ -44,8 +44,8 @@ class OrderServiceTest {
         assertThat(dto.getEmail()).isEqualTo("test@example.com");
         assertThat(dto.getOrderId()).isEqualTo(100);
         assertThat(dto.getOrderItemList()).hasSize(1);
-        assertThat(dto.getOrderItemList().get(0).getProductName()).isEqualTo("test");
-        assertThat(dto.getOrderItemList().get(0).getQuantity()).isEqualTo(3);
+        assertThat(dto.getOrderItemList().get(0).productName()).isEqualTo("test");
+        assertThat(dto.getOrderItemList().get(0).quantity()).isEqualTo(3);
     }
 
     @DisplayName("이메일로 주문 조회 시, dto 에 제대로 매핑되어야 한다.")
