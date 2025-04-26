@@ -1,8 +1,8 @@
 package io.chaerin.cafemanagement.domain.question.controller;
 
 import io.chaerin.cafemanagement.domain.question.dto.AnswerRequestDto;
-import io.chaerin.cafemanagement.domain.question.dto.AnsweredResponseDto;
 import io.chaerin.cafemanagement.domain.question.dto.UnansweredResponseDto;
+import io.chaerin.cafemanagement.domain.question.dto.AnsweredResponseDto;
 import io.chaerin.cafemanagement.domain.question.service.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
