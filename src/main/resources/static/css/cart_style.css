@@ -14,7 +14,11 @@ body {
     transform: translateY(50px);
     display: flex;
     margin-top: 40px;
+
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .grid {
     list-style-type: none;
@@ -78,6 +82,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
     font-family: sans-serif;
+
+    border-radius: 0 16px 16px 0;
 }
 
 .cart h5,
