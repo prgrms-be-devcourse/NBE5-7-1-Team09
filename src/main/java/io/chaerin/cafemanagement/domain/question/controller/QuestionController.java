@@ -49,11 +49,11 @@ public class QuestionController {
             QuestionResponseDto responseDto = questionService.findQuestionByOrderId(orderId);
             model.addAttribute("responseDto", responseDto);
 
-            return "/order/question/detail";
+            return "/question/detail";
 
         } else {
             model.addAttribute("requestDto", new QuestionRequestDto());
-            return "/order/question/form";
+            return "/question/form";
         }
 
     }
