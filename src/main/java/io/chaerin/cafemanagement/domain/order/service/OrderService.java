@@ -61,10 +61,15 @@ public class OrderService {
         return new OrderResponseDto(savedOrder);
     }
 
-    public List<OrderResponseDto> getOrdersByEmail(String email) {
-        List<Order> orders = orderRepository.findByEmail(email);
+    public List<OrderResponseDto> getOrdersByEmail(HttpSession session) {
+        Object loginUser = session.getAttribute("loginUser");
+        if (loginUser == null) {
+            throw new IllegalStateException("로그인 후 이용해주세요.");
+        }
+        Long userId = ((User) loginUser).getUserId();
+        List<Order> orders = orderRepository.findByUserUserId(userId);
+
         List<OrderResponseDto> dtoList = new ArrayList<>();
-        // dto 를 바로 가져와서... => 고민좀 해보고.
         for (Order order : orders) {
             dtoList.add(new OrderResponseDto(order));
         }
