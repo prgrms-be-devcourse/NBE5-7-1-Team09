@@ -15,6 +15,5 @@ public class OrderUpdateRequestDto {
     private String email;
     private String address;
     private String postCode;
-
     private List<OrderItemUpdateRequestDto> orderItem = new ArrayList<>();
 }
