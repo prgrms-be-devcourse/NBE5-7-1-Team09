@@ -17,14 +17,12 @@ public class QuestionService {
     private final OrderRepository orderRepository;
     private final QuestionRepository questionRepository;
 
-    // 문의사항 작성
     @Transactional
     public Long saveQuestion(Long orderId, QuestionRequestDto requestDto) {
 
         if(!orderRepository.existsById(orderId)) {
             throw new IllegalArgumentException("해당하는 주문이 없습니다.");
         }
-
 
         if(!questionRepository.existsByOrderId(orderId)) {
             questionRepository.save(
@@ -40,13 +38,11 @@ public class QuestionService {
     }
 
     // todo : 로그인으로 바뀌면 바꿔야함
-    // 문의사항 삭제
     @Transactional
     public String deleteQuestion(Long questionId) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
 
-        // 삭제 후 조회페이지 반환을 위해.
         Order order = orderRepository.findById(question.getOrderId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
 
@@ -55,12 +51,10 @@ public class QuestionService {
         return order.getEmail();
     }
 
-    // 문의사항 내역이 있는지?
     public boolean existsQuestion(Long orderId) {
         return questionRepository.existsByOrderId(orderId);
     }
 
-    // 문의사항 조회
     public QuestionResponseDto findQuestionByOrderId(Long orderId){
         Question question = questionRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));

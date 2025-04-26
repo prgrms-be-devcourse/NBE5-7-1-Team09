@@ -18,7 +18,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
 
-    private Long orderId;   // Order의 내용을 사용 안할 것 같아, 연관관계 설정 안했습니다..!
+    private Long orderId;
 
     @Column(length = 100, nullable = false)
     private String title;
