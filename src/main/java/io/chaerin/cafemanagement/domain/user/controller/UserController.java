@@ -34,6 +34,11 @@ public class UserController {
         return "redirect:/login";
     }
 
+    @GetMapping("/join")
+    public String showJoinForm() {
+        return "join";  // templates/join.html을 띄워준다
+    }
+
     // 로그인 API
     @PostMapping("/login")
     public String login(@ModelAttribute UserLoginRequestDto loginRequest,
@@ -44,7 +49,7 @@ public class UserController {
 
         log.info("user.getUserId() = {}", user.getUserName());
 
-        return "redirect:/";
+        return "redirect:/products";
     }
 
     // 로그아웃 API
