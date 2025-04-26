@@ -43,7 +43,7 @@ public class OrderController {
         OrderResponseDto updatedOrder = orderService.updateOrder(id, request);
         model.addAttribute("order", updatedOrder);
         // 임의지정
-        return "order/result";
+        return "redirect:/orders";
     }
 
     @DeleteMapping("/{id}")

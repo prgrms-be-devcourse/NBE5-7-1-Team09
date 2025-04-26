@@ -83,7 +83,7 @@
 <!--                <button class="edit" id="edit">수정</button>-->
                 <form th:action="@{'/orders/' + ${order.orderId}}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
                     <input type="hidden" name="_method" value="delete" />
-                    <button class="delete" type="submit">주문 취소</button>
+                    <button class="delete" type="submit">취소</button>
                 </form>
 
             </div>
