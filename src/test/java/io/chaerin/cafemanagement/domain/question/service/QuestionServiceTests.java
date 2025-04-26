@@ -1,24 +1,16 @@
 package io.chaerin.cafemanagement.domain.question.service;
 
 
-import io.chaerin.cafemanagement.domain.order.dto.OrderCreateRequestDto;
-import io.chaerin.cafemanagement.domain.order.dto.OrderItemUpdateRequestDto;
-import io.chaerin.cafemanagement.domain.order.service.OrderService;
-import io.chaerin.cafemanagement.domain.product.entity.Product;
-import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionRequestDto;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionResponseDto;
 import io.chaerin.cafemanagement.domain.question.entity.Question;
 import io.chaerin.cafemanagement.domain.question.repository.QuestionRepository;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -31,11 +23,6 @@ class QuestionServiceTests {
     private QuestionService questionService;
     @Autowired
     private QuestionRepository questionRepository;
-
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private ProductRepository productRepository;
 
     @Test
     @Sql(statements = {
@@ -109,9 +96,6 @@ class QuestionServiceTests {
         assertThat(findQuestion1.getTitle()).isEqualTo("주문관련 문의드려요");
         assertThat(findQuestion1.getContent()).isEqualTo("언제오나요 배송");
 
-
-
-        // 실패 시
         assertThatThrownBy(
                 () -> {
                     questionService.findQuestionByOrderId(5L);
@@ -121,6 +105,15 @@ class QuestionServiceTests {
 
     }
 
+    @Test
+    @DisplayName("답변 저장 테스트")
+    void answer_save_test() throws Exception {
+
+
+        questionService.saveAnswer();
+
+
+    }
 
 
 

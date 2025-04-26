@@ -75,14 +75,14 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public List<AnsweredResponseDto> findAnsweredQuestion() {
+    public List<AnsweredResponseDto> findAllAnsweredQuestion() {
         return questionRepository.findAllAnsweredQuestions().stream()
                 .map(AnsweredResponseDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<UnansweredResponseDto> findUnansweredQuestion() {
+    public List<UnansweredResponseDto> findAllUnansweredQuestion() {
         return questionRepository.findAllUnansweredQuestions().stream()
                 .map(UnansweredResponseDto::fromEntity)
                 .collect(Collectors.toList());
