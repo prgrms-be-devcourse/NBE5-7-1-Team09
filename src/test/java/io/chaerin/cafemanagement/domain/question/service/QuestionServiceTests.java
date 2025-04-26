@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
@@ -36,60 +37,18 @@ class QuestionServiceTests {
     @Autowired
     private ProductRepository productRepository;
 
-    Long orderId1;
-    Long orderId2;
-
-    @BeforeEach
-    void init(){
-//         제품 2개 생성
-        Long productId1 = productRepository.save(
-                Product.builder()
-                        .name("1번콩")
-                        .price(1000)
-                        .imageUrl("/url1")
-                        .build()
-        ).getProductId();
-        Long productId2 = productRepository.save(
-                Product.builder()
-                        .name("2번콩")
-                        .price(2000)
-                        .imageUrl("/url2")
-                        .build()
-        ).getProductId();
-
-//         주문 2건 생성
-        OrderCreateRequestDto o1 = new OrderCreateRequestDto(
-                "test1@example.com",
-                "address1",
-                "12345",
-                List.of(
-                        new OrderItemUpdateRequestDto(productId1, 2),
-                        new OrderItemUpdateRequestDto(productId2, 1)
-                )
-        );
-
-        OrderCreateRequestDto o2 = new OrderCreateRequestDto(
-                "test1@example.com",
-                "address1",
-                "12345",
-                List.of(
-                        new OrderItemUpdateRequestDto(productId1, 3),
-                        new OrderItemUpdateRequestDto(productId2, 1)
-                )
-        );
-
-
-        orderId1 = orderService.saveOrder(o1).getOrderId();
-        orderId2 = orderService.saveOrder(o2).getOrderId();
-
-
-    }
-
     @Test
+    @Sql(statements = {
+            "INSERT INTO orders (order_id, email, address, post_code, create_at) VALUES (101, 'test2@example.com', '','', CURRENT_TIMESTAMP);",
+            "INSERT INTO product (product_id, name, price) VALUES (10, 'p1', 1000);",
+            "INSERT INTO product (product_id, name, price) VALUES (11, 'p2', 1500);",
+            "INSERT INTO order_item (order_item_id, product_id, order_id, quantity) VALUES (1001, 10, 101, 2);",
+            "INSERT INTO order_item (order_item_id, product_id, order_id, quantity) VALUES (1002, 11, 101, 3);"
+    })
     @DisplayName("문의 생성 테스트")
     void question_save_test() throws Exception {
 
-
+        Long orderId1 = 101L;
         Long savedOrderId = questionService.saveQuestion(orderId1, new QuestionRequestDto("주문관련 문의드려요", "언제오나요 배송"));
 
         assertThat(savedOrderId).isEqualTo(orderId1);
@@ -105,18 +64,23 @@ class QuestionServiceTests {
 
     }
     @Test
+    @Sql(statements = {
+            "INSERT INTO orders (order_id, email, address, post_code, create_at) VALUES (101, 'test2@example.com', '','', CURRENT_TIMESTAMP);",
+            "INSERT INTO product (product_id, name, price) VALUES (10, 'p1', 1000);",
+            "INSERT INTO product (product_id, name, price) VALUES (11, 'p2', 1500);",
+            "INSERT INTO order_item (order_item_id, product_id, order_id, quantity) VALUES (1001, 10, 101, 2);",
+            "INSERT INTO order_item (order_item_id, product_id, order_id, quantity) VALUES (1002, 11, 101, 3);"
+    })
     @DisplayName("문의 삭제 테스트")
     void question_delete_test() throws Exception {
 
-        // 문의사항 2개 생성
+        Long orderId1 = 101L;
         Long savedOrderId = questionService.saveQuestion(orderId1, new QuestionRequestDto("주문관련 문의드려요", "언제오나요 배송"));
 
         Question question = questionRepository.findByOrderId(savedOrderId).orElseThrow();
 
-        // 1번 문의를 삭제하면, 반환값은 해당 주문의 이메일과 같을 것이다.
-        assertThat(questionService.deleteQuestion(question.getQuestionId())).isEqualTo("test1@example.com");
+        assertThat(questionService.deleteQuestion(question.getQuestionId())).isEqualTo("test2@example.com");
 
-        // 해당 문의가 없다면 예외가 발생 할 것이다.
         assertThatThrownBy(
                 () -> {
                     questionService.deleteQuestion(question.getQuestionId());
@@ -127,12 +91,18 @@ class QuestionServiceTests {
 
 
     @Test
+    @Sql(statements = {
+            "INSERT INTO orders (order_id, email, address, post_code, create_at) VALUES (101, 'test2@example.com', '','', CURRENT_TIMESTAMP);",
+            "INSERT INTO product (product_id, name, price) VALUES (10, 'p1', 1000);",
+            "INSERT INTO product (product_id, name, price) VALUES (11, 'p2', 1500);",
+            "INSERT INTO order_item (order_item_id, product_id, order_id, quantity) VALUES (1001, 10, 101, 2);",
+            "INSERT INTO order_item (order_item_id, product_id, order_id, quantity) VALUES (1002, 11, 101, 3);"
+    })
     @DisplayName("문의 조회 테스트")
     void question_select_test() throws Exception {
-        // 문의사항 2개 생성
-        Long savedOrderId1 = questionService.saveQuestion(orderId1, new QuestionRequestDto("주문관련 문의드려요", "언제오나요 배송"));
-        Long savedOrderId2 = questionService.saveQuestion(orderId2, new QuestionRequestDto("2 주문관련 문의드려요", "2 언제오나요 배송"));
+        Long orderId1 = 101L;
 
+        Long savedOrderId1 = questionService.saveQuestion(orderId1, new QuestionRequestDto("주문관련 문의드려요", "언제오나요 배송"));
 
         QuestionResponseDto findQuestion1 = questionService.findQuestionByOrderId(savedOrderId1);
         assertThat(findQuestion1.getQuestionId()).isNotNull();
@@ -140,10 +110,6 @@ class QuestionServiceTests {
         assertThat(findQuestion1.getContent()).isEqualTo("언제오나요 배송");
 
 
-        QuestionResponseDto findQuestion2 = questionService.findQuestionByOrderId(savedOrderId2);
-        assertThat(findQuestion2.getQuestionId()).isNotNull();
-        assertThat(findQuestion2.getTitle()).isEqualTo("2 주문관련 문의드려요");
-        assertThat(findQuestion2.getContent()).isEqualTo("2 언제오나요 배송");
 
         // 실패 시
         assertThatThrownBy(

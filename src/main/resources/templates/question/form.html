@@ -248,8 +248,8 @@
             <div class="item">
                 <span th:text="*{productName}">로우키 블랜드 500g</span>
                 <span class="item-right">
-                <span class="quantity" th:text="|*{quantity}개|">2개</span>
-                <span class="price">10,000원</span>
+                    <span class="quantity" th:text="|*{quantity}개|">2개</span>
+                    <span class="price" th:text="${#numbers.formatInteger(item.price * item.quantity, 1, 'COMMA')} + '원'">10,000원</span>
                 </span>
             </div>
         </div>
@@ -274,7 +274,7 @@
 <!--                <button class="edit">수정</button>-->
 <!--                <button class="delete">삭제</button>-->
             </div>
-            <div class="total-price">총 금액: 27,000원</div>
+            <div class="total-price" th:text="'총 금액: ' + ${#numbers.formatInteger(#aggregates.sum(order.orderItemList.![price * quantity]), 1, 'COMMA')} + '원'">총 금액: 27,000원</div>
         </div>
     </div>
 </main>
