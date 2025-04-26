@@ -62,4 +62,9 @@ public class Order {
         this.orderItemList.add(orderItem);
     }
 
+    public Integer calculateTotalPrice() {
+        return orderItemList.stream()
+                .mapToInt(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+    }
 }
