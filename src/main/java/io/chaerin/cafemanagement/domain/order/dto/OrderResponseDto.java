@@ -36,7 +36,9 @@ public class OrderResponseDto {
         for (OrderItem item : order.getOrderItemList()) {
             Long productId = item.getProduct().getProductId();
             String productName = item.getProduct().getName();
-            items.add(new OrderItemResponseDto(productId, productName, item.getQuantity()));
+            Integer quantity = item.getQuantity();
+            Integer price = item.getProduct().getPrice();
+            items.add(new OrderItemResponseDto(productId, productName, quantity, price));
         }
 
         this.orderItemList = items;
