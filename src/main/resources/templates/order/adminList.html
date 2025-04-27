@@ -131,22 +131,11 @@
               <div class="buttons">
                 <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
                 <button type="submit" class="save" style="display:none">수정 완료</button>
+                <button type="button" class="delete" th:onclick="|cancelOrder(${order.orderId})|">취소</button>
               </div>
+              <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
             </div>
           </form>
-
-          <!-- ================= 삭제(DELETE) 전용 폼 ================= -->
-          <div class="botton-section" style="margin-top:8px;">
-            <div class="buttons">
-              <form th:action="@{'/orders/admin/' + ${order.orderId}}" method="post"
-                    onsubmit="return confirm('정말 주문을 취소하시겠습니까?');">
-                <input type="hidden" name="_method" value="DELETE"/>
-                <button type="submit" class="delete">취소</button>
-              </form>
-            </div>
-          </div>
-
-          <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
         </div>
       </li>
     </ul>
@@ -165,15 +154,6 @@
     </div>
   </div>
 </main>
-
-<script>
-  function enableEditMode(btn) {
-    const form = btn.closest('form');
-    form.querySelectorAll('.view-field').forEach(el => el.style.display = 'none');
-    form.querySelectorAll('.edit-field').forEach(el => el.style.display = 'inline-block');
-    btn.style.display = 'none';
-    form.querySelector('.save').style.display = 'inline-block';
-  }
-</script>
+<script src="/js/adminOrder.js"></script>
 </body>
 </html>
