@@ -35,7 +35,7 @@ class OrderServiceTest {
     })
     @Test
     void 이메일로_주문목록_조회(){
-        List<OrderResponseDto> results = orderService.getOrdersByEmail("test@example.com");
+        List<OrderResponseDto> results = orderService.getOrdersById("test@example.com");
 
         assertThat(results).hasSize(1);
 
@@ -58,7 +58,7 @@ class OrderServiceTest {
     })
     @Test
     void 이메일로_주문목록에_여러_아이템_조회() {
-        OrderResponseDto dto = orderService.getOrdersByEmail("test2@example.com").get(0);
+        OrderResponseDto dto = orderService.getOrdersById("test2@example.com").get(0);
         assertThat(dto.getOrderItemList()).hasSize(2);
         assertThat(dto.getOrderItemList())
                 .extracting("productName", "quantity")
