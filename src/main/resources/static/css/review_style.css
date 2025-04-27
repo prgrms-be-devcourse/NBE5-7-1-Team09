@@ -13,10 +13,10 @@ body {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
+    align-content: space-evenly;
 }
 
 .buttons form button {
-    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -27,8 +27,15 @@ body {
     margin-top: 20px;
 }
 
-.buttons form button:hover {
+
+.buttons .create {
+    background-color: #4CAF50;
+}
+.buttons create:hover {
     background-color: #45a049;
+}
+.buttons .back {
+    background-color: #4a4a4a;
 }
 
 /* 리뷰 리스트 전체 */
@@ -62,12 +69,22 @@ body {
     font-size: 16px;
 }
 
+.review-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-username {
+    font-weight: bold;
+    color: #333;
+}
+
 .review-date {
-    color: #222222;
+    color: #555;
 }
 
 .review-content {
-    font-size: larger;
+    font-size: 16px;
 }
 
 /* 삭제 버튼 */

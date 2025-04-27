@@ -9,9 +9,9 @@
 
 
   <div class="buttons">
-<!--    <form th:action="@{'/products'}" method="get">-->
-<!--      <button type="submit" >나가기</button>-->
-<!--    </form>-->
+    <form th:action="@{'/products'}" method="get">
+      <button type="submit" class="back" >상품으로 돌아가기</button>
+    </form>
     <form th:action="@{'/products/' + ${productId} + '/reviews/form'}" method="get">
       <button type="submit" class="create">리뷰 작성</button>
     </form>
@@ -21,7 +21,10 @@
   <div class="review-list">
     <ul>
       <li th:each="review: ${reviews}">
-        <div th:text="${#temporals.format(review.createdAt,'yyyy-MM-dd HH:mm')}" class="review-date">날짜</div>
+        <div class="review-detail">
+          <span th:text="${review.username}" class="review-username"></span>
+          <span th:text="${#temporals.format(review.createdAt,'yyyy-MM-dd HH:mm')}" class="review-date">날짜</span>
+        </div>
         <div th:text="${review.content}" class="review-content">내용</div>
 
         <form th:if="${review.getUserId()} == ${currentUserId}"
