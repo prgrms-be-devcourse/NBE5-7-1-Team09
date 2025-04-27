@@ -4,6 +4,7 @@ import io.chaerin.cafemanagement.domain.order.service.OrderService;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionRequestDto;
 import io.chaerin.cafemanagement.domain.question.dto.QuestionResponseDto;
 import io.chaerin.cafemanagement.domain.question.service.QuestionService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,25 +21,25 @@ public class QuestionController {
 
 
     @PostMapping("/{orderId}/question")
-    public String saveQuestion(@PathVariable Long orderId, @Valid @ModelAttribute QuestionRequestDto requestDto) {
-
+    public String saveQuestion(@PathVariable Long orderId, @Valid @ModelAttribute QuestionRequestDto requestDto, HttpSession session) {
+        questionService.checkLogin(session);
         Long id = questionService.saveQuestion(orderId, requestDto);
 
         return "redirect:/order/" + id + "/question";
 
     }
 
-    // todo : 로그인으로 바뀌면 바꿔야함
     @DeleteMapping("/{questionId}/question")
-    public String deleteQuestion(@PathVariable Long questionId) {
+    public String deleteQuestion(@PathVariable Long questionId, HttpSession session) {
+        questionService.checkLogin(session);
+        questionService.deleteQuestion(questionId);
 
-        String email = questionService.deleteQuestion(questionId);
-
-        return "redirect:/orders?email=" + email;
+        return "redirect:/orders";
     }
 
     @GetMapping("/{orderId}/question")
-    public String showQuestion(@PathVariable Long orderId, Model model) {
+    public String showQuestion(@PathVariable Long orderId, Model model, HttpSession session) {
+        questionService.checkLogin(session);
 
         model.addAttribute("order", orderService.getOrderById(orderId));
 

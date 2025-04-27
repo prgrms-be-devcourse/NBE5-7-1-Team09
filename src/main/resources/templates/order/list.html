@@ -55,10 +55,13 @@
                             <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif" alt="상품 이미지"/>
                             <div class="top-section-order">
                                 <div class="date" th:text="${#temporals.format(order.createdAt,'yyyy-MM-dd HH:mm')}"></div>
-                                <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
+
+                                    <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
                             </div>
                         </div>
-                        <div class="status" th:text="${order.status}"></div>
+                        <a th:href="@{'/order/'+${order.orderId}+'/question'}" style="text-decoration: none;">
+                            <div class="status" th:text="${order.status}"></div>
+                        </a>
                     </div>
                     <hr/>
 
