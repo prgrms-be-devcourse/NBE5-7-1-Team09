@@ -58,7 +58,7 @@
                                 <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
                             </div>
                         </div>
-                        <div class="status">배송중</div>
+                        <div class="status" th:text="${order.status}"></div>
                     </div>
                     <hr/>
 
