@@ -160,7 +160,7 @@
 
 
         .question-form {
-            margin-bottom: 30px;
+            /*margin-bottom: 30px;*/
         }
 
         .question-form textarea {
@@ -194,8 +194,19 @@
             cursor: pointer;
             float: right;
         }
-
         .question-form button:hover {
+            background-color: #555;
+        }
+
+        .question-form1 button {
+            padding: 8px 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .question-form1 button:hover {
             background-color: #555;
         }
 
@@ -293,8 +304,15 @@
 
         <input type="text" placeholder=" 문의하실 제목을 입력해주세요." th:field="*{title}">
         <textarea placeholder="문의하실 내용을 입력해주세요." th:field="*{content}"></textarea>
+
         <button>문의하기</button>
     </form>
+
+    <form class="question-form1" th:action="@{/orders}" method="get">
+        <input type="hidden" name="email" th:value="${order.email}" />
+        <button>뒤로가기</button>
+    </form>
+
 </div>
 
 

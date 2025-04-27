@@ -17,7 +17,7 @@ public class ReviewResponseDto {
                 .reviewId(review.getReviewId())
                 .content(review.getContent())
                 .productId(review.getProduct().getProductId())
-                .userId(review.getUser().getId())
+                .userId(review.getUser().getUserId())
                 .build();
     }
 

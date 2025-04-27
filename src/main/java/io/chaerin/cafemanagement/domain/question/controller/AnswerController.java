@@ -20,17 +20,17 @@ public class AnswerController {
     private final QuestionService questionService;
 
     @PostMapping("/{questionId}")
-    public String saveAnswer(@PathVariable Long questionId, @Valid @ModelAttribute AnswerRequestDto requestDto) {
+    public String saveAnswer(@PathVariable Long questionId, @ModelAttribute AnswerRequestDto requestDto) {
         questionService.saveAnswer(questionId, requestDto);
 
-        return "redirect:/question/unanswered";
+        return "redirect:/admin/question/unanswered";
     }
 
     @PutMapping("/{questionId}")
-    public String updateAnswer(@PathVariable Long questionId, @Valid @ModelAttribute AnswerRequestDto requestDto) {
+    public String updateAnswer(@PathVariable Long questionId, @ModelAttribute AnswerRequestDto requestDto) {
         questionService.saveAnswer(questionId, requestDto);
 
-        return "redirect:/question/answered";
+        return "redirect:/admin/question/answered";
     }
 
     @GetMapping("/unanswered")
@@ -49,6 +49,8 @@ public class AnswerController {
 
         List<AnsweredResponseDto> responseDto = questionService.findAllAnsweredQuestion();
         model.addAttribute("responseDto", responseDto);
+
+        model.addAttribute("requestDto", new AnswerRequestDto());
 
         return "/question/answered";
     }

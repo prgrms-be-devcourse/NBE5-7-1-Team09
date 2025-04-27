@@ -186,7 +186,7 @@
             border-radius: 6px;
             cursor: pointer;
             float: right;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         #redBtn{
             background-color: #881616;
@@ -203,7 +203,7 @@
         .question-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 0;
         }
 
 
@@ -214,21 +214,27 @@
 
         .question-content {
             background-color: white;
-            padding: 12px;
+            padding: 20px;
             border-radius: 8px;
-            margin-top: -10px;
+            margin-top: 0;
             margin-bottom: 20px;
 
         }
 
         .question-answer {
             background-color: #f0f0f0;
-            padding: 12px;
+            padding: 20px;
             border-radius: 8px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .question-answer-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+            color: #555;
+        }
+        .question-answer div{
             font-weight: bold;
             margin-top: 5px;
             margin-bottom: 5px;
@@ -330,21 +336,22 @@
             배송이 예정보다 늦어지고 있는데 언제쯤 받을 수 있을까요?
         </div>
         <hr>
+        <div class="question-answer-title">답변</div>
         <div class="question-answer">
-            <div class="question-answer-title">아직 답변이 등록되지 않았습니다. 빠른 시일 내에 답변드리겠습니다.</div>
+            <div>아직 답변이 등록되지 않았습니다. 빠른 시일 내에 답변드리겠습니다.</div>
 <!--            <div class="question-answer-title">답변</div>-->
 <!--            <div id="answer">안녕하세요. 현재 해당 지역 물류센터에서 지연이 발생하고 있습니다. 내일 오전 중으로 배송될 예정입니다. 불편을 드려 죄송합니다.</div>-->
         </div>
     </div>
 
     <div class="question-form question-info">
-        <form th:action="@{'/order/'+ *{questionId} + '/question'}" method="post">
-            <input type="hidden" name="_method" value="delete">
-            <button id="redBtn">삭제</button>
-        </form>
         <form th:action="@{/orders}" method="get">
             <input type="hidden" name="email" th:value="${order.email}" />
             <button>뒤로가기</button>
+        </form>
+        <form th:action="@{'/order/'+ *{questionId} + '/question'}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <button id="redBtn">삭제</button>
         </form>
     </div>
 </div>

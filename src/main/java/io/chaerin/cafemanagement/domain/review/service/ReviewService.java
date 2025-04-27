@@ -65,7 +65,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 리뷰가 없습니다."));
 
-        if (!Objects.equals(review.getUser().getId(), userId)) {
+        if (!Objects.equals(review.getUser().getUserId(), userId)) {
             throw new IllegalAccessException("본인이 작성한 리뷰만 삭제할 수 있습니다.");
         }
 

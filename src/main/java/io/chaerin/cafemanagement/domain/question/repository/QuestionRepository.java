@@ -13,7 +13,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     Optional<Question> findByOrderId(Long orderId);
     boolean existsByOrderId(Long orderId);
 
-    @Query("select q from Question q where q.answer is not null")
+    @Query("select q from Question q where q.answer is not null order by q.questionId desc")
     List<Question> findAllAnsweredQuestions();
 
     @Query("select q from Question q where q.answer is null")
