@@ -1,19 +1,53 @@
 body {
     background-color: #D9D9D9;
+    font-family: 'Noto Sans KR', sans-serif;
     margin: 0;
+}
+
+/* -------- 헤더 -------- */
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    padding: 16px 24px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 36px;
+}
+
+.order-button button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.order-button img {
+    width: 28px;
+    height: 28px;
+    filter: grayscale(100%);
+}
+
+/* --------------------------- */
+
+main {
     display: flex;
     justify-content: center;
-    align-items: start;
-    height: 100vh;
 }
 
 .content {
     height: 600px;
     width: 1000px;
     background-color: #FFFFFF;
-    transform: translateY(50px);
     display: flex;
-    margin-top: 40px;
+    margin-top: 15px;
 
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -56,6 +90,11 @@ body {
     flex: 1;
 }
 
+.product-name {
+    font-weight: 500;
+    font-size: large;
+}
+
 .product-bottom-right {
     width: 50px;
     display: flex;
@@ -90,6 +129,9 @@ body {
 .cart h6 {
     margin: 0;
 }
+.col {
+    display: flex;
+}
 
 .cart .row {
     display: flex;
@@ -110,15 +152,16 @@ body {
 }
 
 .badge {
-    padding: 5px 5px;
+    padding: 5px 8px;
     background-color: #333;
     color: white;
     border-radius: 5px;
     font-size: 14px;
+    margin: 5px;
 }
 
 .form-control {
-    width: 100%;
+    width: 90%;
     padding: 8px;
     margin-bottom: 10px;
     font-size: 14px;
@@ -157,6 +200,7 @@ body {
     border-radius: 6px;
     cursor: pointer;
     margin-left: 6px;
+    margin-top: 10px;
 }
 
 .buttons .review {
