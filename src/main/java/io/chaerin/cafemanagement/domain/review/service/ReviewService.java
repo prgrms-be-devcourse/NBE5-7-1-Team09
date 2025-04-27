@@ -25,7 +25,6 @@ public class ReviewService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    // 후기 작성
     @Transactional
     public ReviewResponseDto save(ReviewCreateRequestDto requestDto, Long productId, Long userId) {
 
@@ -49,7 +48,6 @@ public class ReviewService {
 
     }
 
-    // 후기 조회
     @Transactional
     public List<ReviewResponseDto> getReviewList(Long productId) {
         List<Review> reviewList = reviewRepository.findByProduct_ProductIdOrderByCreatedAt(productId);
@@ -59,7 +57,6 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    // 후기 삭제
     @Transactional
     public void deleteReview(Long reviewId, Long userId) throws IllegalAccessException {
         Review review = reviewRepository.findById(reviewId)

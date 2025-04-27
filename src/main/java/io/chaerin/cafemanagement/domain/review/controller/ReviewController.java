@@ -3,6 +3,8 @@ package io.chaerin.cafemanagement.domain.review.controller;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewCreateRequestDto;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewResponseDto;
 import io.chaerin.cafemanagement.domain.review.service.ReviewService;
+import io.chaerin.cafemanagement.domain.user.entity.User;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,18 +25,20 @@ public class ReviewController {
             @PathVariable Long productId,
             @Valid @ModelAttribute ReviewCreateRequestDto requestDto,
             BindingResult bindingResult,
-            Model model
+            Model model,
+            HttpSession session
     ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", bindingResult);
 
-            // 유효성 검증 실패 시 반환될 테스트용 페이지
-            // html 추가 시, 리뷰 작성 페이지로 변경 예정
             return "review/form";
         }
 
-        //TODO: 추후 유저 정보 받아오도록 변경 예정
-        Long userId = 1L;
+        Object loginUser = session.getAttribute("loginUser");
+        if (loginUser == null) {
+            throw new IllegalStateException("로그인 후 이용해주세요.");
+        }
+        Long userId = ((User) loginUser).getUserId();
 
         reviewService.save(requestDto, productId, userId);
 
@@ -56,12 +60,16 @@ public class ReviewController {
     @GetMapping
     public String getReviewList(
             @PathVariable Long productId,
-            Model model
+            Model model,
+            HttpSession session
     ) {
         List<ReviewResponseDto> reviewList = reviewService.getReviewList(productId);
 
-        //TODO: 추후 유저 정보 받아오도록 변경 예정
-        Long currentUserId = 1L;
+        Object loginUser = session.getAttribute("loginUser");
+        if (loginUser == null) {
+            throw new IllegalStateException("로그인 후 이용해주세요.");
+        }
+        Long currentUserId = ((User) loginUser).getUserId();
 
         model.addAttribute("productId", productId);
         model.addAttribute("currentUserId", currentUserId);
@@ -73,11 +81,15 @@ public class ReviewController {
     @DeleteMapping("/delete/{reviewId}")
     public String deleteReview(
             @PathVariable Long reviewId,
-            @PathVariable Long productId
+            @PathVariable Long productId,
+            HttpSession session
     ) throws IllegalAccessException {
 
-        //TODO: 추후 유저 정보 받아오도록 변경 예정
-        Long userId = 1L;
+        Object loginUser = session.getAttribute("loginUser");
+        if (loginUser == null) {
+            throw new IllegalStateException("로그인 후 이용해주세요.");
+        }
+        Long userId = ((User) loginUser).getUserId();
 
         reviewService.deleteReview(reviewId, userId);
 
