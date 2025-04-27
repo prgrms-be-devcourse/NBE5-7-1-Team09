@@ -38,11 +38,7 @@ public class UserController {
     @PostMapping("/login")
     public String login(@ModelAttribute UserLoginRequestDto loginRequest,
                         HttpSession session) {
-        User user = userService.login(loginRequest.getUserName(), loginRequest.getPassword());
-
-        session.setAttribute("loginUser", user); // 세션 저장
-
-        log.info("user.getUserId() = {}", user.getUserName());
+        userService.login(loginRequest.getUserName(), loginRequest.getPassword(), session);
 
         return "redirect:/";
     }
