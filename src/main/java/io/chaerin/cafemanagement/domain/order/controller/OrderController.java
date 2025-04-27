@@ -49,7 +49,7 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public String deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
-        // 임의지정
-        return "redirect:/orders";
+
+        return "redirect:/products";
     }
 }

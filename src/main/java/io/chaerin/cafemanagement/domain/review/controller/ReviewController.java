@@ -32,10 +32,26 @@ public class ReviewController {
             // html 추가 시, 리뷰 작성 페이지로 변경 예정
             return "review/form";
         }
-        reviewService.save(requestDto, productId);
 
-        return "redirect:/products/" + productId;
+        //TODO: 추후 유저 정보 받아오도록 변경 예정
+        Long userId = 1L;
+
+        reviewService.save(requestDto, productId, userId);
+
+        return "redirect:/products/" + productId + "/reviews";
     }
+
+    @GetMapping("/form")
+    public String showReviewForm(
+            @PathVariable Long productId,
+            Model model
+    ) {
+        model.addAttribute("productId", productId);
+        model.addAttribute("reviewCreateRequestDto", new ReviewCreateRequestDto());
+
+        return "review/form";
+    }
+
 
     @GetMapping
     public String getReviewList(
@@ -44,18 +60,27 @@ public class ReviewController {
     ) {
         List<ReviewResponseDto> reviewList = reviewService.getReviewList(productId);
 
+        //TODO: 추후 유저 정보 받아오도록 변경 예정
+        Long currentUserId = 1L;
+
+        model.addAttribute("productId", productId);
+        model.addAttribute("currentUserId", currentUserId);
         model.addAttribute("reviews", reviewList);
 
-        return "product/reviewList";
+        return "review/list";
     }
 
     @DeleteMapping("/delete/{reviewId}")
     public String deleteReview(
             @PathVariable Long reviewId,
             @PathVariable Long productId
-    ) {
-        reviewService.deleteReview(reviewId);
+    ) throws IllegalAccessException {
 
-        return "redirect:/products/" + productId;
+        //TODO: 추후 유저 정보 받아오도록 변경 예정
+        Long userId = 1L;
+
+        reviewService.deleteReview(reviewId, userId);
+
+        return "redirect:/products/" + productId + "/reviews";
     }
 }

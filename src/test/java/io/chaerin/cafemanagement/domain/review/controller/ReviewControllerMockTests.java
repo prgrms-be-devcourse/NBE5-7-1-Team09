@@ -41,15 +41,16 @@ class ReviewControllerMockTests {
     void create_review_test() throws Exception {
         // given
         Long productId = 1L;
+        Long userId = 1L;
         ReviewCreateRequestDto requestDto = new ReviewCreateRequestDto();
         requestDto.setContent("좋은커피");
 
         // doNothing은 void 메소드에만 사용 가능
 //        doNothing().when(reviewService).save(requestDto, productId);
 
-        ReviewResponseDto responseDto = new ReviewResponseDto(1L, requestDto.getContent(), productId);
+        ReviewResponseDto responseDto = new ReviewResponseDto(1L, requestDto.getContent(), productId, userId);
 
-        doReturn(responseDto).when(reviewService).save(requestDto, productId);
+        doReturn(responseDto).when(reviewService).save(requestDto, productId, userId);
 
         // when & then
         mockMvc.perform(MockMvcRequestBuilders.post("/products/{productId}/reviews", productId)
@@ -82,9 +83,11 @@ class ReviewControllerMockTests {
     void read_reviews_test() throws Exception {
         // given
         Long productId = 1L;
+        Long userId = 1L;
+
         List<ReviewResponseDto> reviewList = List.of(
-                new ReviewResponseDto(1L, "짱맛있다", productId),
-                new ReviewResponseDto(2L, "짱맛없다", productId)
+                new ReviewResponseDto(1L, "짱맛있다", productId, userId),
+                new ReviewResponseDto(2L, "짱맛없다", productId,userId)
         );
 
         // doReturn().when(): 이 값을 리턴하라 (Mockito)
