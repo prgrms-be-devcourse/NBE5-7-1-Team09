@@ -28,8 +28,8 @@ public class OrderController {
     }
 
     @GetMapping
-    public String getOrdersByEmail(@RequestParam String email, Model model) {
-        List<OrderResponseDto> orders = orderService.getOrdersByEmail(email);
+    public String getOrdersByEmail(HttpSession session, Model model) {
+        List<OrderResponseDto> orders = orderService.getOrdersByEmail(session);
         if (orders.isEmpty()) {
             return "redirect:/";
         }
@@ -43,13 +43,13 @@ public class OrderController {
         OrderResponseDto updatedOrder = orderService.updateOrder(id, request);
         model.addAttribute("order", updatedOrder);
         // 임의지정
-        return "order/result";
+        return "redirect:/orders";
     }
 
     @DeleteMapping("/{id}")
     public String deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
 
-        return "redirect:/products";
+        return "redirect:/orders";
     }
 }
