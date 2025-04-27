@@ -110,10 +110,11 @@
                         <div class="buttons">
                             <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
                             <button type="submit" class="save" style="display:none">수정 완료</button>
-                            <form th:action="@{'/orders/' + ${order.orderId}}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                            <form th:action="@{'/orders/' + ${order.orderId}}" method="post" onsubmit="return confirmDelete(this);">
                                 <input type="hidden" name="_method" value="delete"/>
                                 <button type="submit" class="delete">취소</button>
                             </form>
+
                         </div>
                         <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
                     </div>
@@ -126,10 +127,29 @@
 <script>
     function enableEditMode(btn){
         const form=btn.closest('form');
+        const status = form.querySelector('.status').innerText.trim();
+
+        if (status === '배송중') {
+            alert('배송중인 주문은 수정할 수 없습니다.');
+            return;
+        }
+
         form.querySelectorAll('.view-field').forEach(el=>el.style.display='none');
         form.querySelectorAll('.edit-field').forEach(el=>el.style.display='inline-block');
         btn.style.display='none';
         form.querySelector('.save').style.display='inline-block';
+    }
+
+    function confirmDelete(btn){
+        const form = btn.closest('form').closest('form');
+        const status = form.querySelector('.status').innerText.trim();
+
+        if (status === '배송중') {
+            alert('배송중인 상품은 삭제할 수 없습니다.');
+            return false;
+        }
+
+        return confirm('정말 삭제하시겠습니까?');
     }
 </script>
 
