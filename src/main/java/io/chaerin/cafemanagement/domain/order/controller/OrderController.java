@@ -32,7 +32,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public String getOrdersByEmail(HttpSession session, Model model) {
+    public String getOrdersById(HttpSession session, Model model) {
         List<OrderResponseDto> orders = orderService.getOrdersById(session);
         if (orders.isEmpty()) {
             return "redirect:/";
