@@ -6,17 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionRequestDto {
+public class AnswerRequestDto {
 
-    @NotBlank(message = "제목과 내용을 입력해주세요.")
-    private String title;
-
-    @NotBlank(message = "제목과 내용을 입력해주세요.")
-    private String content;
-
+    @NotBlank(message = "답변 내용을 입력해주세요.")
+    private String answer;
 
 }

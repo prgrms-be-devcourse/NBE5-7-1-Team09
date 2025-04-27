@@ -18,7 +18,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
 
-    private Long orderId;   // Order의 내용을 사용 안할 것 같아, 연관관계 설정 안했습니다..!
+    private Long orderId;
 
     @Column(length = 100, nullable = false)
     private String title;
@@ -26,7 +26,11 @@ public class Question {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Column(columnDefinition = "TEXT")
+    private String answer;
+
     private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime answerCreatedAt;
 
     @Builder
     public Question(Long orderId, String title, String content) {
@@ -34,4 +38,11 @@ public class Question {
         this.title = title;
         this.content = content;
     }
+
+    public void writeAnswer(String answer) {
+        this.answer = answer;
+        this.answerCreatedAt = LocalDateTime.now();
+    }
+
+
 }
