@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +49,7 @@ class ReviewControllerMockTests {
         // doNothing은 void 메소드에만 사용 가능
 //        doNothing().when(reviewService).save(requestDto, productId);
 
-        ReviewResponseDto responseDto = new ReviewResponseDto(1L, requestDto.getContent(), productId, userId);
+        ReviewResponseDto responseDto = new ReviewResponseDto(1L, requestDto.getContent(), LocalDateTime.now(), productId, userId);
 
         doReturn(responseDto).when(reviewService).save(requestDto, productId, userId);
 
@@ -86,8 +87,8 @@ class ReviewControllerMockTests {
         Long userId = 1L;
 
         List<ReviewResponseDto> reviewList = List.of(
-                new ReviewResponseDto(1L, "짱맛있다", productId, userId),
-                new ReviewResponseDto(2L, "짱맛없다", productId,userId)
+                new ReviewResponseDto(1L, "짱맛있다", LocalDateTime.now(), productId, userId),
+                new ReviewResponseDto(2L, "짱맛없다", LocalDateTime.now(), productId,userId)
         );
 
         // doReturn().when(): 이 값을 리턴하라 (Mockito)
