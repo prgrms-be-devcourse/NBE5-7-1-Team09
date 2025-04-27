@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/join_style.css" />
@@ -8,12 +8,12 @@
 
 <body>
 <div class="join-content">
-  <form class="join-form" action="/join" method="post">
+  <form class="join-form" th:action="@{/join}" method="post">
     <div class="join-title">회원가입</div>
     <br>
     <div>
-      <label for="userId">아이디</label>
-      <input class="join-control" type="text" name="userId" id="userId" required>
+      <label for="userName">아이디</label>
+      <input class="join-control" type="text" name="userName" id="userName" required>
     </div>
     <div>
       <label for="password">비밀번호</label>
