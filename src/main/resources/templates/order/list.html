@@ -110,10 +110,7 @@
                         <div class="buttons">
                             <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
                             <button type="submit" class="save" style="display:none">수정 완료</button>
-                            <form th:action="@{'/orders/' + ${order.orderId}}" method="post" onsubmit="return confirmDelete(this);">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <button type="submit" class="delete">취소</button>
-                            </form>
+                            <button type="button" class="delete" onclick="deleteOrder(this)">취소</button>
 
                         </div>
                         <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
@@ -140,18 +137,35 @@
         form.querySelector('.save').style.display='inline-block';
     }
 
-    function confirmDelete(btn){
-        const form = btn.closest('form').closest('form');
+    function deleteOrder(button) {
+        const form = button.closest('form');
+        const orderId = form.getAttribute('data-order-id');
+
         const status = form.querySelector('.status').innerText.trim();
 
         if (status === '배송중') {
-            alert('배송중인 상품은 삭제할 수 없습니다.');
-            return false;
+            alert('배송중인 상품은 취소할 수 없습니다.');
+            return;
         }
 
-        return confirm('정말 삭제하시겠습니까?');
+
+        if(confirm('정말 취소하시겠습니까?')) {
+            const deleteForm = document.createElement('form');
+            deleteForm.method = 'post';
+            deleteForm.action = `/orders/${orderId}`;
+
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = '_method';
+            hiddenInput.value = 'delete';
+
+            deleteForm.appendChild(hiddenInput);
+            document.body.appendChild(deleteForm);
+            deleteForm.submit();
+        }
     }
 </script>
 
 </body>
 </html>
+
