@@ -84,6 +84,14 @@ public class OrderService {
         return new OrderResponseDto(order);
     }
 
+    public List<OrderResponseDto> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        List<OrderResponseDto> dtoList = new ArrayList<>();
+        for (Order order : orders) {
+            dtoList.add(new OrderResponseDto(order));
+        }
+        return dtoList;
+    }
     public OrderResponseDto updateOrder(Long orderId, OrderUpdateRequestDto request) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("주문 없음"));
         order.fixAddress(request.getAddress(), request.getPostCode());
