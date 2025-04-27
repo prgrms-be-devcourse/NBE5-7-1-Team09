@@ -91,6 +91,7 @@ main {
 }
 
 .product-name {
+    margin-top: 10px;
     font-weight: 500;
     font-size: large;
 }
