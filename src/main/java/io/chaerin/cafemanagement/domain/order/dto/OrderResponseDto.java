@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,4 +46,20 @@ public class OrderResponseDto {
         this.totalPrice = order.calculateTotalPrice ();
 
     }
+
+    public String getStatus() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime orderCutoff = createdAt.toLocalDate().atTime(14, 0);
+
+        // 주문이 당일 14시 이전이면, 같은 날 14시에 배송 시작
+        if (createdAt.isBefore(orderCutoff)) {
+            orderCutoff = createdAt.toLocalDate().atTime(14, 0);
+        } else {
+            // 주문이 당일 14시 이후면, 다음날 14시에 배송 시작
+            orderCutoff = createdAt.toLocalDate().plusDays(1).atTime(14, 0);
+        }
+
+        return now.isAfter(orderCutoff) ? "배송중" : "배송 준비중";
+    }
+
 }
