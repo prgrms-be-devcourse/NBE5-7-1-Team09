@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>리뷰 작성</title>
+    <link rel="stylesheet" href="/css/review_style.css">
 </head>
 <body>
+<div class="form-container">
+    <form th:action="@{'/products/' + ${productId} + '/reviews'}" method="post" th:object="${reviewCreateRequestDto}">
 
-<form th:action="@{'/products/' + ${productId} + '/reviews'}" method="post" th:object="${reviewCreateRequestDto}">
-
-  <label>내용: </label>
-  <textarea th:field="*{content}"></textarea>
-  <br />
-  <button type="submit">등록</button>
-</form>
-
+      <label>내용: </label>
+      <textarea class="form-input" th:field="*{content}"></textarea>
+      <br />
+      <button class="save" type="submit">등록</button>
+    </form>
+</div>
 </body>
 </html>

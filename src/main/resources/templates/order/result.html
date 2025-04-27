@@ -15,12 +15,13 @@
             <img
                     src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
                     alt="로고"
+                    onclick="location.href='/products'"
             />
         </div>
 
         <!-- 우측 아이콘 버튼 -->
         <div class="order-button">
-            <button onclick="location.href=''">
+            <button onclick="location.href='/orders'">
                 <img
                         src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
                         alt="주문 목록"
@@ -56,7 +57,7 @@
                         <span th:text="${item.productName}"></span>
                         <span class="item-right">
                             <span class="quantity">[[${item.quantity}]]개</span>
-
+                            <span class="price">[[${item.price}]]원</span>
                         </span>
                     </div>
                 </li>
@@ -79,14 +80,14 @@
         <!-- 하단 버튼 + 총 금액 -->
         <div class="botton-section">
             <div class="buttons">
-                <button class="edit" id="edit">수정</button>
+<!--                <button class="edit" id="edit">수정</button>-->
                 <form th:action="@{'/orders/' + ${order.orderId}}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
                     <input type="hidden" name="_method" value="delete" />
-                    <button class="delete" type="submit">삭제</button>
+                    <button class="delete" type="submit">취소</button>
                 </form>
 
             </div>
-            <div class="total-price" id="total-price">총 금액: 27,000원</div>
+            <div class="total-price">[[${order.totalPrice}]]원</div>
         </div>
     </div>
 

@@ -1,0 +1,151 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 버튼 섹션 */
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    align-content: space-evenly;
+}
+
+.buttons form button {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+
+.buttons .create {
+    background-color: #4CAF50;
+}
+.buttons create:hover {
+    background-color: #45a049;
+}
+.buttons .back {
+    background-color: #4a4a4a;
+}
+
+/* 리뷰 리스트 전체 */
+.review-list {
+    background-color: white;
+    width: 600px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 각각의 리뷰 아이템 */
+.review-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.review-list li {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 0;
+}
+
+.review-list li:last-child {
+    border-bottom: none;
+}
+
+/* 작성일, 내용 */
+.review-list div {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-username {
+    font-weight: bold;
+    color: #333;
+}
+
+.review-date {
+    color: #555;
+}
+
+.review-content {
+    font-size: 16px;
+}
+
+/* 삭제 버튼 */
+.review-list form button {
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-list form button:hover {
+    background-color: #ff1f1f;
+}
+
+/* 리뷰 작성 폼 (review/form.html) */
+.form-container {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.form-input {
+    height: 150px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    margin-bottom: 20px;
+}
+
+.save {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save:hover {
+    background-color: #45a049;
+}

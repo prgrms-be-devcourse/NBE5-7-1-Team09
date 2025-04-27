@@ -22,7 +22,7 @@ public class OrderResponseDto {
     private final String postCode;
     private final LocalDateTime createdAt;
     private final List<OrderItemResponseDto> orderItemList;
-
+    private int totalPrice;
 
     public OrderResponseDto(Order order) {
         this.email = order.getEmail();
@@ -42,6 +42,7 @@ public class OrderResponseDto {
         }
 
         this.orderItemList = items;
+        this.totalPrice = order.calculateTotalPrice ();
 
     }
 }
