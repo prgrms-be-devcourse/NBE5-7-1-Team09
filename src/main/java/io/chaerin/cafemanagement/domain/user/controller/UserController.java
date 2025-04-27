@@ -19,24 +19,23 @@ public class UserController {
 
     private final UserService userService;
 
-    // 로그인 폼 표시 API
+    // 폼 표시 API
     @GetMapping("/login")
     public String showLoginForm() {
-        return "/login";
+        return "/user/login";
     }
 
+    @GetMapping("/join")
+    public String showJoinForm() {return "/user/join";}
+
     // 회원 가입 API
+
     @PostMapping("/join")
     public String join(@ModelAttribute JoinRequestDto joinRequest) {
         // 서비스에서 회원가입 로직 처리
         userService.join(joinRequest.getUserName(), joinRequest.getPassword());
 
         return "redirect:/login";
-    }
-
-    @GetMapping("/join")
-    public String showJoinForm() {
-        return "join";  // templates/join.html을 띄워준다
     }
 
     // 로그인 API
