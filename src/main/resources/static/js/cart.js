@@ -51,7 +51,7 @@ function renderCart() {
         row.className = 'row';
         row.innerHTML = `
             <h5 class="col p-0">${item.name}</h5>
-            <h6 class="col d-flex align-items-center justify-content-end">
+            <h6 class="col">
                 <button type="button" onclick="changeQuantity('${productId}', -1)">
                     <img src="./assets/product_minus_icon.png">
                 </button>
