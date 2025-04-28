@@ -60,7 +60,7 @@
         <div class="container" th:attr="data-order-id=${order.orderId}">
 
           <!-- ================= 수정(PUT) 전용 폼 ================= -->
-          <form th:action="@{'/orders/admin/' + ${order.orderId}}" method="post">
+          <form th:action="@{'/admin/orders/' + ${order.orderId}}" method="post">
             <input type="hidden" name="_method" value="PUT"/>
 
             <!-- 상단 요약 -->
@@ -73,7 +73,7 @@
                   <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
                 </div>
               </div>
-              <div class="status">배송중</div>
+              <div class="status" th:text="${order.status}"></div>
             </div>
             <hr/>
 
@@ -139,17 +139,16 @@
         </div>
       </li>
     </ul>
-
     <!-- 페이지네이션 추가 -->
     <div class="pagination">
             <span th:if="${orders.hasPrevious()}">
-                <a th:href="@{/orders/admin(page=${orders.number - 1})}">이전</a>
+                <a th:href="@{/admin/orders(page=${orders.number - 1})}">이전</a>
             </span>
 
       <span th:text="${orders.number + 1}"></span> / <span th:text="${orders.totalPages}"></span>
 
       <span th:if="${orders.hasNext()}">
-                <a th:href="@{/orders/admin(page=${orders.number + 1})}">다음</a>
+                <a th:href="@{/admin/orders(page=${orders.number + 1})}">다음</a>
             </span>
     </div>
   </div>

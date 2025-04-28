@@ -4,7 +4,6 @@ import io.chaerin.cafemanagement.domain.question.dto.AnswerRequestDto;
 import io.chaerin.cafemanagement.domain.question.dto.UnansweredResponseDto;
 import io.chaerin.cafemanagement.domain.question.dto.AnsweredResponseDto;
 import io.chaerin.cafemanagement.domain.question.service.QuestionService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/question")
 @RequiredArgsConstructor
-public class AnswerController {
+public class QuestionAdminController {
 
     private final QuestionService questionService;
 
