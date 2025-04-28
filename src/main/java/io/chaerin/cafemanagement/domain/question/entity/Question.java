@@ -1,5 +1,6 @@
 package io.chaerin.cafemanagement.domain.question.entity;
 
+import io.chaerin.cafemanagement.domain.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,7 +19,9 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
 
-    private Long orderId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
     @Column(length = 100, nullable = false)
     private String title;
@@ -33,8 +36,8 @@ public class Question {
     private LocalDateTime answerCreatedAt;
 
     @Builder
-    public Question(Long orderId, String title, String content) {
-        this.orderId = orderId;
+    public Question(Order order, String title, String content) {
+        this.order = order;
         this.title = title;
         this.content = content;
     }

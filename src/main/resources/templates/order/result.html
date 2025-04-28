@@ -8,28 +8,9 @@
 <body>
 <script src="js/order_result.js"></script>
 
-<header class="header">
-    <div class="header-container">
-        <!-- 로고 -->
-        <div class="logo">
-            <img
-                    src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
-                    alt="로고"
-                    onclick="location.href='/products'"
-            />
-        </div>
-
-        <!-- 우측 아이콘 버튼 -->
-        <div class="order-button">
-            <button onclick="location.href='/orders'">
-                <img
-                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
-                        alt="주문 목록"
-                />
-            </button>
-        </div>
-    </div>
+<header th:replace="~{fragments/userHeader::header}">
 </header>
+
 <main class="content">
 
     <div class="container">
