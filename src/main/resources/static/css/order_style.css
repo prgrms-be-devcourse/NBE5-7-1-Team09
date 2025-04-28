@@ -1,0 +1,221 @@
+/* 전체 배경 */
+body {
+    background-color: #f5f5f5;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 주문 리스트 전체 */
+.orders {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 주문 카드 */
+.container {
+    max-width: 640px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+
+/* 헤더 */
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    padding: 16px 24px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 36px;
+}
+
+.order-button button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.order-button img {
+    width: 28px;
+    height: 28px;
+    filter: grayscale(100%);
+}
+
+/* 상단 주문 요약 */
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f2f5;
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.top-section-left {
+    display: flex;
+    align-items: center;
+}
+
+.top-section-left img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+.top-section-order .date {
+    font-weight: bold;
+    color: #555;
+}
+
+.number {
+    font-size: 14px;
+    color: #888;
+}
+
+.status {
+    font-weight: bold;
+    font-size: 16px;
+    color: #4caf50;
+}
+
+/* 상품 리스트 */
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item-right {
+    display: flex;
+    gap: 12px;
+    text-align: right;
+}
+
+.quantity,
+.price {
+    min-width: 60px;
+}
+.buy-info {
+    margin-top: 20px;
+}
+.buy-info-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+.buy-info-email,
+.buy-info-address {
+    margin-bottom: 6px;
+    color: #555;
+    font-size: 14px;
+}
+
+/* 버튼, 결제 정보 css */
+.cancel-button {
+    width: 100%;
+    margin-top: 12px;
+}
+.cancel-button form {
+    width: 100%;
+}
+
+.cancel-button .delete {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 15px;
+    border-radius: 8px;
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button .delete:hover {
+    background-color: #ff1f1f;
+}
+.botton-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttons button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttons .edit {
+    background-color: #4a4a4a;
+    color: #fff;
+}
+
+.buttons .question {
+    background-color: #848484;
+    color: #fff;
+}
+
+.buttons .delete {
+    background-color: #ff5c5c;
+    color: #fff;
+}
+
+.buttons .delete:hover {
+    background-color: #ff1f1f;
+}
+
+.buttons form {
+    display: inline;
+}
+
+/* 총 금액 강조 */
+.total-price {
+    font-weight: bold;
+    font-size: 20px;
+    color: #222;
+}
+
+/* 구분선 */
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 16px 0;
+}
+
+.status:hover {
+    font-weight: bold;
+    font-size: 20px;
+    color: #2346ad;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/cart_style.css"/>
+</head>
+
+<body>
+<script src="js/cart.js"></script>
+
+<header class="header">
+    <div class="header-container">
+        <div class="logo">
+            <img src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532" alt="로고"
+                 onclick="location.href='/products'"/>
+        </div>
+        <div class="order-button">
+            <button onclick="location.href='/orders'"><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                                                           alt="주문 목록"/></button>
+            <button onclick="location.href='/admin/products/list'">
+                <img src="./assets/product_list_icon.png" alt="상품 목록"/></button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="content">
+        <div class="product-list">
+            <ul class="grid">
+
+                <li th:each="product: ${productResponseDtos}">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img class="img-fluid" src="https://i.imgur.com/HKOFQYa.jpeg">
+
+                        </div>
+                        <div class="product-bottom">
+                            <div class="product-bottom-left">
+
+                                <div th:text="${product.name}" class="product-name">
+                                </div>
+
+                                <div class="product-price">
+                                    [[ ${product.price} ]]원
+                                </div>
+                                <div class="buttons">
+                                    <a th:href="@{/products/{id}/reviews(id=${product.productId})}">
+                                        <button class="review">후기 보기</button>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="product-bottom-right">
+                                <button class="add-to-cart-btn"
+                                        th:data-price="${product.price}"
+                                        th:data-product-id="${product.productId}">
+                                    <img src="./assets/product_add_icon.png">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="cart">
+            <div>
+                <h5 class="m-0 p-0"><b>장바구니</b></h5>
+            </div>
+            <hr>
+            <div id="cartList"></div>
+            <hr>
+            <form id="orderForm" method="post" action="/orders">
+                <div class="mb-3">
+                    <label class="form-label">이메일</label>
+                    <input type="email" name="email" id="emailInput" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">주소</label>
+                    <input type="text" name="address" id="addressInput" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">우편번호</label>
+                    <input type="text" name="postCode" id="postCodeInput" class="form-control" required>
+                </div>
+                <div style="font-size: 15px;">오후 2시 이후 주문 건은 다음날 배송됩니다.</div>
+
+                <div class="row pt-2 pb-2 border-top">
+                    <h5 class="text-end">총금액</h5>
+                    <h5 class="text-end" id="total-price">0원</h5>
+                </div>
+
+                <div id="orderItemsContainer"></div>
+
+                <button type="submit" class="btn btn-dark col-12">결제하기</button>
+            </form>
+
+        </div>
+    </div>
+</main>
+
+
+</body>
+
+</html>

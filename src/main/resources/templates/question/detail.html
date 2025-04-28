@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문의사항</title>
+    <style>
+        /* update 로직 => input 박스 생성을 위한 스타일 영역 */
+        /* ---------------- 레이아웃 ---------------- */
+        .buttons{display:flex;gap:8px;align-items:center}
+        .buttons form{margin:0}
+        .botton-section{display:flex;justify-content:space-between;align-items:center}
+
+        /* ---------------- 인풋 공통 ---------------- */
+        .pretty-input{width:100%;border:none;border-bottom:1px dashed #c4c4c4;background:transparent;padding:4px 2px;font-size:14px;transition:all .15s ease;box-sizing:border-box}
+        .pretty-input:focus{outline:none;border-bottom:1px solid #4caf50;box-shadow:0 1px 0 0 #4caf50}
+        input[type=number].pretty-input::-webkit-inner-spin-button,
+        input[type=number].pretty-input::-webkit-outer-spin-button{appearance:none;margin:0}
+
+        /* 수량 인풋 전용 크기 */
+        .quantity-input{max-width:24px;text-align:center}
+
+        /* 보기·편집 전환 */
+        .edit-field{display:none}
+
+        /* 구매 정보 라인 정렬 */
+        .buy-info-line{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+        .buy-info-line strong{width:60px;font-size:14px;color:#333}
+        .buy-info-line .view-field{flex:1}
+        .buy-info-line .edit-field{flex:1}
+    </style>
+    <style>
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            padding-top: 20px;
+        }
+        hr {
+            opacity: 50%;
+        }
+        .light-hr {
+            opacity: 20%;
+        }
+        /* 헤더 */
+        .header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 12px 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 32px;
+        }
+
+        .order-button button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .order-button img {
+            width: 24px;
+            height: 24px;
+            filter: grayscale(100%);
+        }
+
+        /* 상단 간략 배송 정보 css */
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            padding: 12px;
+        }
+        .top-section-left {
+            display: flex;
+            align-items: center;
+        }
+        .top-section-left img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        .top-section-order .date {
+            font-weight: bold;
+        }
+        .status {
+            font-weight: bold;
+            font-size: 16px;
+            color: #4caf50;
+        }
+
+        /* 주문 상품 목록 css */
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .item-right {
+            display: flex;
+            gap: 12px;
+            text-align: right;
+        }
+
+        .quantity,
+        .price {
+            min-width: 60px;
+        }
+        .buy-info-email,
+        .buy-info-address {
+            margin-bottom: 6px;
+        }
+
+        /* 버튼, 결제 정보 css */
+        .botton-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .buttons button {
+            padding: 6px 12px;
+            font-size: 13px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+        .buttons .edit {
+            background-color: black;
+        }
+
+        .buttons .delete {
+            background-color: orangered;
+        }
+
+        .total-price,
+        .buy-info-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+
+
+        /* 문의사항 섹션 스타일 */
+        .question-section {
+            max-width: 600px;
+            margin-top: 30px;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 30px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-count {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .question-form {
+            margin-bottom: 30px;
+        }
+
+        .question-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+
+        .question-form button {
+            padding: 8px 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+            margin-top: 5px;
+        }
+        #redBtn{
+            background-color: #881616;
+        }
+
+        .question-form button:hover {
+            background-color: #555;
+        }
+
+        .question-item {
+            padding: 15px 0;
+        }
+
+        .question-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0;
+        }
+
+
+        .question-date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .question-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 0;
+            margin-bottom: 20px;
+
+        }
+
+        .question-answer {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .question-answer-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+            color: #555;
+        }
+        .question-answer div{
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 헤더 -->
+<header class="header">
+    <div class="header-container">
+        <!-- 로고 -->
+        <div class="logo">
+            <img
+                    src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
+                    alt="로고"
+                    onclick="location.href='/products'"
+            />
+        </div>
+
+        <!-- 우측 아이콘 버튼 -->
+        <div class="order-button">
+            <button>
+                <img
+                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                        alt="주문 목록"
+                        button onclick="location.href='/orders'"
+                />
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="content">
+    <form th:object="${order}" th:action="@{'/orders/' + *{orderId}}" method="post" class="container">
+        <input type="hidden" name="_method" value="put" />
+
+        <!-- 상단 간략 배송 정보 -->
+        <div class="top-section">
+            <div class="top-section-left">
+                <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif" alt="상품 이미지" />
+                <div class="top-section-order">
+                    <div class="date" th:text="|주문일: ${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}|"></div>
+                    <div class="number" th:text="|주문번호: *{orderId}|"></div>
+                </div>
+            </div>
+            <div class="status" th:text="*{status}"></div>
+        </div>
+
+        <hr />
+
+        <!-- 주문 상품 목록 -->
+        <div class="item-list">
+            <div th:each="item, stat : *{orderItemList}" class="item">
+                <span th:text="${item.productName}"></span>
+                <span class="item-right view-field">
+                    <span class="quantity" th:text="${item.quantity + '개'}"></span>
+                    <span class="price" th:text="${item.price + '원'}"></span>
+                </span>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- 구매 정보 -->
+        <div class="buy-info">
+            <div class="buy-info-title">구매 정보</div>
+
+            <div class="buy-info-email">
+                <strong>이메일:</strong>
+                <span class="view-field" th:text="*{email}"></span>
+                <input class="edit-field pretty-input" type="text" name="email" th:value="*{email}" style="display:none; width: 100%;" />
+            </div>
+
+            <div class="buy-info-address">
+                <strong>주소:</strong>
+                <span class="view-field" th:text="*{address}"></span>
+                <input class="edit-field pretty-input" type="text" name="address" th:value="*{address}" style="display:none; width: 100%;" />
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- 하단 버튼 & 총액 -->
+        <div class="botton-section">
+            <div class="buttons">
+            </div>
+            <div class="total-price" th:text="'총 금액: ' + ${#numbers.formatInteger(#aggregates.sum(order.orderItemList.![price * quantity]), 1, 'COMMA')} + '원'"></div>
+        </div>
+    </form>
+</main>
+
+
+<!-- 문의사항 -->
+<div class="question-section" th:object="${questionResponseDto}">
+    <div class="question-title">
+        <span>문의사항</span>
+        <span class="question-count" th:if="${questionResponseDto.answer != null}">답변 완료</span>
+        <span class="question-count" th:unless="${questionResponseDto.answer != null}">확인중</span>
+    </div>
+
+    <div class="question-item">
+        <div class="question-info">
+            <div class="question-title" th:text="*{title}">배송관련 문의드립니다.</div>
+            <div class="question-date" th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}">2025.04.24</div>
+        </div>
+        <div class="question-content" th:text="*{content}">
+            배송이 예정보다 늦어지고 있는데 언제쯤 받을 수 있을까요?
+        </div>
+        <hr>
+        <div class="question-answer-title">답변</div>
+        <div class="question-answer">
+            <div th:if="${questionResponseDto.answer != null}" th:text="*{answer}"></div>
+            <div th:unless="${questionResponseDto.answer != null}">아직 답변이 등록되지 않았습니다. 빠른 시일 내에 답변드리겠습니다.</div>
+        </div>
+    </div>
+
+    <div class="question-form question-info">
+        <form th:action="@{/orders}" method="get">
+            <input type="hidden" name="email" th:value="${order.email}" />
+            <button>뒤로가기</button>
+        </form>
+        <form th:action="@{'/order/'+ *{questionId} + '/question'}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <button id="redBtn">삭제</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

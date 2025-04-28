@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="css/order_style.css" />
+    <title>주문 목록</title>
+</head>
+<body>
+<script src="js/order_result.js"></script>
+
+<header class="header">
+    <div class="header-container">
+        <!-- 로고 -->
+        <div class="logo">
+            <img
+                    src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
+                    alt="로고"
+                    onclick="location.href='/products'"
+            />
+        </div>
+
+        <!-- 우측 아이콘 버튼 -->
+        <div class="order-button">
+            <button onclick="location.href='/orders'">
+                <img
+                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                        alt="주문 목록"
+                />
+            </button>
+        </div>
+    </div>
+</header>
+<main class="content">
+
+    <div class="container">
+        <!-- 상단 간략 배송 정보 -->
+        <div class="top-section">
+            <div class="top-section-left">
+                <img
+                        src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif?1643514596"
+                        alt="상품 이미지"
+                />
+                <div class="top-section-order">
+                    <div th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}" class="date"></div>
+                    <div class="number">주문번호: [[${order.orderId}]]</div>
+                </div>
+            </div>
+            <div class="status" th:text="${order.status}"></div>
+        </div>
+        <hr />
+
+        <!-- 주문 상품 목록 -->
+        <div class="item-list">
+            <ul class="items">
+                <li th:each="item: ${order.orderItemList}">
+                    <div class="item">
+                        <span th:text="${item.productName}"></span>
+                        <span class="item-right">
+                            <span class="quantity">[[${item.quantity}]]개</span>
+                            <span class="price">[[${item.price}]]원</span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <hr />
+
+        <!-- 구매 정보 -->
+        <div class="buy-info">
+            <div class="buy-info-title">구매 정보</div>
+            <div class="buy-info-email">
+                <strong>이메일:</strong> [[${order.email}]]
+            </div>
+            <div class="buy-info-address">
+                <strong>주소:</strong> [[${order.address}]]
+            </div>
+        </div>
+        <hr />
+
+        <!-- 하단 버튼 + 총 금액 -->
+        <div class="botton-section">
+            <div class="buttons">
+<!--                <button class="edit" id="edit">수정</button>-->
+                <form th:action="@{'/orders/' + ${order.orderId}}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button class="delete" type="submit">취소</button>
+                </form>
+
+            </div>
+            <div class="total-price">[[${order.totalPrice}]]원</div>
+        </div>
+    </div>
+
+</main>
+
+
+</body>
+</html>

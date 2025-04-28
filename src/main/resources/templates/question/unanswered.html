@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>미완료 답변 목록</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+
+        hr {
+            opacity: 50%;
+        }
+
+        /* 헤더 */
+        .header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 12px 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 32px;
+        }
+
+        .content {
+            padding-top: 20px;
+        }
+
+        .order-button button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .order-button img {
+            width: 24px;
+            height: 24px;
+            filter: grayscale(100%);
+        }
+
+        .top-section-left img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .top-section-order .date {
+            font-weight: bold;
+        }
+
+        .buttons button {
+            padding: 6px 12px;
+            font-size: 13px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+        .buttons .edit {
+            background-color: black;
+        }
+
+        .buttons .delete {
+            background-color: orangered;
+        }
+
+        /* 문의사항 섹션 스타일 */
+        .question-section {
+            max-width: 600px;
+            margin-top: 30px;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 30px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-tf {
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-count {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .question-form {
+            margin-bottom: 25px;
+        }
+
+        .question-form textarea {
+            width: 96%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+
+        .question-form input {
+            width: 96%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-family: inherit;
+
+        }
+
+        .question-form button {
+            padding: 8px 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+            margin-top: 5px;
+        }
+
+        .question-form button:hover {
+            background-color: #555;
+        }
+        .question-item {
+            padding: 15px 0;
+        }
+
+        .question-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0;
+        }
+
+
+        .question-date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .question-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 0;
+            margin-bottom: 20px;
+
+        }
+
+        .question-answer {
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .question-answer-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .question-answer div{
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 헤더 -->
+<header class="header">
+    <div class="header-container">
+        <!-- 로고 -->
+        <div class="logo">
+            <img
+                    src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
+                    alt="로고"
+            />
+        </div>
+
+        <!-- 우측 아이콘 버튼 -->
+        <div class="order-button">
+            <button onclick="location.href=''">
+                <img
+                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                        alt="주문 목록"
+                />
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- 문의사항 -->
+<main class="content">
+    <div class="flex justify-center gap-4 my-6">
+        <a th:href="@{/admin/question/answered}" class="btn btn-dash">완료</a>
+        <a th:href="@{/admin/question/unanswered}" class="btn btn-soft">미완료</a>
+    </div>
+
+    <div class="question-section" th:each="unansweredResponseDto:${unansweredResponseDto}" th:object="${unansweredResponseDto}">
+        <div class="question-title">
+            <span>문의사항</span>
+            <span class="question-count">미완료</span>
+        </div>
+
+        <div class="question-item">
+            <div class="question-info">
+                <div class="question-title" th:text="*{title}">배송관련 문의드립니다.</div>
+                <div class="question-date" th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}">2025.04.24</div>
+            </div>
+            <div class="question-content" th:text="*{content}">
+                배송이 예정보다 늦어지고 있는데 언제쯤 받을 수 있을까요?
+            </div>
+            <hr>
+            <div class="question-answer-title">답변</div>
+            <form class="question-form"
+                  th:action="@{'/admin/question/'+${unansweredResponseDto.questionId}}"
+                  method="post"
+                  th:object="${answerRequestDto}">
+                <textarea placeholder="답변하실 내용을 입력해주세요." th:field="*{answer}"></textarea>
+                <button>완료</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

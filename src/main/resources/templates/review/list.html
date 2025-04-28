@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 목록</title>
+    <link rel="stylesheet" href="/css/review_style.css">
+</head>
+<body>
+
+
+  <div class="buttons">
+    <form th:action="@{'/products'}" method="get">
+      <button type="submit" class="back" >상품으로 돌아가기</button>
+    </form>
+    <form th:action="@{'/products/' + ${productId} + '/reviews/form'}" method="get">
+      <button type="submit" class="create">리뷰 작성</button>
+    </form>
+  </div>
+
+
+  <div class="review-list">
+    <ul>
+      <li th:each="review: ${reviews}">
+        <div class="review-detail">
+          <span th:text="${review.username}" class="review-username"></span>
+          <span th:text="${#temporals.format(review.createdAt,'yyyy-MM-dd HH:mm')}" class="review-date">날짜</span>
+        </div>
+        <div th:text="${review.content}" class="review-content">내용</div>
+
+        <form th:if="${review.getUserId()} == ${currentUserId}"
+              th:action="@{'/products/' + ${productId} + '/reviews/delete/' + ${review.getReviewId()}}" method="post"
+              onsubmit="return confirm('정말 삭제하시겠습니까?');">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit" class="delete">삭제</button>
+        </form>
+        
+        <br>
+
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>

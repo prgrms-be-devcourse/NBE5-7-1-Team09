@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name = "order_item")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
@@ -23,4 +24,16 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    private Integer quantity;
+
+    public static OrderItem create(Product product, Order order, int quantity) {
+        OrderItem oi = new OrderItem();
+
+        oi.product = product;
+        oi.order = order;
+        oi.quantity = quantity;
+        return oi;
+    }
+
 }
