@@ -138,6 +138,29 @@ body {
 }
 
 /* 버튼, 결제 정보 css */
+.cancel-button {
+    width: 100%;
+    margin-top: 12px;
+}
+.cancel-button form {
+    width: 100%;
+}
+
+.cancel-button .delete {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 15px;
+    border-radius: 8px;
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button .delete:hover {
+    background-color: #ff1f1f;
+}
 .botton-section {
     margin-top: 20px;
     display: flex;
@@ -156,6 +179,11 @@ body {
 
 .buttons .edit {
     background-color: #4a4a4a;
+    color: #fff;
+}
+
+.buttons .question {
+    background-color: #848484;
     color: #fff;
 }
 
@@ -184,4 +212,10 @@ hr {
     border: none;
     border-top: 1px solid #ddd;
     margin: 16px 0;
+}
+
+.status:hover {
+    font-weight: bold;
+    font-size: 20px;
+    color: #2346ad;
 }

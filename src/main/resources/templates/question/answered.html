@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>완료된 답변 목록</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+
+        hr {
+            opacity: 50%;
+        }
+
+        /* 헤더 */
+        .header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 12px 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo img {
+            height: 32px;
+        }
+
+        .order-button button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .order-button img {
+            width: 24px;
+            height: 24px;
+            filter: grayscale(100%);
+        }
+
+        .top-section-left img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .top-section-order .date {
+            font-weight: bold;
+        }
+
+        .buttons button {
+            padding: 6px 12px;
+            font-size: 13px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+        .buttons .edit {
+            background-color: black;
+        }
+
+        .buttons .delete {
+            background-color: orangered;
+        }
+
+        /* 문의사항 섹션 스타일 */
+        .question-section {
+            max-width: 600px;
+            margin-top: 30px;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 30px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-count {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .question-form {
+            margin-bottom: 25px;
+        }
+
+        .question-form textarea {
+            width: 96%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+
+        .question-form input {
+            width: 96%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-family: inherit;
+
+
+        }
+
+        .question-form button {
+            padding: 8px 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+            margin-top: 10px;
+        }
+
+        .question-form button:hover {
+            background-color: #555;
+        }
+
+        .question-form div button:first-child{
+            margin-left: 10px;
+        }
+
+        .question-item {
+            padding: 15px 0;
+        }
+
+        .question-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .question-info2 {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        .question-info3 {
+            display: flex;
+            justify-content: right;
+            margin-bottom: 5px;
+        }
+
+
+        .question-date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .question-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 0;
+            margin-bottom: 20px;
+
+        }
+
+        .question-answer {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .question-answer-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #555;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 헤더 -->
+<header class="header">
+    <div class="header-container">
+        <!-- 로고 -->
+        <div class="logo">
+            <img
+                    src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
+                    alt="로고"
+            />
+        </div>
+
+        <!-- 우측 아이콘 버튼 -->
+        <div class="order-button">
+            <button onclick="location.href=''">
+                <img
+                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                        alt="주문 목록"
+                />
+            </button>
+        </div>
+    </div>
+</header>
+
+
+<!-- 문의사항 -->
+<main class="content">
+    <div class="flex justify-center gap-4 my-6">
+        <a th:href="@{/admin/question/answered}" class="btn btn-soft">완료</a>
+        <a th:href="@{/admin/question/unanswered}" class="btn btn-dash">미완료</a>
+    </div>
+    <div class="question-section" th:each="responseDto:${responseDto}" th:object="${responseDto}">
+        <div class="question-title">
+            <span>문의사항</span>
+            <span class="question-count">답변 완료</span>
+        </div>
+
+        <div class="question-item">
+            <div class="question-info">
+                <div class="question-title" th:text="*{title}">배송관련 문의드립니다.</div>
+                <div class="question-date" th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}">2025.04.24</div>
+            </div>
+            <div class="question-content" th:text="*{content}">
+                배송이 예정보다 늦어지고 있는데 언제쯤 받을 수 있을까요?
+            </div>
+            <hr>
+            <div class="question-info2">
+                <div class="question-answer-title">답변</div>
+                <div class="question-date" th:text="*{#temporals.format(answeredAt, 'yyyy-MM-dd HH:mm')}">2025.04.24</div>
+            </div>
+            <div th:id="'view' + ${responseDto.questionId}">
+                <div class="question-answer" th:text="*{answer}">
+                    <div>안녕하세요. 현재 해당 지역 물류센터에서 지연이 발생하고 있습니다. 내일 오전 중으로 배송될 예정입니다. 불편을 드려 죄송합니다.</div>
+                </div>
+                <div class="question-form question-info3">
+                    <button type="button" th:onclick="|editForm('${responseDto.questionId}')|" style="background-color: #881616">
+                        수정
+                    </button>
+                </div>
+            </div>
+            <div class="question-form" th:id="'editForm' + ${responseDto.questionId}" style="display:none;">
+                <form
+                        th:action="@{'/admin/question/'+${responseDto.questionId}}"
+                        method="post"
+                        th:object="${requestDto}">
+                    <input type="hidden" name="_method" value="put">
+                    <textarea name="answer" placeholder="답변하실 내용을 입력해주세요." th:text="${responseDto.answer}"></textarea>
+                    <div>
+                        <button type="button" th:onclick="|closeForm('${responseDto.questionId}')|">취소</button>
+                        <button type="submit">완료</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function editForm(questionId) {
+        document.getElementById('view' + questionId).style.display = 'none';
+        document.getElementById('editForm' + questionId).style.display = 'block';
+        console.log(questionId)
+    }
+    function closeForm(questionId) {
+        document.getElementById('editForm' + questionId).style.display = 'none';
+        document.getElementById('view' + questionId).style.display = 'block';
+    }
+</script>
+</body>
+</html>

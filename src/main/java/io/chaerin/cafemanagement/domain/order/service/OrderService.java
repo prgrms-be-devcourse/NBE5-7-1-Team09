@@ -6,7 +6,6 @@ import io.chaerin.cafemanagement.domain.order.dto.OrderUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.entity.Order;
 import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
-import io.chaerin.cafemanagement.domain.order.repository.OrderItemRepository;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.product.entity.Product;
 
@@ -17,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -61,7 +62,7 @@ public class OrderService {
         return new OrderResponseDto(savedOrder);
     }
 
-    public List<OrderResponseDto> getOrdersByEmail(HttpSession session) {
+    public List<OrderResponseDto> getOrdersById(HttpSession session) {
         Object loginUser = session.getAttribute("loginUser");
         if (loginUser == null) {
             throw new IllegalStateException("로그인 후 이용해주세요.");
@@ -84,6 +85,10 @@ public class OrderService {
         return new OrderResponseDto(order);
     }
 
+    public Page<OrderResponseDto> getAllOrders(Pageable pageable) {
+        Page<Order> orders = orderRepository.findAll(pageable);
+        return orders.map(OrderResponseDto::new);
+    }
     public OrderResponseDto updateOrder(Long orderId, OrderUpdateRequestDto request) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("주문 없음"));
         order.fixAddress(request.getAddress(), request.getPostCode());

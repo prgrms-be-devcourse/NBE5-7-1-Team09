@@ -1,50 +1,63 @@
-<!-- 주문을 조회하는 페이지 (폼 방식, 커스텀 인풋 디자인 개선) -->
+<!-- 주문 목록(관리자) 화면 - 페이지네이션 적용 버전 -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="/css/order_style.css" />
-    <title>주문 목록</title>
+    <meta charset="UTF-8"/>
+    <title>주문 목록 (관리자)</title>
+
+    <!-- 공통 스타일 -->
+    <link rel="stylesheet" href="/css/order_style.css"/>
+
+    <!-- 이 화면 전용 보조 스타일 -->
     <style>
-        /* update 로직 => input 박스 생성을 위한 스타일 영역 */
-        /* ---------------- 레이아웃 ---------------- */
-        .buttons{display:flex;gap:8px;align-items:center}
-        .buttons form{margin:0}
-        .botton-section{display:flex;justify-content:space-between;align-items:center}
-
-        /* ---------------- 인풋 공통 ---------------- */
-        .pretty-input{width:100%;border:none;border-bottom:1px dashed #c4c4c4;background:transparent;padding:4px 2px;font-size:14px;transition:all .15s ease;box-sizing:border-box}
-        .pretty-input:focus{outline:none;border-bottom:1px solid #4caf50;box-shadow:0 1px 0 0 #4caf50}
+        .buttons { display: flex; gap: 8px; align-items: center; }
+        .buttons form { margin: 0; display: inline-flex; }
+        .pretty-input {
+            width: 100%; border: none; border-bottom: 1px dashed #c4c4c4;
+            background: transparent; padding: 4px 2px; font-size: 14px;
+            transition: all .15s ease; box-sizing: border-box;
+        }
+        .pretty-input:focus {
+            outline: none; border-bottom: 1px solid #4caf50;
+            box-shadow: 0 1px 0 0 #4caf50;
+        }
         input[type=number].pretty-input::-webkit-inner-spin-button,
-        input[type=number].pretty-input::-webkit-outer-spin-button{appearance:none;margin:0}
-
-        /* 수량 인풋 전용 크기 */
-        .quantity-input{max-width:24px;text-align:center}
-
-        /* 보기·편집 전환 */
-        .edit-field{display:none}
-
-        /* 구매 정보 라인 정렬 */
-        .buy-info-line{display:flex;align-items:center;gap:6px;margin-bottom:8px}
-        .buy-info-line strong{width:60px;font-size:14px;color:#333}
-        .buy-info-line .view-field{flex:1}
-        .buy-info-line .edit-field{flex:1}
+        input[type=number].pretty-input::-webkit-outer-spin-button {
+            appearance: none; margin: 0;
+        }
+        .quantity-input { max-width: 24px; text-align: center; }
+        .edit-field { display: none; }
+        .buy-info-line { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+        .buy-info-line strong { width: 60px; font-size: 14px; color: #333; }
+        .buy-info-line .view-field,
+        .buy-info-line .edit-field { flex: 1; }
+        .pagination { text-align: center; margin-top: 20px; margin-bottom: 20px; }
+        .pagination a { margin: 0 5px; text-decoration: none; color: #333; }
+        .pagination a:hover { text-decoration: underline; }
     </style>
 </head>
-<body>
 
+<body>
 <header class="header">
     <div class="header-container">
         <div class="logo">
-            <img src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532" alt="로고" onclick="location.href='/products'"/>
+            <img src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
+                 alt="로고" onclick="location.href='/products'"/>
         </div>
-        <div class="order-button"><button onclick="location.href='/orders'"><img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="주문 목록"/></button></div>
+        <div class="order-button">
+            <button onclick="location.href='/orders'">
+                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="주문 목록"/>
+            </button>
+        </div>
     </div>
 </header>
 
 <main class="content">
     <div class="order-list">
         <ul class="orders">
+            <!-- 주문 카드 반복: Page 객체 content 접근 -->
             <li th:each="order : ${orders}">
+
                 <!-- 주문 한 건을 폼으로 감싸기 -->
                 <form th:action="@{'/orders/' + ${order.orderId}}" method="post" class="container" th:attr="data-order-id=${order.orderId}">
                     <input type="hidden" name="_method" value="put"/>
@@ -55,10 +68,13 @@
                             <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif" alt="상품 이미지"/>
                             <div class="top-section-order">
                                 <div class="date" th:text="${#temporals.format(order.createdAt,'yyyy-MM-dd HH:mm')}"></div>
-                                <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
+
+                                    <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
                             </div>
                         </div>
+
                         <div class="status" th:text="${order.status}"></div>
+
                     </div>
                     <hr/>
 
@@ -96,76 +112,30 @@
                             <span class="view-field" th:text="${order.email}"></span>
                             <span class="edit-field" style="width:100%"><input class="pretty-input email-input" type="text" name="email" th:value="${order.email}"/></span>
                         </div>
+                        <hr/>
 
-                        <div class="buy-info-line">
-                            <strong>주소:</strong>
-                            <span class="view-field" th:text="${order.address}"></span>
-                            <span class="edit-field" style="width:100%"><input class="pretty-input address-input" type="text" name="address" th:value="${order.address}"/></span>
+                        <!-- 버튼 -->
+                        <div class="botton-section">
+                            <div class="buttons">
+                                <a th:href="@{'/order/'+${order.orderId}+'/question'}" >
+                                    <button type="button" class="question">문의</button>
+                                </a>
+                                <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
+                                <button type="submit" class="save" style="display:none">수정 완료</button>
+                                <button type="button" class="delete" th:onclick="|cancelOrder(${order.orderId})|">취소</button>
+                            </div>
+                            <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
                         </div>
                     </div>
-                    <hr/>
 
-                    <!-- 하단 버튼 & 총액 -->
-                    <div class="botton-section">
-                        <div class="buttons">
-                            <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
-                            <button type="submit" class="save" style="display:none">수정 완료</button>
-                            <button type="button" class="delete" onclick="deleteOrder(this)">취소</button>
-
-                        </div>
-                        <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
-                    </div>
                 </form>
+
             </li>
         </ul>
     </div>
 </main>
 
-<script>
-    function enableEditMode(btn){
-        const form=btn.closest('form');
-        const status = form.querySelector('.status').innerText.trim();
-
-        if (status === '배송중') {
-            alert('배송중인 주문은 수정할 수 없습니다.');
-            return;
-        }
-
-        form.querySelectorAll('.view-field').forEach(el=>el.style.display='none');
-        form.querySelectorAll('.edit-field').forEach(el=>el.style.display='inline-block');
-        btn.style.display='none';
-        form.querySelector('.save').style.display='inline-block';
-    }
-
-    function deleteOrder(button) {
-        const form = button.closest('form');
-        const orderId = form.getAttribute('data-order-id');
-
-        const status = form.querySelector('.status').innerText.trim();
-
-        if (status === '배송중') {
-            alert('배송중인 상품은 취소할 수 없습니다.');
-            return;
-        }
-
-
-        if(confirm('정말 취소하시겠습니까?')) {
-            const deleteForm = document.createElement('form');
-            deleteForm.method = 'post';
-            deleteForm.action = `/orders/${orderId}`;
-
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = '_method';
-            hiddenInput.value = 'delete';
-
-            deleteForm.appendChild(hiddenInput);
-            document.body.appendChild(deleteForm);
-            deleteForm.submit();
-        }
-    }
-</script>
-
+<script src="/js/order.js"></script>
 </body>
 </html>
 
