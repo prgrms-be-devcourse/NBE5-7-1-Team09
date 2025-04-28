@@ -49,7 +49,8 @@ public class Order {
         return order;
     }
 
-    public void fixAddress(String address, String postCode) {
+    public void fixAddress(String address, String postCode, String email) {
+        this.email = email;
         this.address = address;
         this.postCode = postCode;
     }

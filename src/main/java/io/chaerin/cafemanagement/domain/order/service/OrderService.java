@@ -91,7 +91,7 @@ public class OrderService {
     }
     public OrderResponseDto updateOrder(Long orderId, OrderUpdateRequestDto request) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("주문 없음"));
-        order.fixAddress(request.getAddress(), request.getPostCode());
+        order.fixAddress(request.getAddress(), request.getPostCode(), request.getEmail());
         order.clearItems();
 
 
