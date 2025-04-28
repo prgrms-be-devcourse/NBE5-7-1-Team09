@@ -335,7 +335,7 @@
     <form class="question-form"
           th:action="@{'/order/'+${order.orderId}+'/question'}"
           method="post"
-          th:object="${requestDto}">
+          th:object="${questionRequestDto}">
 
         <input type="text" placeholder=" 문의하실 제목을 입력해주세요." th:field="*{title}">
         <textarea placeholder="문의하실 내용을 입력해주세요." th:field="*{content}"></textarea>

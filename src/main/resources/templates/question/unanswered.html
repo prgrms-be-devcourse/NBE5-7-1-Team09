@@ -231,7 +231,7 @@
         <a th:href="@{/admin/question/unanswered}" class="btn btn-soft">미완료</a>
     </div>
 
-    <div class="question-section" th:each="responseDto:${responseDto}" th:object="${responseDto}">
+    <div class="question-section" th:each="unansweredResponseDto:${unansweredResponseDto}" th:object="${unansweredResponseDto}">
         <div class="question-title">
             <span>문의사항</span>
             <span class="question-count">미완료</span>
@@ -248,9 +248,9 @@
             <hr>
             <div class="question-answer-title">답변</div>
             <form class="question-form"
-                  th:action="@{'/admin/question/'+${responseDto.questionId}}"
+                  th:action="@{'/admin/question/'+${unansweredResponseDto.questionId}}"
                   method="post"
-                  th:object="${requestDto}">
+                  th:object="${answerRequestDto}">
                 <textarea placeholder="답변하실 내용을 입력해주세요." th:field="*{answer}"></textarea>
                 <button>완료</button>
             </form>
