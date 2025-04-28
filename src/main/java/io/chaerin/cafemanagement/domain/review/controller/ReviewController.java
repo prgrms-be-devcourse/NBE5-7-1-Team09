@@ -7,13 +7,16 @@ import io.chaerin.cafemanagement.domain.user.entity.User;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/products/{productId}/reviews")
 @RequiredArgsConstructor
@@ -40,7 +43,15 @@ public class ReviewController {
         }
         Long userId = ((User) loginUser).getUserId();
 
-        reviewService.save(requestDto, productId, userId);
+        try {
+            reviewService.save(requestDto, productId, userId);
+        } catch (IllegalStateException e) {
+            log.info("e.getMessage() = {}", e.getMessage());
+            model.addAttribute("productId", productId);
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("redirectUrl", "/products/" + productId + "/reviews");
+            return "review/form";
+        }
 
         return "redirect:/products/" + productId + "/reviews";
     }
