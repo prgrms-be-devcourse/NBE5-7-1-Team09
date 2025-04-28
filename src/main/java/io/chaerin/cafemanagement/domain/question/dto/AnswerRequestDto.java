@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AnswerRequestDto {
 
-    @NotBlank(message = "답변 내용을 입력해주세요.")
+//    @NotBlank(message = "답변 내용을 입력해주세요.")
     private String answer;
 
 }

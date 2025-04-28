@@ -5,6 +5,7 @@ import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.question.dto.*;
 import io.chaerin.cafemanagement.domain.question.entity.Question;
 import io.chaerin.cafemanagement.domain.question.repository.QuestionRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,18 +40,12 @@ public class QuestionService {
         return orderId;
     }
 
-    // todo : 로그인으로 바뀌면 바꿔야함
     @Transactional
-    public String deleteQuestion(Long questionId) {
+    public void deleteQuestion(Long questionId) {
         Question findQuestion = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
 
-        Order findOrder = orderRepository.findById(findQuestion.getOrderId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
-
         questionRepository.delete(findQuestion);
-
-        return findOrder.getEmail();
     }
 
     @Transactional(readOnly = true)
@@ -86,6 +81,13 @@ public class QuestionService {
         return questionRepository.findAllUnansweredQuestions().stream()
                 .map(UnansweredResponseDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    public void checkLogin(HttpSession session) {
+        Object loginUser = session.getAttribute("loginUser");
+        if (loginUser == null) {
+            throw new IllegalStateException("로그인 후 이용해주세요.");
+        }
     }
 
 
