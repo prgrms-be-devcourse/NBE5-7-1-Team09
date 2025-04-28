@@ -208,3 +208,9 @@ hr {
     border-top: 1px solid #ddd;
     margin: 16px 0;
 }
+
+.status:hover {
+    font-weight: bold;
+    font-size: 20px;
+    color: #2346ad;
+}

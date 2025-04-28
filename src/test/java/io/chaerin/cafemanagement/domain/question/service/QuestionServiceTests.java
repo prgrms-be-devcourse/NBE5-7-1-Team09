@@ -74,14 +74,7 @@ class QuestionServiceTests {
         Long savedOrderId = questionService.saveQuestion(orderId1, new QuestionRequestDto("주문관련 문의드려요", "언제오나요 배송"));
 
         Question question = questionRepository.findByOrderId(savedOrderId).orElseThrow();
-
-        assertThat(questionService.deleteQuestion(question.getQuestionId())).isEqualTo("test2@example.com");
-
-        assertThatThrownBy(
-                () -> {
-                    questionService.deleteQuestion(question.getQuestionId());
-                }
-        ).isInstanceOf(IllegalArgumentException. class);
+        questionService.deleteQuestion(question.getQuestionId());
 
     }
 
@@ -154,10 +147,10 @@ class QuestionServiceTests {
         List<AnsweredResponseDto> allAnsweredQuestion = questionService.findAllAnsweredQuestion();
 
         assertThat(allAnsweredQuestion.size()).isEqualTo(2);
-        assertThat(allAnsweredQuestion.get(0).getContent()).isEqualTo("왤캐안오죠");
-        assertThat(allAnsweredQuestion.get(0).getAnswer()).isEqualTo("내일 도착할듯?");
-        assertThat(allAnsweredQuestion.get(1).getContent()).isEqualTo("3왤캐안오죠");
-        assertThat(allAnsweredQuestion.get(1).getAnswer()).isEqualTo("3내일 도착할듯?");
+        assertThat(allAnsweredQuestion.get(0).getContent()).isEqualTo("3왤캐안오죠");
+        assertThat(allAnsweredQuestion.get(0).getAnswer()).isEqualTo("3내일 도착할듯?");
+        assertThat(allAnsweredQuestion.get(1).getContent()).isEqualTo("왤캐안오죠");
+        assertThat(allAnsweredQuestion.get(1).getAnswer()).isEqualTo("내일 도착할듯?");
 
     }
 

@@ -57,48 +57,61 @@
         <ul class="orders">
             <!-- 주문 카드 반복: Page 객체 content 접근 -->
             <li th:each="order : ${orders}">
-                <div class="container" th:attr="data-order-id=${order.orderId}">
 
-                    <!-- ================= 수정(PUT) 전용 폼 ================= -->
-                    <form th:action="@{'/orders/' + ${order.orderId}}" method="post">
-                        <input type="hidden" name="_method" value="PUT"/>
+                <!-- 주문 한 건을 폼으로 감싸기 -->
+                <form th:action="@{'/orders/' + ${order.orderId}}" method="post" class="container" th:attr="data-order-id=${order.orderId}">
+                    <input type="hidden" name="_method" value="put"/>
 
-                        <!-- 상단 요약 -->
-                        <div class="top-section">
-                            <div class="top-section-left">
-                                <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif"
-                                     alt="상품 이미지"/>
-                                <div class="top-section-order">
-                                    <div class="date" th:text="${#temporals.format(order.createdAt,'yyyy-MM-dd HH:mm')}"></div>
+                    <!-- 상단 -->
+                    <div class="top-section">
+                        <div class="top-section-left">
+                            <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif" alt="상품 이미지"/>
+                            <div class="top-section-order">
+                                <div class="date" th:text="${#temporals.format(order.createdAt,'yyyy-MM-dd HH:mm')}"></div>
+
                                     <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
-                                </div>
                             </div>
                             <div class="status">배송중</div>
                         </div>
-                        <hr/>
+                        <a th:href="@{'/order/'+${order.orderId}+'/question'}" style="text-decoration: none;">
+                            <div class="status" th:text="${order.status}"></div>
+                        </a>
+                    </div>
+                    <hr/>
 
-                        <!-- 상품 리스트 -->
-                        <div class="item-list">
-                            <ul class="items">
-                                <li th:each="item, stat : ${order.orderItemList}">
-                                    <div class="item">
-                                        <span th:text="${item.productName}"></span>
-                                        <span class="item-right view-field">
-                                            <span class="quantity-text" th:text="${item.quantity + '개'}"></span>
-                                            <span class="price" th:text="${item.price + '원'}"></span>
-                                        </span>
-                                        <span class="item-right edit-field">
-                                            <input type="number" min="1" class="pretty-input quantity-input"
-                                                   th:name="${'orderItem[' + stat.index + '].quantity'}"
-                                                   th:value="${item.quantity}"/>
-                                            <span class="price" th:text="${item.price + '원'}"></span>
-                                        </span>
-                                        <input type="hidden"
-                                               th:name="${'orderItem[' + stat.index + '].productId'}"
-                                               th:value="${item.productId}"/>
-                                    </div>
-                                </li>
-                            </ul>
+                    <!-- 상품 리스트 -->
+                    <div class="item-list">
+                        <ul class="items">
+                            <li th:each="item,stat : ${order.orderItemList}">
+                                <div class="item">
+                                    <span th:text="${item.productName}"></span>
+
+                                    <!-- 표시용 수량/가격 -->
+                                    <span class="item-right view-field">
+                                        <span class="quantity-text" th:text="${item.quantity + '개'}"></span>
+                                        <span class="price" th:text="${item.price + '원'}"></span>
+                                    </span>
+
+                                    <!-- 편집용 input -->
+                                    <span class="item-right edit-field">
+                                        <input type="number" min="1" class="pretty-input quantity-input" th:name="${'orderItem[' + stat.index + '].quantity'}" th:value="${item.quantity}"/>
+                                        <span class="price" th:text="${item.price + '원'}"></span>
+                                    </span>
+                                    <input type="hidden" th:name="${'orderItem[' + stat.index + '].productId'}" th:value="${item.productId}"/>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr/>
+
+                    <!-- 구매 정보 -->
+                    <div class="buy-info">
+                        <div class="buy-info-title">구매 정보</div>
+
+                        <div class="buy-info-line">
+                            <strong>이메일:</strong>
+                            <span class="view-field" th:text="${order.email}"></span>
+                            <span class="edit-field" style="width:100%"><input class="pretty-input email-input" type="text" name="email" th:value="${order.email}"/></span>
                         </div>
                         <hr/>
 
