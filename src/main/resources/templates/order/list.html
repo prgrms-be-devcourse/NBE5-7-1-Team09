@@ -3,37 +3,89 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>주문 목록 (관리자)</title>
+    <title>주문 목록</title>
 
     <!-- 공통 스타일 -->
     <link rel="stylesheet" href="/css/order_style.css"/>
 
     <!-- 이 화면 전용 보조 스타일 -->
     <style>
-        .buttons { display: flex; gap: 8px; align-items: center; }
-        .buttons form { margin: 0; display: inline-flex; }
-        .pretty-input {
-            width: 100%; border: none; border-bottom: 1px dashed #c4c4c4;
-            background: transparent; padding: 4px 2px; font-size: 14px;
-            transition: all .15s ease; box-sizing: border-box;
+        .buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
+
+        .buttons form {
+            margin: 0;
+            display: inline-flex;
+        }
+
+        .pretty-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px dashed #c4c4c4;
+            background: transparent;
+            padding: 4px 2px;
+            font-size: 14px;
+            transition: all .15s ease;
+            box-sizing: border-box;
+        }
+
         .pretty-input:focus {
-            outline: none; border-bottom: 1px solid #4caf50;
+            outline: none;
+            border-bottom: 1px solid #4caf50;
             box-shadow: 0 1px 0 0 #4caf50;
         }
+
         input[type=number].pretty-input::-webkit-inner-spin-button,
         input[type=number].pretty-input::-webkit-outer-spin-button {
-            appearance: none; margin: 0;
+            appearance: none;
+            margin: 0;
         }
-        .quantity-input { max-width: 24px; text-align: center; }
-        .edit-field { display: none; }
-        .buy-info-line { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
-        .buy-info-line strong { width: 60px; font-size: 14px; color: #333; }
+
+        .quantity-input {
+            max-width: 24px;
+            text-align: center;
+        }
+
+        .edit-field {
+            display: none;
+        }
+
+        .buy-info-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .buy-info-line strong {
+            width: 60px;
+            font-size: 14px;
+            color: #333;
+        }
+
         .buy-info-line .view-field,
-        .buy-info-line .edit-field { flex: 1; }
-        .pagination { text-align: center; margin-top: 20px; margin-bottom: 20px; }
-        .pagination a { margin: 0 5px; text-decoration: none; color: #333; }
-        .pagination a:hover { text-decoration: underline; }
+        .buy-info-line .edit-field {
+            flex: 1;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .pagination a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -48,17 +100,20 @@
             <li th:each="order : ${orders}">
 
                 <!-- 주문 한 건을 폼으로 감싸기 -->
-                <form th:action="@{'/orders/' + ${order.orderId}}" method="post" class="container" th:attr="data-order-id=${order.orderId}">
+                <form th:action="@{'/orders/' + ${order.orderId}}" method="post" class="container"
+                      th:attr="data-order-id=${order.orderId}">
                     <input type="hidden" name="_method" value="put"/>
 
                     <!-- 상단 -->
                     <div class="top-section">
                         <div class="top-section-left">
-                            <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif" alt="상품 이미지"/>
+                            <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif"
+                                 alt="상품 이미지"/>
                             <div class="top-section-order">
-                                <div class="date" th:text="${#temporals.format(order.createdAt,'yyyy-MM-dd HH:mm')}"></div>
+                                <div class="date"
+                                     th:text="${#temporals.format(order.createdAt,'yyyy-MM-dd HH:mm')}"></div>
 
-                                    <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
+                                <div class="number">주문번호: <span th:text="${order.orderId}"></span></div>
                             </div>
                         </div>
 
@@ -82,10 +137,16 @@
 
                                     <!-- 편집용 input -->
                                     <span class="item-right edit-field">
-                                        <input type="number" min="1" class="pretty-input quantity-input" th:name="${'orderItem[' + stat.index + '].quantity'}" th:value="${item.quantity}"/>
+                                        <input type="number" min="1" class="pretty-input quantity-input"
+                                               th:name="${'orderItem[' + stat.index + '].quantity'}"
+                                               th:value="${item.quantity}" disabled/>
+                                        <input type="hidden"
+                                               th:name="${'orderItem[' + stat.index + '].quantity'}"
+                                               th:value="${item.quantity}"/>
                                         <span class="price" th:text="${item.price + '원'}"></span>
                                     </span>
-                                    <input type="hidden" th:name="${'orderItem[' + stat.index + '].productId'}" th:value="${item.productId}"/>
+                                    <input type="hidden" th:name="${'orderItem[' + stat.index + '].productId'}"
+                                           th:value="${item.productId}"/>
                                 </div>
                             </li>
                         </ul>
@@ -99,7 +160,10 @@
                         <div class="buy-info-line">
                             <strong>이메일:</strong>
                             <span class="view-field" th:text="${order.email}"></span>
-                            <span class="edit-field" style="width:100%"><input class="pretty-input email-input" type="text" name="email" th:value="${order.email}"/></span>
+                            <span class="edit-field" style="width:100%">
+                                <input class="pretty-input email-input" type="text" name="email"
+                                       th:value="${order.email}"/>
+                            </span>
                         </div>
                         <hr/>
 
@@ -109,7 +173,7 @@
                             <span class="edit-field">
                                     <input class="pretty-input address-input" type="text" name="address"
                                            th:value="${order.address}"/>
-                                </span>
+                            </span>
                         </div>
                     </div>
                     <hr/>
@@ -117,12 +181,13 @@
                     <!-- 버튼 -->
                     <div class="botton-section">
                         <div class="buttons">
-                            <a th:href="@{'/order/'+${order.orderId}+'/question'}" >
+                            <a th:href="@{'/order/'+${order.orderId}+'/question'}">
                                 <button type="button" class="question">문의</button>
                             </a>
                             <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
                             <button type="submit" class="save" style="display:none">수정 완료</button>
-                            <button type="button" class="delete" th:onclick="|cancelOrder(${order.orderId})|">취소</button>
+                            <button type="button" class="delete" th:onclick="|cancelOrder(${order.orderId})|">취소
+                            </button>
                         </div>
                         <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
                     </div>
