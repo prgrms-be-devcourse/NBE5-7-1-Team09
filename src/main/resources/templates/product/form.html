@@ -1,50 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Product Form</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>상품 폼</title>
+    <link rel="stylesheet" th:href="@{/css/product_style.css}">
 </head>
-<body class="bg-gray-100 flex justify-center items-center min-h-screen">
-<div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-    <h1 class="text-2xl font-bold mb-6 text-center" th:text="${productId} ? 'Edit Product' : 'Create Product'"></h1>
+<body class="form-page">
+<div class="form-container">
+    <h1 class="form-title" th:text="${productId} ? '상품 수정' : '상품 생성'"></h1>
     <form th:action="${productId} ? '/products/' + ${productId} : '/products'"
-          th:object="${productForm}" method="post" class="space-y-4">
+          th:object="${productForm}" method="post" class="product-form">
         <!-- Hidden field for update method (if editing) -->
         <input th:if="${productId}" type="hidden" name="_method" value="POST"/>
 
         <!-- Name Field -->
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
+        <div class="form-group">
+            <label for="name" class="form-label">상품 이름</label>
             <input type="text" id="name" th:field="*{name}"
-                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                   required/>
-            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-sm mt-1"></p>
+                   class="form-input" required/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></p>
         </div>
 
         <!-- Price Field -->
-        <div>
-            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+        <div class="form-group">
+            <label for="price" class="form-label">가격</label>
             <input type="number" id="price" th:field="*{price}"
-                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                   required/>
-            <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-red-500 text-sm mt-1"></p>
+                   class="form-input" required/>
+            <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-message"></p>
         </div>
 
         <!-- Image URL Field -->
-        <div>
-            <label for="imageUrl" class="block text-sm font-medium text-gray-700">Image URL</label>
+        <div class="form-group">
+            <label for="imageUrl" class="form-label">이미지 URL</label>
             <input type="text" id="imageUrl" th:field="*{imageUrl}"
-                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
-            <p th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-red-500 text-sm mt-1"></p>
+                   class="form-input"/>
+            <p th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="error-message"></p>
         </div>
 
         <!-- Submit and Cancel Buttons -->
-        <div class="flex justify-between">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                <span th:text="${productId} ? 'Update' : 'Create'"></span>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <span th:text="${productId} ? '수정' : '생성'"></span>
             </button>
-            <a href="/products" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">Cancel</a>
+            <a th:href="@{/products}" class="btn btn-secondary">취소</a>
         </div>
     </form>
 </div>

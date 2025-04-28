@@ -36,7 +36,7 @@ public class ProductController {
             return "product/form";
         }
         productService.saveProduct(request);
-        return "redirect:/products";
+        return "redirect:/products/list";
     }
 
     @GetMapping("/{id}/edit")
@@ -58,12 +58,18 @@ public class ProductController {
             return "product/form";
         }
         productService.updateProduct(id, request);
-        return "redirect:/products";
+        return "redirect:/products/list";
     }
 
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return "redirect:/products/list";
+    }
+
+    @GetMapping("/list")
+    public String listAdminProducts(Model model) {
+        model.addAttribute("productResponseDtos", productService.getAllProducts());
+        return "product/list";
     }
 }
