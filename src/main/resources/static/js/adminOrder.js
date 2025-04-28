@@ -14,7 +14,7 @@ function enableEditMode(btn) {
 }
 
 function cancelOrder(orderId) {
-    const form = document.querySelector(`form[data-order-id="${orderId}"]`);
+    const form = document.querySelector(`div[data-order-id="${orderId}"]`);
     const status = form.querySelector('.status').innerText.trim();
 
     if (status === '배송중') {
@@ -24,7 +24,7 @@ function cancelOrder(orderId) {
 
     if (!confirm('정말 주문을 취소하시겠습니까?')) return;
 
-    fetch(`/orders/admin/${orderId}`, {
+    fetch(`/admin/orders/${orderId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
