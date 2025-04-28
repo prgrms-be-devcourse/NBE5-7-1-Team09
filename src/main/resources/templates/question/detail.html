@@ -357,11 +357,11 @@
 
 
 <!-- 문의사항 -->
-<div class="question-section" th:object="${responseDto}">
+<div class="question-section" th:object="${questionResponseDto}">
     <div class="question-title">
         <span>문의사항</span>
-        <span class="question-count" th:if="${responseDto.answer != null}">답변 완료</span>
-        <span class="question-count" th:unless="${responseDto.answer != null}">확인중</span>
+        <span class="question-count" th:if="${questionResponseDto.answer != null}">답변 완료</span>
+        <span class="question-count" th:unless="${questionResponseDto.answer != null}">확인중</span>
     </div>
 
     <div class="question-item">
@@ -375,8 +375,8 @@
         <hr>
         <div class="question-answer-title">답변</div>
         <div class="question-answer">
-            <div th:if="${responseDto.answer != null}" th:text="*{answer}"></div>
-            <div th:unless="${responseDto.answer != null}">아직 답변이 등록되지 않았습니다. 빠른 시일 내에 답변드리겠습니다.</div>
+            <div th:if="${questionResponseDto.answer != null}" th:text="*{answer}"></div>
+            <div th:unless="${questionResponseDto.answer != null}">아직 답변이 등록되지 않았습니다. 빠른 시일 내에 답변드리겠습니다.</div>
         </div>
     </div>
 

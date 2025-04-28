@@ -46,12 +46,12 @@ public class QuestionController {
         if (questionService.existsQuestion(orderId)) {
 
             QuestionResponseDto responseDto = questionService.findQuestionByOrderId(orderId);
-            model.addAttribute("responseDto", responseDto);
+            model.addAttribute("questionResponseDto", responseDto);
 
             return "/question/detail";
 
         } else {
-            model.addAttribute("requestDto", new QuestionRequestDto());
+            model.addAttribute("questionRequestDto", new QuestionRequestDto());
             return "/question/form";
         }
 

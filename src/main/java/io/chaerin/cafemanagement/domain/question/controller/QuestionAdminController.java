@@ -36,9 +36,9 @@ public class QuestionAdminController {
     public String showUnansweredPage(Model model) {
 
         List<UnansweredResponseDto> responseDto = questionService.findAllUnansweredQuestion();
-        model.addAttribute("responseDto", responseDto);
+        model.addAttribute("unansweredResponseDto", responseDto);
 
-        model.addAttribute("requestDto", new AnswerRequestDto());
+        model.addAttribute("answerRequestDto", new AnswerRequestDto());
 
         return "/question/unanswered";
     }
@@ -47,9 +47,9 @@ public class QuestionAdminController {
     public String showAnsweredPage(Model model) {
 
         List<AnsweredResponseDto> responseDto = questionService.findAllAnsweredQuestion();
-        model.addAttribute("responseDto", responseDto);
+        model.addAttribute("answeredResponseDto", responseDto);
 
-        model.addAttribute("requestDto", new AnswerRequestDto());
+        model.addAttribute("answerRequestDto", new AnswerRequestDto());
 
         return "/question/answered";
     }

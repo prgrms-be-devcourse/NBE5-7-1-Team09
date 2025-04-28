@@ -230,7 +230,7 @@
         <a th:href="@{/admin/question/answered}" class="btn btn-soft">완료</a>
         <a th:href="@{/admin/question/unanswered}" class="btn btn-dash">미완료</a>
     </div>
-    <div class="question-section" th:each="responseDto:${responseDto}" th:object="${responseDto}">
+    <div class="question-section" th:each="answeredResponseDto:${answeredResponseDto}" th:object="${answeredResponseDto}">
         <div class="question-title">
             <span>문의사항</span>
             <span class="question-count">답변 완료</span>
@@ -249,25 +249,25 @@
                 <div class="question-answer-title">답변</div>
                 <div class="question-date" th:text="*{#temporals.format(answeredAt, 'yyyy-MM-dd HH:mm')}">2025.04.24</div>
             </div>
-            <div th:id="'view' + ${responseDto.questionId}">
+            <div th:id="'view' + ${answeredResponseDto.questionId}">
                 <div class="question-answer" th:text="*{answer}">
                     <div>안녕하세요. 현재 해당 지역 물류센터에서 지연이 발생하고 있습니다. 내일 오전 중으로 배송될 예정입니다. 불편을 드려 죄송합니다.</div>
                 </div>
                 <div class="question-form question-info3">
-                    <button type="button" th:onclick="|editForm('${responseDto.questionId}')|" style="background-color: #881616">
+                    <button type="button" th:onclick="|editForm('${answeredResponseDto.questionId}')|" style="background-color: #881616">
                         수정
                     </button>
                 </div>
             </div>
-            <div class="question-form" th:id="'editForm' + ${responseDto.questionId}" style="display:none;">
+            <div class="question-form" th:id="'editForm' + ${answeredResponseDto.questionId}" style="display:none;">
                 <form
-                        th:action="@{'/admin/question/'+${responseDto.questionId}}"
+                        th:action="@{'/admin/question/'+${answeredResponseDto.questionId}}"
                         method="post"
-                        th:object="${requestDto}">
+                        th:object="${answerRequestDto}">
                     <input type="hidden" name="_method" value="put">
-                    <textarea name="answer" placeholder="답변하실 내용을 입력해주세요." th:text="${responseDto.answer}"></textarea>
+                    <textarea name="answer" placeholder="답변하실 내용을 입력해주세요." th:text="${answeredResponseDto.answer}"></textarea>
                     <div>
-                        <button type="button" th:onclick="|closeForm('${responseDto.questionId}')|">취소</button>
+                        <button type="button" th:onclick="|closeForm('${answeredResponseDto.questionId}')|">취소</button>
                         <button type="submit">완료</button>
                     </div>
                 </form>
