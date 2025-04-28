@@ -8,7 +8,7 @@
 <body class="form-page">
 <div class="form-container">
     <h1 class="form-title" th:text="${productId} ? '상품 수정' : '상품 생성'"></h1>
-    <form th:action="${productId} ? '/products/' + ${productId} : '/products'"
+    <form th:action="${productId} ? '/admin/products/' + ${productId} : '/admin/products'"
           th:object="${productForm}" method="post" class="product-form">
         <!-- Hidden field for update method (if editing) -->
         <input th:if="${productId}" type="hidden" name="_method" value="POST"/>
