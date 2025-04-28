@@ -1,7 +1,9 @@
+/* 전체 배경 */
 body {
-    background-color: #D9D9D9;
+    background-color: #f5f5f5;
     font-family: 'Noto Sans KR', sans-serif;
     margin: 0;
+    padding: 0;
 }
 
 /* -------- 헤더 -------- */

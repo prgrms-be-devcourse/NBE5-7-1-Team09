@@ -191,3 +191,38 @@
 .btn-secondary:hover {
     background-color: #4b5563;
 }
+
+/* 헤더 */
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    padding: 16px 24px;
+}
+
+.admin-header-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 36px;
+}
+
+/*.order-button {*/
+/*    margin-left: 8px;*/
+/*}*/
+
+.order-button button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.order-button img {
+    width: 28px;
+    height: 28px;
+    filter: grayscale(100%);
+}

@@ -7,6 +7,13 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
+        /* 전체 배경 */
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
         hr {
             opacity: 50%;
@@ -15,24 +22,24 @@
         /* 헤더 */
         .header {
             background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            padding: 12px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            padding: 16px 24px;
         }
 
-        .header-container {
+        .admin-header-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: right;
             align-items: center;
             max-width: 800px;
             margin: 0 auto;
         }
 
         .logo img {
-            height: 32px;
+            height: 36px;
         }
 
-        .content {
-            padding-top: 20px;
+        .order-button {
+            margin-left: 12px;
         }
 
         .order-button button {
@@ -42,8 +49,8 @@
         }
 
         .order-button img {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             filter: grayscale(100%);
         }
 
@@ -202,26 +209,7 @@
 </head>
 <body>
 <!-- 헤더 -->
-<header class="header">
-    <div class="header-container">
-        <!-- 로고 -->
-        <div class="logo">
-            <img
-                    src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
-                    alt="로고"
-            />
-        </div>
-
-        <!-- 우측 아이콘 버튼 -->
-        <div class="order-button">
-            <button onclick="location.href=''">
-                <img
-                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
-                        alt="주문 목록"
-                />
-            </button>
-        </div>
-    </div>
+<header th:replace="~{fragments/adminHeader::header}">
 </header>
 
 <!-- 문의사항 -->

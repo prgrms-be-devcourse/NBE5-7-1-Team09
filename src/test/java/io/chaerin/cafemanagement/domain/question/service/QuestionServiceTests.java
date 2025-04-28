@@ -1,9 +1,12 @@
 package io.chaerin.cafemanagement.domain.question.service;
 
 
+import io.chaerin.cafemanagement.domain.order.entity.Order;
+import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.question.dto.*;
 import io.chaerin.cafemanagement.domain.question.entity.Question;
 import io.chaerin.cafemanagement.domain.question.repository.QuestionRepository;
+import io.chaerin.cafemanagement.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +30,8 @@ class QuestionServiceTests {
     private QuestionService questionService;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @BeforeEach
     void cleanUp() {
@@ -73,7 +78,10 @@ class QuestionServiceTests {
         Long orderId1 = 101L;
         Long savedOrderId = questionService.saveQuestion(orderId1, new QuestionRequestDto("주문관련 문의드려요", "언제오나요 배송"));
 
-        Question question = questionRepository.findByOrderId(savedOrderId).orElseThrow();
+        Order findOrder = orderRepository.findById(savedOrderId)
+                .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
+
+        Question question = questionRepository.findByOrder(findOrder).orElseThrow();
         questionService.deleteQuestion(question.getQuestionId());
 
     }
@@ -110,8 +118,11 @@ class QuestionServiceTests {
     @Test
     @DisplayName("답변 저장 테스트")
     void answer_save_test() throws Exception {
+
+        Order saveOrder = orderRepository.save(Order.create(null, "e@a.com", "경기도", "12345"));
+
         Question saved = questionRepository.save(
-                Question.builder().orderId(1000L).title("배송문의드립니다").content("왤캐안오죠").build()
+                Question.builder().order(saveOrder).title("배송문의드립니다").content("왤캐안오죠").build()
         );
         AnswerRequestDto answerRequestDto = new AnswerRequestDto("내일 도착할듯?");
 
@@ -127,22 +138,24 @@ class QuestionServiceTests {
     @Test
     @DisplayName("완료된 답변 조회 테스트")
     void answer_answered_test() throws Exception {
+        Order saveOrder1 = orderRepository.save(Order.create(null, "e@a.com", "경기도", "12345"));
         Question saved1 = questionRepository.save(
-                Question.builder().orderId(1000L).title("배송문의드립니다").content("왤캐안오죠").build()
+                Question.builder().order(saveOrder1).title("배송문의드립니다").content("왤캐안오죠").build()
         );
         AnswerRequestDto answerRequestDto1 = new AnswerRequestDto("내일 도착할듯?");
         questionService.saveAnswer(saved1.getQuestionId(), answerRequestDto1);
 
+        Order saveOrder2 = orderRepository.save(Order.create(null, "e@a.com", "경기도", "12345"));
         Question saved2 = questionRepository.save(
-                Question.builder().orderId(1001L).title("2배송문의드립니다").content("2왤캐안오죠").build()
+                Question.builder().order(saveOrder2).title("배송문의드립니다").content("2왤캐안오죠").build()
         );
 
+        Order saveOrder3 = orderRepository.save(Order.create(null, "e@a.com", "경기도", "12345"));
         Question saved3 = questionRepository.save(
-                Question.builder().orderId(1002L).title("3배송문의드립니다").content("3왤캐안오죠").build()
+                Question.builder().order(saveOrder3).title("배송문의드립니다").content("3왤캐안오죠").build()
         );
         AnswerRequestDto answerRequestDto3 = new AnswerRequestDto("3내일 도착할듯?");
         questionService.saveAnswer(saved3.getQuestionId(), answerRequestDto3);
-
 
         List<AnsweredResponseDto> allAnsweredQuestion = questionService.findAllAnsweredQuestion();
 
@@ -157,18 +170,21 @@ class QuestionServiceTests {
     @Test
     @DisplayName("미완료된 답변 조회 테스트")
     void answer_unanswered_test() throws Exception {
+        Order saveOrder1 = orderRepository.save(Order.create(null, "e@a.com", "경기도", "12345"));
         Question saved1 = questionRepository.save(
-                Question.builder().orderId(1000L).title("배송문의드립니다").content("왤캐안오죠").build()
+                Question.builder().order(saveOrder1).title("배송문의드립니다").content("왤캐안오죠").build()
         );
         AnswerRequestDto answerRequestDto1 = new AnswerRequestDto("내일 도착할듯?");
         questionService.saveAnswer(saved1.getQuestionId(), answerRequestDto1);
 
+        Order saveOrder2 = orderRepository.save(Order.create(null, "e@a.com", "경기도", "12345"));
         Question saved2 = questionRepository.save(
-                Question.builder().orderId(1001L).title("2배송문의드립니다").content("2왤캐안오죠").build()
+                Question.builder().order(saveOrder2).title("2배송문의드립니다").content("2왤캐안오죠").build()
         );
 
+        Order saveOrder3 = orderRepository.save(Order.create(null, "e@a.com", "경기도", "12345"));
         Question saved3 = questionRepository.save(
-                Question.builder().orderId(1002L).title("3배송문의드립니다").content("3왤캐안오죠").build()
+                Question.builder().order(saveOrder3).title("3배송문의드립니다").content("3왤캐안오죠").build()
         );
         AnswerRequestDto answerRequestDto3 = new AnswerRequestDto("3내일 도착할듯?");
         questionService.saveAnswer(saved3.getQuestionId(), answerRequestDto3);

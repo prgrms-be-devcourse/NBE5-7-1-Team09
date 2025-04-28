@@ -30,6 +30,13 @@
         .buy-info-line .edit-field{flex:1}
     </style>
     <style>
+        /* 전체 배경 */
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
         .container {
             max-width: 600px;
@@ -48,11 +55,12 @@
         .light-hr {
             opacity: 20%;
         }
+
         /* 헤더 */
         .header {
             background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            padding: 12px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            padding: 16px 24px;
         }
 
         .header-container {
@@ -64,7 +72,11 @@
         }
 
         .logo img {
-            height: 32px;
+            height: 36px;
+        }
+
+        .order-button {
+            margin-left: 10px;
         }
 
         .order-button button {
@@ -74,8 +86,8 @@
         }
 
         .order-button img {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             filter: grayscale(100%);
         }
 
@@ -242,28 +254,7 @@
 </head>
 <body>
 <!-- 헤더 -->
-<header class="header">
-    <div class="header-container">
-        <!-- 로고 -->
-        <div class="logo">
-            <img
-                    src="https://emojis.slackmojis.com/emojis/images/1643514532/5264/coding.gif?1643514532"
-                    alt="로고"
-                    onclick="location.href='/products'"
-            />
-        </div>
-
-        <!-- 우측 아이콘 버튼 -->
-        <div class="order-button">
-            <button>
-                <img
-                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
-                        alt="주문 목록"
-                        button onclick="location.href='/orders'"
-                />
-            </button>
-        </div>
-    </div>
+<header th:replace="~{fragments/userHeader::header}">
 </header>
 
 <main class="content">
