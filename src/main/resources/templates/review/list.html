@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="/css/review_style.css">
 </head>
 <body>
-
+<header th:replace="~{fragments/userHeader::header}">
+</header>
+<div class="bodyStyle">
 
   <div class="buttons">
     <form th:action="@{'/products'}" method="get">
@@ -39,6 +41,6 @@
       </li>
     </ul>
   </div>
-
+</div>
 </body>
 </html>

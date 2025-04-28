@@ -6,14 +6,18 @@
     <link rel="stylesheet" href="/css/review_style.css">
 </head>
 <body>
-<div class="form-container">
-    <form th:action="@{'/products/' + ${productId} + '/reviews'}" method="post" th:object="${reviewCreateRequestDto}">
+<header th:replace="~{fragments/userHeader::header}">
+</header>
+<div class="bodyStyle">
+    <div class="form-container">
+        <form th:action="@{'/products/' + ${productId} + '/reviews'}" method="post" th:object="${reviewCreateRequestDto}">
 
-      <label>내용: </label>
-      <textarea class="form-input" th:field="*{content}"></textarea>
-      <br />
-      <button class="save" type="submit">등록</button>
-    </form>
+          <label>내용: </label>
+          <textarea class="form-input" th:field="*{content}"></textarea>
+          <br />
+          <button class="save" type="submit">등록</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

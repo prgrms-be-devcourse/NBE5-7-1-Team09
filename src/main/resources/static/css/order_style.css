@@ -44,6 +44,14 @@ body {
     margin: 0 auto;
 }
 
+.admin-header-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .logo img {
     height: 36px;
 }
