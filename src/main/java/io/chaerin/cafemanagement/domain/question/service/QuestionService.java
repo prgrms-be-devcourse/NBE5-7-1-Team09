@@ -23,21 +23,20 @@ public class QuestionService {
     @Transactional
     public Long saveQuestion(Long orderId, QuestionRequestDto requestDto) {
 
-        if(!orderRepository.existsById(orderId)) {
-            throw new IllegalArgumentException("해당하는 주문이 없습니다.");
-        }
+        Order findOrder = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
 
-        if(!questionRepository.existsByOrderId(orderId)) {
+        if(!questionRepository.existsByOrder(findOrder)) {
             questionRepository.save(
                     Question.builder()
-                            .orderId(orderId)
+                            .order(findOrder)
                             .title(requestDto.getTitle())
                             .content(requestDto.getContent())
                             .build()
             );
         }
 
-        return orderId;
+        return findOrder.getOrderId();
     }
 
     @Transactional
@@ -50,12 +49,16 @@ public class QuestionService {
 
     @Transactional(readOnly = true)
     public boolean existsQuestion(Long orderId) {
-        return questionRepository.existsByOrderId(orderId);
+        Order findOrder = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
+        return questionRepository.existsByOrder(findOrder);
     }
 
     @Transactional(readOnly = true)
     public QuestionResponseDto findQuestionByOrderId(Long orderId){
-        Question findQuestion = questionRepository.findByOrderId(orderId)
+        Order findOrder = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
+        Question findQuestion = questionRepository.findByOrder(findOrder)
                 .orElseThrow(() -> new IllegalArgumentException("작성한 문의사항이 없습니다."));
 
         return QuestionResponseDto.fromEntity(findQuestion);
