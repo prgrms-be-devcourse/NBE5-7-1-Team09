@@ -182,6 +182,11 @@ body {
     color: #fff;
 }
 
+.buttons .question {
+    background-color: #848484;
+    color: #fff;
+}
+
 .buttons .delete {
     background-color: #ff5c5c;
     color: #fff;
