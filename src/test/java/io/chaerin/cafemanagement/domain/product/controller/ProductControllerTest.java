@@ -35,8 +35,8 @@ class ProductControllerTest {
     void listProducts_ReturnsProductList() throws Exception {
         // Given
         List<ProductResponse> products = List.of(
-                ProductResponse.builder().productId(1L).name("Coffee").price(5000).imageUrl("coffee.jpg").build(),
-                ProductResponse.builder().productId(2L).name("Tea").price(3000).imageUrl("tea.jpg").build()
+                ProductResponse.builder().name("Coffee").price(5000).imageUrl("coffee.jpg").build(),
+                ProductResponse.builder().name("Tea").price(3000).imageUrl("tea.jpg").build()
         );
         when(productService.getAllProducts()).thenReturn(products);
 
@@ -62,7 +62,7 @@ class ProductControllerTest {
     void createProduct_RedirectsToList_WhenValid() throws Exception {
         // Given
         ProductResponse savedProduct = ProductResponse.builder()
-                .productId(1L).name("Coffee").price(5000).imageUrl("coffee.jpg").build();
+                .name("Coffee").price(5000).imageUrl("coffee.jpg").build();
         when(productService.saveProduct(any(ProductCreateRequest.class))).thenReturn(savedProduct);
 
         // When & Then
@@ -94,7 +94,7 @@ class ProductControllerTest {
     void showUpdateForm_ReturnsFormView() throws Exception {
         // Given
         ProductResponse product = ProductResponse.builder()
-                .productId(1L).name("Coffee").price(5000).imageUrl("coffee.jpg").build();
+                .name("Coffee").price(5000).imageUrl("coffee.jpg").build();
         when(productService.getProductById(1L)).thenReturn(product);
 
         // When & Then
@@ -110,7 +110,7 @@ class ProductControllerTest {
     void updateProduct_RedirectsToList_WhenValid() throws Exception {
         // Given
         ProductResponse updatedProduct = ProductResponse.builder()
-                .productId(1L).name("Updated Coffee").price(6000).imageUrl("updated.jpg").build();
+                .name("Updated Coffee").price(6000).imageUrl("updated.jpg").build();
         when(productService.updateProduct(eq(1L), any(ProductUpdateRequest.class))).thenReturn(updatedProduct);
 
         // When & Then
