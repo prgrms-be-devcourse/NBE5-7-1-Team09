@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:inline="javascript">
 <head>
     <meta charset="UTF-8">
     <title>리뷰 작성</title>
     <link rel="stylesheet" href="/css/review_style.css">
+
 </head>
 <body>
 <header th:replace="~{fragments/userHeader::header}">
 </header>
+      
+<div th:if="${errorMessage != null}">
+    <script>
+        alert([[${errorMessage}]]);
+        window.location.href = [[${redirectUrl}]];
+    </script>
+</div> 
+      
 <div class="bodyStyle">
     <div class="form-container">
         <form th:action="@{'/products/' + ${productId} + '/reviews'}" method="post" th:object="${reviewCreateRequestDto}">
-
           <label>내용: </label>
           <textarea class="form-input" th:field="*{content}"></textarea>
           <br />
@@ -19,5 +27,6 @@
         </form>
     </div>
 </div>
+
 </body>
 </html>

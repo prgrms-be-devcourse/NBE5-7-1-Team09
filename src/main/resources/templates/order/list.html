@@ -103,19 +103,30 @@
                         </div>
                         <hr/>
 
-                        <!-- 버튼 -->
-                        <div class="botton-section">
-                            <div class="buttons">
-                                <a th:href="@{'/order/'+${order.orderId}+'/question'}" >
-                                    <button type="button" class="question">문의</button>
-                                </a>
-                                <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
-                                <button type="submit" class="save" style="display:none">수정 완료</button>
-                                <button type="button" class="delete" th:onclick="|cancelOrder(${order.orderId})|">취소</button>
-                            </div>
-                            <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
+                        <div class="buy-info-line">
+                            <strong>주소:</strong>
+                            <span class="view-field" th:text="${order.address}"></span>
+                            <span class="edit-field">
+                                    <input class="pretty-input address-input" type="text" name="address"
+                                           th:value="${order.address}"/>
+                                </span>
                         </div>
                     </div>
+                    <hr/>
+
+                    <!-- 버튼 -->
+                    <div class="botton-section">
+                        <div class="buttons">
+                            <a th:href="@{'/order/'+${order.orderId}+'/question'}" >
+                                <button type="button" class="question">문의</button>
+                            </a>
+                            <button type="button" class="edit" onclick="enableEditMode(this)">수정</button>
+                            <button type="submit" class="save" style="display:none">수정 완료</button>
+                            <button type="button" class="delete" th:onclick="|cancelOrder(${order.orderId})|">취소</button>
+                        </div>
+                        <div class="total-price" th:text="${order.totalPrice + '원'}"></div>
+                    </div>
+
 
                 </form>
 
