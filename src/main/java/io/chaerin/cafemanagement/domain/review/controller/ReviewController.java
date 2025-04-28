@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@Slf4j
 @Controller
 @RequestMapping("/products/{productId}/reviews")
 @RequiredArgsConstructor
@@ -46,7 +45,6 @@ public class ReviewController {
         try {
             reviewService.save(requestDto, productId, userId);
         } catch (IllegalStateException e) {
-            log.info("e.getMessage() = {}", e.getMessage());
             model.addAttribute("productId", productId);
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("redirectUrl", "/products/" + productId + "/reviews");
