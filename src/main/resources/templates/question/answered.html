@@ -212,6 +212,25 @@
             color: #555;
         }
 
+        .btn {
+            padding: 8px 16px;
+            background-color: #eee;
+            color: #333;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #ddd;
+        }
+
+        .btn.active {
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
@@ -222,8 +241,8 @@
 <!-- 문의사항 -->
 <main class="content">
     <div class="flex justify-center gap-4 my-6">
-        <a th:href="@{/admin/question/answered}" class="btn btn-soft">완료</a>
-        <a th:href="@{/admin/question/unanswered}" class="btn btn-dash">미완료</a>
+        <a th:href="@{/admin/question/answered}" class="btn active">완료</a>
+        <a th:href="@{/admin/question/unanswered}" class="btn">미완료</a>
     </div>
     <div class="question-section" th:each="answeredResponseDto:${answeredResponseDto}" th:object="${answeredResponseDto}">
         <div class="question-title">
