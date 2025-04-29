@@ -21,4 +21,8 @@ public class ProductResponse {
                 .imageUrl(product.getImageUrl())
                 .build();
     }
+
+    public String getImageUrlOrDefault() {
+        return imageUrl != null ? imageUrl : "https://i.imgur.com/HKOFQYa.jpeg";
+    }
 }

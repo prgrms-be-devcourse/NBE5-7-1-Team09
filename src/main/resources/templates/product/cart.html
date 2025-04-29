@@ -22,7 +22,7 @@
                 <li th:each="product: ${productResponseDtos}">
                     <div class="product-card">
                         <div class="product-img">
-                            <img class="img-fluid" src="https://i.imgur.com/HKOFQYa.jpeg">
+                            <img class="img-fluid" th:src="@{${product.imageUrlOrDefault}}">
 
                         </div>
                         <div class="product-bottom">
