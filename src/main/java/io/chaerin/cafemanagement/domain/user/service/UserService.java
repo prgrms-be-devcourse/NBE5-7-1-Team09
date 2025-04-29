@@ -23,18 +23,8 @@ public class UserService {
         User user = new User(userName, encodedPassword, MEMBER);
         userRepository.save(user);
     }
-//    public User login(String userName, String password, HttpSession session) {
-//        User user = userRepository.findByUserName(userName);
-//
-//        if(user == null){
-//            throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
-//        }
-//
-//        if (!passwordEncoder.matches(password, user.getPassword())) {
-//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//        }
-//
-//        session.setAttribute("loginUser", user); // 세션 저장
-//        return user;
-//    }
+
+    public boolean isUserNameDuplicated(String userName) {
+        return userRepository.findByUserName(userName).isPresent();
+    }
 }

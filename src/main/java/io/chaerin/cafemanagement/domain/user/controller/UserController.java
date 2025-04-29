@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 import io.chaerin.cafemanagement.domain.user.entity.User;
 import io.chaerin.cafemanagement.domain.user.service.UserService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -27,15 +28,20 @@ public class UserController {
     @GetMapping("/join")
     public String showJoinForm() {return "/user/join";}
 
-    @GetMapping("/access-denied")
-    public String showAccessDeniedForm() {return "/user/access_denied";}
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "error/403";
+    }
 
-    // 회원 가입 API
     @PostMapping("/join")
-    public String join(@ModelAttribute JoinRequestDto joinRequest) {
-        // 서비스에서 회원가입 로직 처리
-        userService.join(joinRequest.getUserName(), joinRequest.getPassword());
+    public String join(@ModelAttribute JoinRequestDto joinRequest, RedirectAttributes redirectAttributes) {
+        if (userService.isUserNameDuplicated(joinRequest.getUserName())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "이미 사용 중인 아이디입니다.");
+            return "redirect:/join";
+        }
 
+        userService.join(joinRequest.getUserName(), joinRequest.getPassword());
+        redirectAttributes.addFlashAttribute("successMessage", "회원가입이 완료되었습니다!");
         return "redirect:/login";
     }
 

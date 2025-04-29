@@ -20,6 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    @GetMapping("/noOrder")
+    public String showJoinForm() {return "/error/noOrder";}
 
     @PostMapping
     public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -33,7 +35,7 @@ public class OrderController {
     public String getOrdersById(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         List<OrderResponseDto> orders = orderService.getOrdersById(principalDetails.getUserId());
         if (orders.isEmpty()) {
-            return "redirect:/";
+            return "redirect:/orders/noOrder";
         }
         model.addAttribute("orders", orders);
         // 임의지정
