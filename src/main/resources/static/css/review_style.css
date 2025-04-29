@@ -9,6 +9,7 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
 /* 헤더 */
 .header {
     background-color: #ffffff;
@@ -24,26 +25,50 @@ body {
     margin: 0 auto;
 }
 
-.logo img {
-    height: 36px;
+.logo {
+    flex: none;
 }
 
-.order-button {
-    margin-left: 10px;
+.logo img {
+    height: 60px;
+}
+
+/* 버튼 그룹: 오른쪽 정렬 */
+.user-button-group {
     display: flex;
     align-items: center;
 }
 
-.order-button button {
-    background: none;
-    border: none;
-    cursor: pointer;
+/* 버튼 컨테이너 간 간격 */
+.order-button {
+    margin: 0 5px;
 }
 
-.order-button img {
-    width: 28px;
+/* 텍스트형 버튼 스타일 */
+.order-button button {
+    background: white;
+    border: white;
+    padding: 6px 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+
     height: 28px;
-    filter: grayscale(100%);
+}
+
+/* 버튼 hover 효과 선택 사항 */
+.order-button button:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* 버튼 사이 세로 구분선 */
+.divider {
+    width: 1px;
+    height: 20px;
+    background-color: #ccc;
+    margin: 0 8px;
 }
 
 /* 버튼 섹션 */
