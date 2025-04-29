@@ -9,6 +9,18 @@
 <body>
 <div class="login-content">
     <form class="login-form" th:action="@{/login}" method="post">
+
+        <script th:if="${successMessage}" th:inline="javascript">
+            alert([[${successMessage}]]);
+        </script>
+
+        <script th:inline="javascript">
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('error') === 'unauthorized') {
+                alert("로그인이 필요한 서비스입니다.");
+            }
+        </script>
+
         <div class="login-title">로그인</div>
         <br>
         <div>

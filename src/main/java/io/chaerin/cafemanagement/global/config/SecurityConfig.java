@@ -1,21 +1,18 @@
 package io.chaerin.cafemanagement.global.config;
 
-import io.chaerin.cafemanagement.domain.user.entity.User;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
-    // 모든 요청에 대해 인증 없이 접근 허용 설정
+    @Autowired
+    private CustomLoginSuccessHandler customLoginSuccessHandler;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -28,13 +25,15 @@ public class SecurityConfig{
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendRedirect("/login?error=unauthorized"))
                         .accessDeniedPage("/accessDenied")
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .usernameParameter("userName")
-                        .defaultSuccessUrl("/products")
+                        .successHandler(customLoginSuccessHandler) // role 따라 분기처리
                         .permitAll()
                 )
                 .logout(logout -> logout
