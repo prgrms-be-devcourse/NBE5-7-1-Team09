@@ -3,11 +3,13 @@ package io.chaerin.cafemanagement.domain.review.controller;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewCreateRequestDto;
 import io.chaerin.cafemanagement.domain.review.dto.ReviewResponseDto;
 import io.chaerin.cafemanagement.domain.review.service.ReviewService;
+import io.chaerin.cafemanagement.domain.user.dto.PrincipalDetails;
 import io.chaerin.cafemanagement.domain.user.entity.User;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +30,7 @@ public class ReviewController {
             @Valid @ModelAttribute ReviewCreateRequestDto requestDto,
             BindingResult bindingResult,
             Model model,
-            HttpSession session
+            @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", bindingResult);
@@ -36,11 +38,7 @@ public class ReviewController {
             return "review/form";
         }
 
-        Object loginUser = session.getAttribute("loginUser");
-        if (loginUser == null) {
-            throw new IllegalStateException("로그인 후 이용해주세요.");
-        }
-        Long userId = ((User) loginUser).getUserId();
+        Long userId = principalDetails.getUserId();
 
         try {
             reviewService.save(requestDto, productId, userId);
@@ -70,15 +68,11 @@ public class ReviewController {
     public String getReviewList(
             @PathVariable Long productId,
             Model model,
-            HttpSession session
+            @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
         List<ReviewResponseDto> reviewList = reviewService.getReviewList(productId);
 
-        Object loginUser = session.getAttribute("loginUser");
-        if (loginUser == null) {
-            throw new IllegalStateException("로그인 후 이용해주세요.");
-        }
-        Long currentUserId = ((User) loginUser).getUserId();
+        Long currentUserId = principalDetails.getUserId();
 
         model.addAttribute("productId", productId);
         model.addAttribute("currentUserId", currentUserId);
@@ -91,14 +85,10 @@ public class ReviewController {
     public String deleteReview(
             @PathVariable Long reviewId,
             @PathVariable Long productId,
-            HttpSession session
+            @AuthenticationPrincipal PrincipalDetails principalDetails
     ) throws IllegalAccessException {
 
-        Object loginUser = session.getAttribute("loginUser");
-        if (loginUser == null) {
-            throw new IllegalStateException("로그인 후 이용해주세요.");
-        }
-        Long userId = ((User) loginUser).getUserId();
+        Long userId = principalDetails.getUserId();
 
         reviewService.deleteReview(reviewId, userId);
 

@@ -86,12 +86,6 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
-    public void checkLogin(HttpSession session) {
-        Object loginUser = session.getAttribute("loginUser");
-        if (loginUser == null) {
-            throw new IllegalStateException("로그인 후 이용해주세요.");
-        }
-    }
 
 
 
