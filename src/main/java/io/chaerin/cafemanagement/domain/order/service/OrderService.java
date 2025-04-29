@@ -8,16 +8,16 @@ import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.order.entity.OrderItem;
 import io.chaerin.cafemanagement.domain.order.repository.OrderRepository;
 import io.chaerin.cafemanagement.domain.product.entity.Product;
-
 import io.chaerin.cafemanagement.domain.product.repository.ProductRepository;
+import io.chaerin.cafemanagement.domain.user.dto.PrincipalDetails;
 import io.chaerin.cafemanagement.domain.user.entity.User;
 import io.chaerin.cafemanagement.domain.user.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 
@@ -32,18 +32,10 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    public OrderResponseDto saveOrder(OrderCreateRequestDto request, HttpSession session) {
-        //TODO @지민혁 로그인 검증 인터셉터로 분리
-        //로그인 세션 검증 로직
-        Object loginUser = session.getAttribute("loginUser");
-        if (loginUser == null) {
-            throw new IllegalStateException("로그인 후 이용해주세요.");
-        }
+    public OrderResponseDto saveOrder(OrderCreateRequestDto request, @AuthenticationPrincipal Long userId) {
 
-        //userId에 해당되는 user객체 받기
-        Long userId = ((User) loginUser).getUserId();
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         // 상품 생성 로직
         Order order = Order.create(user, request.getEmail(), request.getAddress(), request.getPostCode());
@@ -62,12 +54,7 @@ public class OrderService {
         return new OrderResponseDto(savedOrder);
     }
 
-    public List<OrderResponseDto> getOrdersById(HttpSession session) {
-        Object loginUser = session.getAttribute("loginUser");
-        if (loginUser == null) {
-            throw new IllegalStateException("로그인 후 이용해주세요.");
-        }
-        Long userId = ((User) loginUser).getUserId();
+    public List<OrderResponseDto> getOrdersById(Long userId) {
         List<Order> orders = orderRepository.findByUserUserId(userId);
 
         List<OrderResponseDto> dtoList = new ArrayList<>();

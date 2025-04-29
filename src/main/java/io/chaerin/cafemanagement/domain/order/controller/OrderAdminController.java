@@ -21,7 +21,7 @@ public class OrderAdminController {
     private final OrderService orderService;
 
     @GetMapping()
-    public String getAllOrders(HttpSession session, Model model, @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable) {
+    public String getAllOrders(Model model, @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<OrderResponseDto> orders = orderService.getAllOrders(pageable);
         if (orders.isEmpty()) {
             return "redirect:/";

@@ -4,8 +4,11 @@ import io.chaerin.cafemanagement.domain.order.dto.OrderCreateRequestDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderResponseDto;
 import io.chaerin.cafemanagement.domain.order.dto.OrderUpdateRequestDto;
 import io.chaerin.cafemanagement.domain.order.service.OrderService;
+import io.chaerin.cafemanagement.domain.user.dto.PrincipalDetails;
+import io.chaerin.cafemanagement.domain.user.entity.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +22,16 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model, HttpSession session) {
-        OrderResponseDto order = orderService.saveOrder(request, session);
+    public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        OrderResponseDto order = orderService.saveOrder(request, principalDetails.getUserId());
         model.addAttribute("order", order);
         // 임의지정
         return "order/result";
     }
 
     @GetMapping
-    public String getOrdersById(HttpSession session, Model model) {
-        List<OrderResponseDto> orders = orderService.getOrdersById(session);
+    public String getOrdersById(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        List<OrderResponseDto> orders = orderService.getOrdersById(principalDetails.getUserId());
         if (orders.isEmpty()) {
             return "redirect:/";
         }

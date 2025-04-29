@@ -22,7 +22,6 @@ public class QuestionController {
 
     @PostMapping("/{orderId}/question")
     public String saveQuestion(@PathVariable Long orderId, @Valid @ModelAttribute QuestionRequestDto requestDto, HttpSession session) {
-        questionService.checkLogin(session);
         Long id = questionService.saveQuestion(orderId, requestDto);
 
         return "redirect:/order/" + id + "/question";
@@ -31,16 +30,13 @@ public class QuestionController {
 
     @DeleteMapping("/{questionId}/question")
     public String deleteQuestion(@PathVariable Long questionId, HttpSession session) {
-        questionService.checkLogin(session);
         questionService.deleteQuestion(questionId);
 
         return "redirect:/orders";
     }
 
     @GetMapping("/{orderId}/question")
-    public String showQuestion(@PathVariable Long orderId, Model model, HttpSession session) {
-        questionService.checkLogin(session);
-
+    public String showQuestion(@PathVariable Long orderId, Model model) {
         model.addAttribute("order", orderService.getOrderById(orderId));
 
         if (questionService.existsQuestion(orderId)) {

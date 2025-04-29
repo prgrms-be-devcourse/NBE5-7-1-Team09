@@ -2,7 +2,6 @@ package io.chaerin.cafemanagement.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 
@@ -21,9 +20,14 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(String userName, String password) {
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public User(String userName, String password, Role role) {
         this.userName = userName;
         this.password = password;
+        this.role = role;
     }
 
 }
