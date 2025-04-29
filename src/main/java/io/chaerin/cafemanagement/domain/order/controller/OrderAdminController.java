@@ -20,11 +20,14 @@ public class OrderAdminController {
 
     private final OrderService orderService;
 
+    @GetMapping("/noOrder")
+    public String showNoOrderAdminForm() {return "/error/noOrderAdmin";}
+
     @GetMapping()
     public String getAllOrders(Model model, @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<OrderResponseDto> orders = orderService.getAllOrders(pageable);
         if (orders.isEmpty()) {
-            return "redirect:/";
+            return "redirect:/admin/orders/noOrder";
         }
         model.addAttribute("orders", orders);
         return "order/adminList";
