@@ -21,7 +21,7 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
     @GetMapping("/noOrder")
-    public String showJoinForm() {return "/error/noOrder";}
+    public String showNoOrderForm() {return "/error/noOrder";}
 
     @PostMapping
     public String saveOrder(@ModelAttribute OrderCreateRequestDto request, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
