@@ -25,6 +25,8 @@ public class SecurityConfig{
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) ->
+                                response.sendRedirect("/login?error=unauthorized"))
                         .accessDeniedPage("/accessDenied")
                 )
                 .formLogin(formLogin -> formLogin
