@@ -25,6 +25,12 @@ body {
     height: 36px;
 }
 
+.order-button {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
 .order-button button {
     background: none;
     border: none;

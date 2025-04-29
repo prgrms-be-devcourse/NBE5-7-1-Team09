@@ -215,6 +215,10 @@
 /*    margin-left: 8px;*/
 /*}*/
 
+#logoutBtn {
+    margin-right: 5px;
+}
+
 .order-button button {
     background: none;
     border: none;
