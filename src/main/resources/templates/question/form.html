@@ -44,7 +44,8 @@
         <!-- 상단 간략 배송 정보 -->
         <div class="top-section">
             <div class="top-section-left">
-                <img src="https://emojis.slackmojis.com/emojis/images/1643514596/5999/meow_party.gif" alt="상품 이미지" />
+                <img th:src="@{/assets/default_order_icon.jpg}"
+                     alt="상품 이미지"/>
                 <div class="top-section-order">
                     <div class="date" th:text="|주문일: ${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}|"></div>
                     <div class="number" th:text="|주문번호: *{orderId}|"></div>
