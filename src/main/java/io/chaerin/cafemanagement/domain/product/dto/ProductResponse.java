@@ -18,7 +18,8 @@ public class ProductResponse {
                 .productId(product.getProductId())
                 .name(product.getName())
                 .price(product.getPrice())
-                .imageUrl(product.getImageUrl())
+                .imageUrl(product.getImageUrl() != null ? product.getImageUrl() : "https://i.imgur.com/HKOFQYa.jpeg")
                 .build();
     }
+
 }

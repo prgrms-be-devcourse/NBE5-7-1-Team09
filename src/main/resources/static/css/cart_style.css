@@ -73,6 +73,7 @@ main {
 .product-img {
     height: 150px;
     display: flex;
+    margin-bottom: 10px;
 }
 
 .product-img img {
